@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ورقة عمل: التنبؤ بمبيعات منتجات الصيف</title>
+    <title>النشاط 6: التنبؤ بمبيعات منتجات الصيف</title>
     <style>
         * {
             box-sizing: border-box;
@@ -32,6 +32,7 @@
             margin-bottom: 30px;
             border-bottom: 3px solid #006747;
             padding-bottom: 20px;
+            position: relative;
         }
         
         .header h1 {
@@ -42,6 +43,37 @@
         .header h2 {
             color: #666;
             font-weight: normal;
+        }
+        
+        .back-btn {
+            position: absolute;
+            left: 20px;
+            top: 20px;
+            background: #006747;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .back-btn:hover {
+            background: #004d36;
+        }
+        
+        .activity-status {
+            display: inline-block;
+            padding: 5px 15px;
+            background: #ff9800;
+            color: white;
+            border-radius: 20px;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+        
+        .activity-status.completed {
+            background: #4CAF50;
         }
         
         .info-section {
@@ -112,7 +144,7 @@
             background: #f5f5f5;
         }
         
-        input[type="text"], input[type="number"], select {
+        input[type="text"], input[type="number"], select, textarea {
             width: 100%;
             padding: 8px;
             border: 1px solid #ddd;
@@ -157,11 +189,14 @@
             cursor: pointer;
             font-size: 16px;
             margin: 10px;
-            transition: background 0.3s;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
         }
         
         .btn:hover {
             background: #004d36;
+            transform: translateY(-2px);
         }
         
         .btn-chart {
@@ -178,6 +213,22 @@
         
         .btn-reset:hover {
             background: #d32f2f;
+        }
+        
+        .btn-next {
+            background: #4CAF50;
+        }
+        
+        .btn-next:hover {
+            background: #388E3C;
+        }
+        
+        .btn-print {
+            background: #2196f3;
+        }
+        
+        .btn-print:hover {
+            background: #0b7dda;
         }
         
         .btn-container {
@@ -225,6 +276,14 @@
             .chart-container {
                 height: 300px;
             }
+            
+            .back-btn {
+                position: relative;
+                left: auto;
+                top: auto;
+                margin-bottom: 15px;
+                display: inline-block;
+            }
         }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -232,8 +291,13 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>ورقة عمل: التنبؤ بمبيعات منتجات الصيف</h1>
+            <a href="index.html" class="back-btn">← العودة للرئيسية</a>
+            <h1>النشاط 6: التنبؤ بمبيعات منتجات الصيف</h1>
             <h2>(السلاسل الزمنية - معادلة الاتجاه العام - التنبؤ المستقبلي)</h2>
+            <div style="margin-top: 10px;">
+                <span>حالة النشاط: </span>
+                <span class="activity-status" id="activityStatus">⏳ غير مكتمل</span>
+            </div>
         </div>
         
         <!-- المعلومات الأساسية -->
@@ -412,34 +476,134 @@
         <!-- أزرار التحكم -->
         <div class="btn-container">
             <button class="btn" onclick="calculateAll()">حساب الكل</button>
-            <button class="btn" onclick="saveActivity()">حفظ النشاط</button>
-            <button class="btn" onclick="window.print()">طباعة الورقة</button>
-            <button class="btn btn-reset" onclick="clearActivity()">مسح النموذج</button>
+            <button class="btn" onclick="saveActivity(6)">حفظ النشاط</button>
+            <button class="btn btn-print" onclick="window.print()">طباعة الورقة</button>
+            <a href="index.html" class="btn">العودة للرئيسية</a>
+            <!-- إذا كان هناك نشاط 7، يمكنك إضافة الرابط هنا -->
+            <!-- <a href="activity7.html" class="btn btn-next">النشاط التالي →</a> -->
         </div>
     </div>
 
     <script>
-        // المتغيرات العامة
+        // ====================
+        // متغيرات عامة للنشاط
+        // ====================
+        const ACTIVITY_NUMBER = 6;
         let timeSeriesChart = null;
         let years = [];
         let annualSales = [];
         
+        // ====================
         // تهيئة الصفحة عند التحميل
+        // ====================
         document.addEventListener('DOMContentLoaded', function() {
+            initializeActivity();
+            updateActivityStatus();
+        });
+        
+        // ====================
+        // تهيئة النشاط
+        // ====================
+        function initializeActivity() {
             // تعيين التاريخ الحالي
             const today = new Date();
             document.getElementById('activityDate').value = today.toLocaleDateString('ar-SA');
             
-            // إضافة سنوات أولية
-            addYear(2023);
-            addYear(2024);
-            addYear(2025);
-            
-            // تحميل البيانات المحفوظة إن وجدت
+            // تحميل البيانات المحفوظة
             loadSavedData();
-        });
+            
+            // إضافة سنوات أولية إذا لم تكن هناك بيانات محفوظة
+            if (!document.getElementById('studentName').value) {
+                addYear(2023);
+                addYear(2024);
+                addYear(2025);
+            }
+        }
         
+        // ====================
+        // تحميل البيانات المحفوظة
+        // ====================
+        function loadSavedData() {
+            const savedData = localStorage.getItem(`activity${ACTIVITY_NUMBER}_data`);
+            
+            if (savedData) {
+                try {
+                    const data = JSON.parse(savedData);
+                    
+                    // تعبئة الحقول الأساسية
+                    document.getElementById('studentName').value = data.studentName || '';
+                    document.getElementById('studentId').value = data.studentId || '';
+                    document.getElementById('targetYear').value = data.targetYear || 2026;
+                    document.getElementById('planning').value = data.planning || '';
+                    
+                    // تعبئة البيانات السنوية إذا كانت موجودة
+                    if (data.yearsData && data.yearsData.length > 0) {
+                        const tbody = document.querySelector('#timeSeriesTable tbody');
+                        tbody.innerHTML = '';
+                        
+                        data.yearsData.forEach((yearData, index) => {
+                            const row = document.createElement('tr');
+                            row.className = 'product-row';
+                            
+                            let cellsHTML = `<td>${yearData.year}</td>`;
+                            yearData.months.forEach((monthValue, monthIndex) => {
+                                cellsHTML += `<td><input type="number" value="${monthValue}" min="10" max="200" class="month-input" data-month="${monthIndex}" onchange="updateTotal(this)"></td>`;
+                            });
+                            cellsHTML += `<td><input type="text" value="${yearData.total}" class="annual-total" readonly></td>`;
+                            
+                            row.innerHTML = cellsHTML;
+                            tbody.appendChild(row);
+                            
+                            // تحديث المجموع للسنة
+                            updateRowTotal(row);
+                            
+                            // إضافة حدث النقر على الصف
+                            row.addEventListener('click', function(e) {
+                                if (e.target.tagName !== 'INPUT') {
+                                    this.classList.toggle('highlight');
+                                }
+                            });
+                        });
+                    }
+                    
+                    // تعبئة نتائج الحساب إذا كانت موجودة
+                    if (data.calculationResults) {
+                        const results = data.calculationResults;
+                        document.getElementById('slope').value = results.slope || 0;
+                        document.getElementById('intercept').value = results.intercept || 0;
+                        document.getElementById('rSquared').value = results.rSquared || 0;
+                        document.getElementById('trendEquation').value = results.trendEquation || 'ص = ? س + ?';
+                        document.getElementById('trendDirection').value = results.trendDirection || 'مستقر';
+                        document.getElementById('predictedSales').value = results.predictedSales || 0;
+                        document.getElementById('growthRate').value = results.growthRate || 0;
+                        document.getElementById('monthlyAvg').value = results.monthlyAvg || 0;
+                        document.getElementById('summerSales').value = results.summerSales || 0;
+                        
+                        // رسم الرسم البياني إذا كانت هناك بيانات كافية
+                        if (results.years && results.annualSales) {
+                            years = results.years;
+                            annualSales = results.annualSales;
+                            if (years.length >= 2 && results.slope && results.intercept) {
+                                drawTimeSeriesChart(results.slope, results.intercept);
+                            }
+                        }
+                    }
+                    
+                    console.log(`تم تحميل بيانات النشاط ${ACTIVITY_NUMBER}`);
+                    
+                } catch (e) {
+                    console.error('خطأ في تحميل البيانات المحفوظة:', e);
+                    // البيانات الافتراضية في حالة الخطأ
+                    addYear(2023);
+                    addYear(2024);
+                    addYear(2025);
+                }
+            }
+        }
+        
+        // ====================
         // إضافة سنة جديدة للجدول
+        // ====================
         function addYear(year = null) {
             const tbody = document.querySelector('#timeSeriesTable tbody');
             const currentYears = document.querySelectorAll('#timeSeriesTable tbody tr');
@@ -491,7 +655,9 @@
             });
         }
         
+        // ====================
         // توليد بيانات نموذجية
+        // ====================
         function generateSampleData() {
             const tbody = document.querySelector('#timeSeriesTable tbody');
             tbody.innerHTML = '';
@@ -521,7 +687,10 @@
                 data.months.forEach((monthValue, index) => {
                     cellsHTML += `<td><input type="number" value="${monthValue}" min="10" max="200" class="month-input" data-month="${index}" onchange="updateTotal(this)"></td>`;
                 });
-                cellsHTML += `<td><input type="text" value="0" class="annual-total" readonly></td>`;
+                
+                // حساب المجموع
+                const total = data.months.reduce((sum, value) => sum + value, 0);
+                cellsHTML += `<td><input type="text" value="${total}" class="annual-total" readonly></td>`;
                 
                 row.innerHTML = cellsHTML;
                 tbody.appendChild(row);
@@ -541,13 +710,17 @@
             setTimeout(calculateAll, 100);
         }
         
+        // ====================
         // تحديث المجموع السنوي
+        // ====================
         function updateTotal(input) {
             const row = input.closest('tr');
             updateRowTotal(row);
         }
         
+        // ====================
         // تحديث مجموع الصف
+        // ====================
         function updateRowTotal(row) {
             const inputs = row.querySelectorAll('.month-input');
             let total = 0;
@@ -561,7 +734,9 @@
             totalCell.value = total.toFixed(1);
         }
         
+        // ====================
         // حساب معادلة الاتجاه العام
+        // ====================
         function calculateTrendLine() {
             const rows = document.querySelectorAll('#timeSeriesTable tbody tr');
             years = [];
@@ -584,7 +759,7 @@
             // التحقق من وجود بيانات كافية
             if (years.length < 2) {
                 alert('يحتاج إلى بيانات سنتين على الأقل لحساب الاتجاه');
-                return;
+                return null;
             }
             
             // حساب معادلة الاتجاه العام (ص = أ س + ب)
@@ -636,10 +811,12 @@
             // حساب التنبؤ تلقائياً
             predictSales();
             
-            return { slope, intercept, rSquared };
+            return { slope, intercept, rSquared, trendDirection };
         }
         
+        // ====================
         // رسم الرسم البياني للسلاسل الزمنية
+        // ====================
         function drawTimeSeriesChart(slope, intercept) {
             const ctx = document.getElementById('timeSeriesChart').getContext('2d');
             
@@ -771,14 +948,16 @@
             });
         }
         
+        // ====================
         // التنبؤ بالمبيعات المستقبلية
+        // ====================
         function predictSales() {
             const slope = parseFloat(document.getElementById('slope').value) || 0;
             const intercept = parseFloat(document.getElementById('intercept').value) || 0;
             
             if (slope === 0 && intercept === 0) {
                 alert('الرجاء حساب معادلة الاتجاه أولاً');
-                return;
+                return 0;
             }
             
             const targetYear = parseInt(document.getElementById('targetYear').value) || 2026;
@@ -807,7 +986,9 @@
             return predictedSales;
         }
         
+        // ====================
         // توليد توصيات تلقائية
+        // ====================
         function generateRecommendations(predictedSales, growthRate) {
             let recommendations = '';
             
@@ -836,7 +1017,9 @@
             document.getElementById('planning').value = recommendations;
         }
         
+        // ====================
         // حساب جميع الإحصائيات
+        // ====================
         function calculateAll() {
             // تحديث جميع المجاميع أولاً
             const rows = document.querySelectorAll('#timeSeriesTable tbody tr');
@@ -850,10 +1033,12 @@
                 predictSales();
             }
             
-            alert('تم حساب جميع الإحصائيات بنجاح!');
+            return trend;
         }
         
+        // ====================
         // شرح طريقة الحساب
+        // ====================
         function showTrendExplanation() {
             const explanation = `
 📊 شرح طريقة حساب معادلة الاتجاه العام:
@@ -889,91 +1074,159 @@
             alert(explanation);
         }
         
+        // ====================
         // حفظ النشاط
-        function saveActivity() {
-            const studentName = document.getElementById('studentName').value;
-            const studentId = document.getElementById('studentId').value;
+        // ====================
+        function saveActivity(activityNumber) {
+            const studentName = document.getElementById('studentName').value.trim();
+            const studentId = document.getElementById('studentId').value.trim();
             
             if (!studentName || !studentId) {
                 alert('الرجاء إدخال اسم المتدربة والرقم التدريبي');
                 return;
             }
             
-            // جمع بيانات النشاط
+            // جمع بيانات السنوات
+            const yearsData = [];
+            const rows = document.querySelectorAll('#timeSeriesTable tbody tr');
+            
+            rows.forEach(row => {
+                const yearCell = row.querySelector('td:first-child');
+                const totalCell = row.querySelector('.annual-total');
+                const monthInputs = row.querySelectorAll('.month-input');
+                
+                if (yearCell && totalCell && monthInputs.length > 0) {
+                    const year = parseInt(yearCell.textContent);
+                    const total = parseFloat(totalCell.value) || 0;
+                    const months = [];
+                    
+                    monthInputs.forEach(input => {
+                        months.push(parseFloat(input.value) || 0);
+                    });
+                    
+                    yearsData.push({
+                        year: year,
+                        months: months,
+                        total: total
+                    });
+                }
+            });
+            
+            // حساب الإحصائيات
+            const trendResults = calculateTrendLine();
+            const predictionResults = predictSales();
+            
+            // تجميع بيانات النشاط
             const activityData = {
                 studentName: studentName,
                 studentId: studentId,
-                activity: "النشاط 6: التنبؤ بمبيعات منتجات الصيف",
-                date: new Date().toLocaleDateString('ar-SA'),
-                years: years,
-                annualSales: annualSales,
-                trendEquation: document.getElementById('trendEquation').value,
-                slope: document.getElementById('slope').value,
-                intercept: document.getElementById('intercept').value,
-                rSquared: document.getElementById('rSquared').value,
                 targetYear: document.getElementById('targetYear').value,
-                predictedSales: document.getElementById('predictedSales').value,
-                growthRate: document.getElementById('growthRate').value,
                 planning: document.getElementById('planning').value,
-                chartData: {
-                    labels: years.map(y => y.toString()),
-                    data: annualSales
-                }
+                yearsData: yearsData,
+                calculationResults: {
+                    slope: document.getElementById('slope').value,
+                    intercept: document.getElementById('intercept').value,
+                    rSquared: document.getElementById('rSquared').value,
+                    trendEquation: document.getElementById('trendEquation').value,
+                    trendDirection: document.getElementById('trendDirection').value,
+                    predictedSales: document.getElementById('predictedSales').value,
+                    growthRate: document.getElementById('growthRate').value,
+                    monthlyAvg: document.getElementById('monthlyAvg').value,
+                    summerSales: document.getElementById('summerSales').value,
+                    years: years,
+                    annualSales: annualSales
+                },
+                completionDate: new Date().toLocaleDateString('ar-SA'),
+                activityNumber: activityNumber
             };
             
-            // حفظ في التخزين المحلي
-            localStorage.setItem('statActivity6', JSON.stringify(activityData));
+            // حفظ في localStorage
+            localStorage.setItem(`activity${activityNumber}_data`, JSON.stringify(activityData, null, 2));
             
-            // حفظ الأنشطة المكتملة
-            let completedActivities = JSON.parse(localStorage.getItem('completedActivities')) || [];
-            if (!completedActivities.includes(6)) {
-                completedActivities.push(6);
-                localStorage.setItem('completedActivities', JSON.stringify(completedActivities));
+            // تحديث قائمة الأنشطة المكتملة
+            let completed = JSON.parse(localStorage.getItem('completedActivities')) || [];
+            if (!completed.includes(activityNumber)) {
+                completed.push(activityNumber);
+                localStorage.setItem('completedActivities', JSON.stringify(completed));
             }
             
+            // تحديث حالة النشاط
+            updateActivityStatus();
+            
             // إنشاء ملف للتحميل
-            const blob = new Blob([JSON.stringify(activityData, null, 2)], { type: 'application/json' });
+            createDownloadFile(activityData, activityNumber, studentName, studentId);
+            
+            // إشعار للمستخدم
+            showSuccessMessage(activityNumber, completed.length);
+        }
+        
+        // ====================
+        // تحديث حالة النشاط
+        // ====================
+        function updateActivityStatus() {
+            const savedData = localStorage.getItem(`activity${ACTIVITY_NUMBER}_data`);
+            const statusElement = document.getElementById('activityStatus');
+            
+            if (savedData) {
+                statusElement.textContent = '✅ مكتمل';
+                statusElement.classList.add('completed');
+            } else {
+                statusElement.textContent = '⏳ غير مكتمل';
+                statusElement.classList.remove('completed');
+            }
+        }
+        
+        // ====================
+        // إنشاء ملف للتحميل
+        // ====================
+        function createDownloadFile(data, activityNumber, studentName, studentId) {
+            const blob = new Blob([JSON.stringify(data, null, 2)], { 
+                type: 'application/json' 
+            });
+            
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = `نشاط6_${studentName}_${studentId}.json`;
+            a.download = `نشاط${activityNumber}_${studentName}_${studentId}.json`;
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
-            
-            // تحديث الصفحة الرئيسية
-            if (window.opener) {
-                window.opener.updateActivityProgress();
-            }
-            
-            alert('تم حفظ النشاط بنجاح! تمت إضافته إلى الأنشطة المكتملة.');
+            URL.revokeObjectURL(url);
         }
         
-        // تحميل البيانات المحفوظة
-        function loadSavedData() {
-            const savedData = localStorage.getItem('statActivity6');
-            if (savedData) {
-                try {
-                    const data = JSON.parse(savedData);
-                    
-                    document.getElementById('studentName').value = data.studentName || '';
-                    document.getElementById('studentId').value = data.studentId || '';
-                    
-                    // لا نقوم بتحميل البيانات المعقدة تلقائياً للحفاظ على بساطة الواجهة
-                    // ولكن يمكن إضافة زر "تحميل البيانات السابقة" إذا لزم الأمر
-                    
-                } catch (e) {
-                    console.error('خطأ في تحميل البيانات المحفوظة:', e);
-                }
-            }
+        // ====================
+        // عرض رسالة النجاح
+        // ====================
+        function showSuccessMessage(activityNumber, completedCount) {
+            const message = `✅ تم حفظ النشاط ${activityNumber} بنجاح!\n\n` +
+                          `📊 أنشطة مكتملة: ${completedCount}/7\n\n` +
+                          `📈 تم حساب معادلة الاتجاه: ${document.getElementById('trendEquation').value}\n` +
+                          `📋 تم إنشاء خطة تسويقية\n` +
+                          `💾 تم حفظ البيانات في جهازك\n` +
+                          `📄 تم تحميل نسخة احتياطية`;
+            
+            alert(message);
         }
         
-        // مسح النموذج
+        // ====================
+        // مسح النشاط
+        // ====================
         function clearActivity() {
-            if (confirm('هل أنت متأكدة من مسح جميع البيانات؟')) {
-                // مسح الحقول الأساسية
+            if (confirm('هل أنت متأكدة من مسح جميع بيانات النشاط؟')) {
+                localStorage.removeItem(`activity${ACTIVITY_NUMBER}_data`);
+                
+                // تحديث قائمة الأنشطة المكتملة
+                let completed = JSON.parse(localStorage.getItem('completedActivities')) || [];
+                const index = completed.indexOf(ACTIVITY_NUMBER);
+                if (index > -1) {
+                    completed.splice(index, 1);
+                    localStorage.setItem('completedActivities', JSON.stringify(completed));
+                }
+                
+                // إعادة تعيين النموذج
                 document.getElementById('studentName').value = '';
                 document.getElementById('studentId').value = '';
+                document.getElementById('planning').value = '';
                 
                 // مسح الجدول وإعادة تهيئته
                 const tbody = document.querySelector('#timeSeriesTable tbody');
@@ -984,7 +1237,7 @@
                 addYear(2024);
                 addYear(2025);
                 
-                // مسح النتائج
+                // إعادة تعيين نتائج الحساب
                 document.getElementById('slope').value = '0';
                 document.getElementById('intercept').value = '0';
                 document.getElementById('rSquared').value = '0';
@@ -994,7 +1247,6 @@
                 document.getElementById('growthRate').value = '0';
                 document.getElementById('monthlyAvg').value = '0';
                 document.getElementById('summerSales').value = '0';
-                document.getElementById('planning').value = '';
                 
                 // تدمير الرسم البياني
                 if (timeSeriesChart) {
@@ -1002,7 +1254,9 @@
                     timeSeriesChart = null;
                 }
                 
-                alert('تم مسح النموذج بنجاح!');
+                updateActivityStatus();
+                
+                alert('تم مسح بيانات النشاط بنجاح');
             }
         }
     </script>
