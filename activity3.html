@@ -2,70 +2,1051 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>ورقة عمل: تحليل أسعار المنتجات</title>
-    <style>/* نفس التصميم */</style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>النشاط 3: تحليل أسعار المنتجات</title>
+    <style>
+        * { 
+            box-sizing: border-box; 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+        }
+        
+        body { 
+            margin: 0; 
+            padding: 20px; 
+            background-color: #f5f5f5; 
+            color: #333; 
+            line-height: 1.6; 
+        }
+        
+        .container { 
+            max-width: 1000px; 
+            margin: 0 auto; 
+            background: white; 
+            padding: 30px; 
+            border-radius: 10px; 
+            box-shadow: 0 0 20px rgba(0,0,0,0.1); 
+        }
+        
+        .header { 
+            text-align: center; 
+            margin-bottom: 30px; 
+            border-bottom: 3px solid #006747; 
+            padding-bottom: 20px; 
+            position: relative;
+        }
+        
+        .header h1 { 
+            color: #006747; 
+            margin-bottom: 10px; 
+        }
+        
+        .header h2 { 
+            color: #666; 
+            font-weight: normal; 
+        }
+        
+        .back-btn {
+            position: absolute;
+            left: 20px;
+            top: 20px;
+            background: #006747;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .back-btn:hover {
+            background: #004d36;
+        }
+        
+        .info-section { 
+            display: grid; 
+            grid-template-columns: repeat(2, 1fr); 
+            gap: 20px; 
+            margin-bottom: 30px; 
+            padding: 20px; 
+            background: #f9f9f9; 
+            border-radius: 8px; 
+        }
+        
+        .info-item { 
+            margin-bottom: 15px; 
+        }
+        
+        .info-item label { 
+            display: block; 
+            font-weight: bold; 
+            margin-bottom: 5px; 
+            color: #006747; 
+        }
+        
+        .info-item input { 
+            width: 100%; 
+            padding: 10px; 
+            border: 1px solid #ddd; 
+            border-radius: 5px; 
+            font-size: 16px; 
+        }
+        
+        .section { 
+            margin-bottom: 40px; 
+            padding: 25px; 
+            background: #f9f9f9; 
+            border-radius: 8px; 
+            border-right: 5px solid #006747; 
+        }
+        
+        .section h3 { 
+            color: #006747; 
+            margin-bottom: 20px; 
+            padding-bottom: 10px; 
+            border-bottom: 2px solid #ddd; 
+        }
+        
+        table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            margin: 20px 0; 
+            background: white; 
+        }
+        
+        th { 
+            background: #006747; 
+            color: white; 
+            padding: 15px; 
+            text-align: center; 
+        }
+        
+        td { 
+            padding: 12px; 
+            border: 1px solid #ddd; 
+            text-align: center; 
+        }
+        
+        tr:nth-child(even) { 
+            background: #f5f5f5; 
+        }
+        
+        input[type="text"], input[type="number"], select, textarea { 
+            width: 100%; 
+            padding: 8px; 
+            border: 1px solid #ddd; 
+            border-radius: 4px; 
+            text-align: center; 
+            font-size: 14px;
+        }
+        
+        input[readonly] {
+            background-color: #f9f9f9;
+            font-weight: bold;
+            color: #006747;
+        }
+        
+        .calculation-section { 
+            background: #e8f5e9; 
+            border-color: #2e7d32; 
+        }
+        
+        .calculation-section h3 { 
+            color: #2e7d32; 
+        }
+        
+        .instructions { 
+            background: #fff3e0; 
+            padding: 20px; 
+            border-radius: 8px; 
+            margin-top: 30px; 
+            border-right: 5px solid #ff9800; 
+        }
+        
+        .instructions h3 { 
+            color: #ff9800; 
+        }
+        
+        .btn { 
+            background: #006747; 
+            color: white; 
+            padding: 12px 30px; 
+            border: none; 
+            border-radius: 5px; 
+            cursor: pointer; 
+            font-size: 16px; 
+            margin: 10px; 
+            transition: all 0.3s; 
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn:hover { 
+            background: #004d36; 
+            transform: translateY(-2px);
+        }
+        
+        .btn-print { 
+            background: #2196f3; 
+        }
+        
+        .btn-print:hover { 
+            background: #0b7dda; 
+        }
+
+        .btn-next {
+            background: #4CAF50;
+        }
+
+        .btn-next:hover {
+            background: #388E3C;
+        }
+        
+        .btn-container { 
+            text-align: center; 
+            margin-top: 30px; 
+        }
+        
+        .activity-status {
+            display: inline-block;
+            padding: 5px 15px;
+            background: #ff9800;
+            color: white;
+            border-radius: 20px;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-family: inherit;
+            font-size: 14px;
+            min-height: 100px;
+        }
+        
+        @media print { 
+            body { background: white; } 
+            .container { box-shadow: none; } 
+            .btn-container { display: none; } 
+            .instructions { page-break-before: always; } 
+        }
+        
+        .store-legend {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 20px 0;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .store-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+        }
+        
+        .store-a { background-color: rgba(0, 103, 71, 0.8); }
+        .store-b { background-color: rgba(52, 152, 219, 0.8); }
+        .store-c { background-color: rgba(155, 89, 182, 0.8); }
+        
+        .price-change {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-left: 5px;
+        }
+        
+        .price-up { background: #ffebee; color: #c62828; }
+        .price-down { background: #e8f5e8; color: #2e7d32; }
+        
+        .summary-card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            border: 2px solid #006747;
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        .summary-title {
+            color: #006747;
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+        
+        .summary-value {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #333;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>ورقة عمل: تحليل أسعار المنتجات</h1>
-            <h2>(مقاييس النزعة المركزية - الوسط - الوسيط - المنوال)</h2>
+            <a href="index.html" class="back-btn">← العودة للرئيسية</a>
+            <h1>النشاط 3: تحليل أسعار المنتجات</h1>
+            <h2>(مقاييس النزعة المركزية - الوسط الحسابي - الوسيط - المنوال)</h2>
+            <div style="margin-top: 10px;">
+                <span>حالة النشاط: </span>
+                <span class="activity-status" id="activityStatus">⏳ غير مكتمل</span>
+            </div>
+        </div>
+        
+        <div class="info-section">
+            <div class="info-item"><label>اسم المتدربة:</label><input type="text" id="studentName" placeholder="أدخل اسمك الكامل"></div>
+            <div class="info-item"><label>الرقم التدريبي:</label><input type="text" id="studentId" placeholder="أدخل رقمك التدريبي"></div>
+            <div class="info-item"><label>اسم المقرر:</label><input type="text" value="إحص 101 - مقدمة في الإحصاء" readonly></div>
+            <div class="info-item"><label>تاريخ النشاط:</label><input type="text" id="activityDate" value="26/01/2026" readonly></div>
         </div>
         
         <div class="section">
-            <h3>الجزء الأول: أسعار منتجات التجميل في 3 متاجر</h3>
+            <h3>المشروع: تحليل مقارن لأسعار منتجات التجميل في ثلاثة متاجر</h3>
+            <p><strong>أهداف المشروع:</strong></p>
+            <ul>
+                <li>حساب مقاييس النزعة المركزية (الوسط، الوسيط، المنوال)</li>
+                <li>مقارنة أسعار المنتجات بين المتاجر المختلفة</li>
+                <li>تحديد المتجر الأكثر تنافسية من حيث الأسعار</li>
+                <li>تحليل أنماط تسعير المنتجات</li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <h3>الجزء الأول: أسعار منتجات التجميل في 3 متاجر (بالريال السعودي)</h3>
+            
+            <div class="store-legend">
+                <div class="legend-item">
+                    <div class="store-color store-a"></div>
+                    <span><strong>المتجر أ:</strong> سلسلة صيدليات</span>
+                </div>
+                <div class="legend-item">
+                    <div class="store-color store-b"></div>
+                    <span><strong>المتجر ب:</strong> متجر إلكتروني</span>
+                </div>
+                <div class="legend-item">
+                    <div class="store-color store-c"></div>
+                    <span><strong>المتجر ج:</strong> متجر محلي</span>
+                </div>
+            </div>
+            
             <table>
-                <thead><tr><th>المنتج</th><th>المتجر أ</th><th>المتجر ب</th><th>المتجر ج</th></tr></thead>
+                <thead>
+                    <tr>
+                        <th>رقم المنتج</th>
+                        <th>نوع المنتج</th>
+                        <th>المتجر أ (ريال)</th>
+                        <th>المتجر ب (ريال)</th>
+                        <th>المتجر ج (ريال)</th>
+                    </tr>
+                </thead>
                 <tbody id="pricesTable"></tbody>
             </table>
-            <button class="btn" onclick="calculateMeasures()">حساب المقاييس</button>
+            
+            <div style="text-align: center; margin-top: 20px;">
+                <button class="btn" onclick="addProductRow()">+ إضافة منتج جديد</button>
+                <button class="btn" onclick="generateSampleData()">توليد بيانات عينة</button>
+                <button class="btn" onclick="calculateAllMeasures()">حساب جميع المقاييس</button>
+            </div>
         </div>
         
         <div class="section calculation-section">
             <h3>الجزء الثاني: مقاييس النزعة المركزية</h3>
+            
             <table>
-                <thead><tr><th>المقياس</th><th>المتجر أ</th><th>المتجر ب</th><th>المتجر ج</th></tr></thead>
+                <thead>
+                    <tr>
+                        <th>المقياس الإحصائي</th>
+                        <th>المتجر أ</th>
+                        <th>المتجر ب</th>
+                        <th>المتجر ج</th>
+                        <th>التفسير</th>
+                    </tr>
+                </thead>
                 <tbody>
-                    <tr><td>الوسط الحسابي</td><td><input id="meanA" readonly></td><td><input id="meanB" readonly></td><td><input id="meanC" readonly></td></tr>
-                    <tr><td>الوسيط</td><td><input id="medianA" readonly></td><td><input id="medianB" readonly></td><td><input id="medianC" readonly></td></tr>
-                    <tr><td>المنوال</td><td><input id="modeA" readonly></td><td><input id="modeB" readonly></td><td><input id="modeC" readonly></td></tr>
+                    <tr>
+                        <td><strong>الوسط الحسابي</strong><br><small>(المتوسط)</small></td>
+                        <td><input type="text" id="meanA" readonly></td>
+                        <td><input type="text" id="meanB" readonly></td>
+                        <td><input type="text" id="meanC" readonly></td>
+                        <td><small>يمثل متوسط الأسعار الإجمالي</small></td>
+                    </tr>
+                    <tr>
+                        <td><strong>الوسيط</strong><br><small>(القيمة الوسطى)</small></td>
+                        <td><input type="text" id="medianA" readonly></td>
+                        <td><input type="text" id="medianB" readonly></td>
+                        <td><input type="text" id="medianC" readonly></td>
+                        <td><small>يمثل القيمة في منتصف القائمة المرتبة</small></td>
+                    </tr>
+                    <tr>
+                        <td><strong>المنوال</strong><br><small>(القيمة الأكثر تكراراً)</small></td>
+                        <td><input type="text" id="modeA" readonly></td>
+                        <td><input type="text" id="modeB" readonly></td>
+                        <td><input type="text" id="modeC" readonly></td>
+                        <td><small>يمثل السعر الأكثر شيوعاً</small></td>
+                    </tr>
                 </tbody>
             </table>
+            
+            <div class="summary-card">
+                <div class="summary-title">المتجر الأقل سعراً (حسب الوسط الحسابي)</div>
+                <div class="summary-value" id="cheapestStore">-</div>
+            </div>
+            
+            <div class="summary-card">
+                <div class="summary-title">المتجر الأكثر تناسقاً في الأسعار (حسب المنوال)</div>
+                <div class="summary-value" id="mostConsistentStore">-</div>
+            </div>
         </div>
         
         <div class="section">
             <h3>الجزء الثالث: التحليل والمقارنة</h3>
-            <textarea id="comparison" rows="4" placeholder="قارني بين المتاجر بناءً على المقاييس وأيها أفضل من حيث الأسعار..."></textarea>
+            
+            <h4>ملخص التحليل المقارن:</h4>
+            <div id="comparisonSummary" style="padding: 15px; background: white; border-radius: 8px; margin-bottom: 20px;">
+                <p>سيظهر هنا تحليل تلقائي بعد حساب المقاييس...</p>
+            </div>
+            
+            <h4>تفسير النتائج:</h4>
+            <p>بناءً على المقاييس المحسوبة، اكتبي تحليلك:</p>
+            <textarea id="comparison" rows="5" placeholder="قارني بين المتاجر بناءً على المقاييس المحسوبة وأيها أفضل من حيث الأسعار، وما هي الاستراتيجية التسعيرية لكل متجر..."></textarea>
+            
+            <h4>التوصيات:</h4>
+            <textarea id="recommendations" rows="4" placeholder="ما هي توصياتك للمستهلك بناءً على التحليل؟ وأي متجر تنصحين به ولماذا؟"></textarea>
+        </div>
+        
+        <div class="instructions">
+            <h3>تعليمات التسليم:</h3>
+            <ol>
+                <li>أدخلي أسعار المنتجات في الجدول أو استخدمي بيانات العينة</li>
+                <li>احسبي مقاييس النزعة المركزية للمتاجر الثلاثة</li>
+                <li>حللي النتائج وقدمي مقارنة واضحة بين المتاجر</li>
+                <li>احفظي النشاط قبل المغادرة</li>
+                <li>اسم الملف: "اسمك_النشاط3_إحص101"</li>
+            </ol>
+        </div>
+        
+        <div class="btn-container">
+            <button class="btn" onclick="calculateAllMeasures()">حساب المقاييس</button>
+            <button class="btn" onclick="saveActivity(3)">حفظ النشاط</button>
+            <button class="btn btn-print" onclick="window.print()">طباعة الورقة</button>
+            <a href="index.html" class="btn">العودة للرئيسية</a>
+            <a href="activity4.html" class="btn btn-next">النشاط التالي →</a>
         </div>
     </div>
-    
+
     <script>
-        // كود كامل لحساب الوسط والوسيط والمنوال
-        function calculateMean(prices) {
-            return prices.reduce((a, b) => a + b, 0) / prices.length;
+        // ====================
+        // متغيرات عامة للنشاط
+        // ====================
+        const ACTIVITY_NUMBER = 3;
+        let productRows = 10; // عدد المنتجات الافتراضي
+        
+        // ====================
+        // تهيئة الصفحة عند التحميل
+        // ====================
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeActivity();
+            updateActivityStatus();
+        });
+        
+        // ====================
+        // تهيئة النشاط
+        // ====================
+        function initializeActivity() {
+            // تحميل البيانات المحفوظة
+            loadSavedData();
+            
+            // تهيئة جدول الأسعار
+            initializePricesTable();
+            
+            // حساب المقاييس إذا كان هناك بيانات
+            setTimeout(() => {
+                if (getAllPrices().storeA.length > 0) {
+                    calculateAllMeasures();
+                }
+            }, 100);
         }
         
+        // ====================
+        // تحميل البيانات المحفوظة
+        // ====================
+        function loadSavedData() {
+            const savedData = localStorage.getItem(`activity${ACTIVITY_NUMBER}_data`);
+            
+            if (savedData) {
+                try {
+                    const activityData = JSON.parse(savedData);
+                    
+                    // تعبئة الحقول الأساسية
+                    document.getElementById('studentName').value = activityData.studentName || '';
+                    document.getElementById('studentId').value = activityData.studentId || '';
+                    document.getElementById('comparison').value = activityData.comparison || '';
+                    document.getElementById('recommendations').value = activityData.recommendations || '';
+                    
+                    // استعادة بيانات المنتجات
+                    if (activityData.products && activityData.products.length > 0) {
+                        const tbody = document.getElementById('pricesTable');
+                        tbody.innerHTML = '';
+                        
+                        activityData.products.forEach((product, index) => {
+                            const row = document.createElement('tr');
+                            row.innerHTML = `
+                                <td>${index + 1}</td>
+                                <td><input type="text" value="${product.name || ''}" placeholder="نوع المنتج"></td>
+                                <td><input type="number" value="${product.storeA || ''}" min="10" max="500" step="0.5"></td>
+                                <td><input type="number" value="${product.storeB || ''}" min="10" max="500" step="0.5"></td>
+                                <td><input type="number" value="${product.storeC || ''}" min="10" max="500" step="0.5"></td>
+                            `;
+                            tbody.appendChild(row);
+                        });
+                        
+                        productRows = activityData.products.length;
+                    }
+                    
+                    // استعادة النتائج المحسوبة
+                    if (activityData.results) {
+                        document.getElementById('meanA').value = activityData.results.meanA || '';
+                        document.getElementById('meanB').value = activityData.results.meanB || '';
+                        document.getElementById('meanC').value = activityData.results.meanC || '';
+                        document.getElementById('medianA').value = activityData.results.medianA || '';
+                        document.getElementById('medianB').value = activityData.results.medianB || '';
+                        document.getElementById('medianC').value = activityData.results.medianC || '';
+                        document.getElementById('modeA').value = activityData.results.modeA || '';
+                        document.getElementById('modeB').value = activityData.results.modeB || '';
+                        document.getElementById('modeC').value = activityData.results.modeC || '';
+                        
+                        updateComparisonSummary(activityData.results);
+                    }
+                    
+                    console.log(`تم تحميل بيانات النشاط ${ACTIVITY_NUMBER}`);
+                    
+                } catch (e) {
+                    console.error('خطأ في تحميل البيانات المحفوظة:', e);
+                    // استخدام البيانات الافتراضية
+                    generateSampleData();
+                }
+            } else {
+                // استخدام البيانات الافتراضية
+                generateSampleData();
+            }
+        }
+        
+        // ====================
+        // تهيئة جدول الأسعار
+        // ====================
+        function initializePricesTable() {
+            const tbody = document.getElementById('pricesTable');
+            const products = [
+                { name: "أحمر شفاه", storeA: 45, storeB: 42, storeC: 48 },
+                { name: "كريم أساس", storeA: 85, storeB: 79, storeC: 90 },
+                { name: "ماسكارا", storeA: 35, storeB: 32, storeC: 38 },
+                { name: "ظل عيون", storeA: 55, storeB: 52, storeC: 58 },
+                { name: "بلاشر", storeA: 40, storeB: 38, storeC: 43 },
+                { name: "كونسيلر", storeA: 50, storeB: 47, storeC: 53 },
+                { name: "بودرة وجه", storeA: 60, storeB: 57, storeC: 64 },
+                { name: "جل تنظيف", storeA: 30, storeB: 28, storeC: 33 },
+                { name: "تونر", storeA: 42, storeB: 39, storeC: 45 },
+                { name: "مرطب شفاه", storeA: 25, storeB: 23, storeC: 27 }
+            ];
+            
+            tbody.innerHTML = '';
+            
+            products.forEach((product, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td><input type="text" value="${product.name}" placeholder="نوع المنتج"></td>
+                    <td><input type="number" value="${product.storeA}" min="10" max="500" step="0.5"></td>
+                    <td><input type="number" value="${product.storeB}" min="10" max="500" step="0.5"></td>
+                    <td><input type="number" value="${product.storeC}" min="10" max="500" step="0.5"></td>
+                `;
+                tbody.appendChild(row);
+            });
+            
+            productRows = products.length;
+        }
+        
+        // ====================
+        // إضافة منتج جديد
+        // ====================
+        function addProductRow() {
+            productRows++;
+            const tbody = document.getElementById('pricesTable');
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${productRows}</td>
+                <td><input type="text" placeholder="أدخل نوع المنتج"></td>
+                <td><input type="number" placeholder="السعر" min="10" max="500" step="0.5"></td>
+                <td><input type="number" placeholder="السعر" min="10" max="500" step="0.5"></td>
+                <td><input type="number" placeholder="السعر" min="10" max="500" step="0.5"></td>
+            `;
+            tbody.appendChild(row);
+        }
+        
+        // ====================
+        // توليد بيانات عينة
+        // ====================
+        function generateSampleData() {
+            const tbody = document.getElementById('pricesTable');
+            const products = [
+                "ملمع شفاه", "سيروم فيتامين C", "غسول الوجه", "مقشر الوجه", 
+                "قلم حواجب", "مثبت مكياج", "برايمر", "هايلايتر", 
+                "كونتور", "مزيل مكياج", "كريم عيون", "معجون أسنان تبييض",
+                "شامبو", "بلسم", "زيت شعر", "كريم يدين", "عطر", "ديتول"
+            ];
+            
+            tbody.innerHTML = '';
+            
+            // توليد 15 منتجاً عشوائياً
+            for (let i = 0; i < 15; i++) {
+                const productName = products[Math.floor(Math.random() * products.length)];
+                const basePrice = Math.floor(Math.random() * 100) + 20;
+                
+                // أسعار مختلفة لكل متجر مع بعض الاختلافات
+                const storeA = basePrice + Math.floor(Math.random() * 10) - 5;
+                const storeB = basePrice + Math.floor(Math.random() * 10) - 5;
+                const storeC = basePrice + Math.floor(Math.random() * 10) - 5;
+                
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${i + 1}</td>
+                    <td><input type="text" value="${productName}"></td>
+                    <td><input type="number" value="${storeA}" min="10" max="500" step="0.5"></td>
+                    <td><input type="number" value="${storeB}" min="10" max="500" step="0.5"></td>
+                    <td><input type="number" value="${storeC}" min="10" max="500" step="0.5"></td>
+                `;
+                tbody.appendChild(row);
+            }
+            
+            productRows = 15;
+            
+            // حساب المقاييس الجديدة
+            setTimeout(() => calculateAllMeasures(), 500);
+        }
+        
+        // ====================
+        // جمع جميع الأسعار
+        // ====================
+        function getAllPrices() {
+            const rows = document.querySelectorAll('#pricesTable tr');
+            const prices = {
+                storeA: [],
+                storeB: [],
+                storeC: []
+            };
+            
+            rows.forEach(row => {
+                const cells = row.querySelectorAll('td');
+                if (cells.length >= 5) {
+                    const priceA = parseFloat(cells[2].querySelector('input').value) || 0;
+                    const priceB = parseFloat(cells[3].querySelector('input').value) || 0;
+                    const priceC = parseFloat(cells[4].querySelector('input').value) || 0;
+                    
+                    if (priceA > 0) prices.storeA.push(priceA);
+                    if (priceB > 0) prices.storeB.push(priceB);
+                    if (priceC > 0) prices.storeC.push(priceC);
+                }
+            });
+            
+            return prices;
+        }
+        
+        // ====================
+        // حساب الوسط الحسابي
+        // ====================
+        function calculateMean(prices) {
+            if (prices.length === 0) return 0;
+            const sum = prices.reduce((a, b) => a + b, 0);
+            return sum / prices.length;
+        }
+        
+        // ====================
+        // حساب الوسيط
+        // ====================
         function calculateMedian(prices) {
+            if (prices.length === 0) return 0;
             const sorted = [...prices].sort((a, b) => a - b);
             const mid = Math.floor(sorted.length / 2);
-            return sorted.length % 2 !== 0 ? sorted[mid] : (sorted[mid - 1] + sorted[mid]) / 2;
+            
+            if (sorted.length % 2 !== 0) {
+                return sorted[mid];
+            } else {
+                return (sorted[mid - 1] + sorted[mid]) / 2;
+            }
         }
         
+        // ====================
+        // حساب المنوال
+        // ====================
         function calculateMode(prices) {
-            const freq = {};
-            prices.forEach(p => freq[p] = (freq[p] || 0) + 1);
-            let maxFreq = 0, mode = [];
-            for (const [price, count] of Object.entries(freq)) {
-                if (count > maxFreq) {
-                    maxFreq = count;
-                    mode = [parseInt(price)];
-                } else if (count === maxFreq) {
-                    mode.push(parseInt(price));
+            if (prices.length === 0) return "لا يوجد";
+            
+            const frequency = {};
+            prices.forEach(price => {
+                frequency[price] = (frequency[price] || 0) + 1;
+            });
+            
+            let maxFrequency = 0;
+            let modes = [];
+            
+            for (const [price, count] of Object.entries(frequency)) {
+                if (count > maxFrequency) {
+                    maxFrequency = count;
+                    modes = [parseFloat(price)];
+                } else if (count === maxFrequency) {
+                    modes.push(parseFloat(price));
                 }
             }
-            return mode.length === prices.length ? "لا يوجد" : mode.join(", ");
+            
+            // إذا كانت جميع القيم متكررة بنفس العدد أو المنوال واحد لكل قيمة
+            if (modes.length === prices.length || maxFrequency === 1) {
+                return "لا يوجد منوال محدد";
+            }
+            
+            return modes.map(m => m.toFixed(1)).join(', ');
         }
-        // ... كود كامل آخر
+        
+        // ====================
+        // حساب جميع المقاييس
+        // ====================
+        function calculateAllMeasures() {
+            const prices = getAllPrices();
+            
+            // التحقق من وجود بيانات
+            if (prices.storeA.length === 0 || prices.storeB.length === 0 || prices.storeC.length === 0) {
+                alert('الرجاء إدخال أسعار لجميع المتاجر');
+                return;
+            }
+            
+            // حساب مقاييس المتجر أ
+            const meanA = calculateMean(prices.storeA);
+            const medianA = calculateMedian(prices.storeA);
+            const modeA = calculateMode(prices.storeA);
+            
+            // حساب مقاييس المتجر ب
+            const meanB = calculateMean(prices.storeB);
+            const medianB = calculateMedian(prices.storeB);
+            const modeB = calculateMode(prices.storeB);
+            
+            // حساب مقاييس المتجر ج
+            const meanC = calculateMean(prices.storeC);
+            const medianC = calculateMedian(prices.storeC);
+            const modeC = calculateMode(prices.storeC);
+            
+            // عرض النتائج
+            document.getElementById('meanA').value = meanA.toFixed(2);
+            document.getElementById('meanB').value = meanB.toFixed(2);
+            document.getElementById('meanC').value = meanC.toFixed(2);
+            
+            document.getElementById('medianA').value = medianA.toFixed(2);
+            document.getElementById('medianB').value = medianB.toFixed(2);
+            document.getElementById('medianC').value = medianC.toFixed(2);
+            
+            document.getElementById('modeA').value = modeA;
+            document.getElementById('modeB').value = modeB;
+            document.getElementById('modeC').value = modeC;
+            
+            // تحديد المتجر الأقل سعراً
+            const means = [meanA, meanB, meanC];
+            const minMean = Math.min(...means);
+            const cheapestIndex = means.indexOf(minMean);
+            const storeNames = ['المتجر أ', 'المتجر ب', 'المتجر ج'];
+            document.getElementById('cheapestStore').textContent = 
+                `${storeNames[cheapestIndex]} (${minMean.toFixed(2)} ريال)`;
+            
+            // تحديد المتجر الأكثر تناسقاً (أقل عدد من المنوالات)
+            const modeCounts = [modeA, modeB, modeC].map(m => 
+                m === "لا يوجد منوال محدد" ? Infinity : m.split(',').length
+            );
+            const minModeCount = Math.min(...modeCounts);
+            const mostConsistentIndex = modeCounts.indexOf(minModeCount);
+            document.getElementById('mostConsistentStore').textContent = 
+                `${storeNames[mostConsistentIndex]}`;
+            
+            // إنشاء كائن النتائج
+            const results = {
+                meanA: meanA.toFixed(2),
+                meanB: meanB.toFixed(2),
+                meanC: meanC.toFixed(2),
+                medianA: medianA.toFixed(2),
+                medianB: medianB.toFixed(2),
+                medianC: medianC.toFixed(2),
+                modeA: modeA,
+                modeB: modeB,
+                modeC: modeC,
+                cheapestStore: storeNames[cheapestIndex],
+                mostConsistentStore: storeNames[mostConsistentIndex]
+            };
+            
+            // تحديث ملخص التحليل
+            updateComparisonSummary(results);
+            
+            // الحفظ التلقائي
+            autoSave(results);
+            
+            return results;
+        }
+        
+        // ====================
+        // تحديث ملخص التحليل
+        // ====================
+        function updateComparisonSummary(results) {
+            const summaryDiv = document.getElementById('comparisonSummary');
+            
+            if (!results) {
+                summaryDiv.innerHTML = '<p>قم بحساب المقاييس أولاً لعرض التحليل...</p>';
+                return;
+            }
+            
+            const meanA = parseFloat(results.meanA);
+            const meanB = parseFloat(results.meanB);
+            const meanC = parseFloat(results.meanC);
+            
+            let analysis = `<h4>التحليل التلقائي:</h4>`;
+            analysis += `<p><strong>من حيث السعر المتوسط:</strong> `;
+            
+            if (meanA < meanB && meanA < meanC) {
+                analysis += `المتجر أ هو الأقل سعراً بمتوسط ${meanA.toFixed(2)} ريال`;
+            } else if (meanB < meanA && meanB < meanC) {
+                analysis += `المتجر ب هو الأقل سعراً بمتوسط ${meanB.toFixed(2)} ريال`;
+            } else if (meanC < meanA && meanC < meanB) {
+                analysis += `المتجر ج هو الأقل سعراً بمتوسط ${meanC.toFixed(2)} ريال`;
+            } else {
+                analysis += `الأسعار متقاربة جداً بين المتاجر`;
+            }
+            
+            analysis += `</p><p><strong>من حيث تناسق الأسعار:</strong> `;
+            
+            const modeCounts = [
+                results.modeA.split(',').length,
+                results.modeB.split(',').length,
+                results.modeC.split(',').length
+            ];
+            
+            const minModeCount = Math.min(...modeCounts);
+            const consistentStores = [];
+            if (modeCounts[0] === minModeCount) consistentStores.push('المتجر أ');
+            if (modeCounts[1] === minModeCount) consistentStores.push('المتجر ب');
+            if (modeCounts[2] === minModeCount) consistentStores.push('المتجر ج');
+            
+            analysis += `${consistentStores.join(' و ')} ${consistentStores.length > 1 ? 'هما' : 'هو'} الأكثر تناسقاً في التسعير`;
+            
+            analysis += `</p><p><strong>الفرق بين الوسيط والوسط:</strong> `;
+            const diffA = Math.abs(meanA - parseFloat(results.medianA));
+            const diffB = Math.abs(meanB - parseFloat(results.medianB));
+            const diffC = Math.abs(meanC - parseFloat(results.medianC));
+            
+            const maxDiff = Math.max(diffA, diffB, diffC);
+            if (maxDiff > 5) {
+                analysis += `هناك فرق كبير بين الوسيط والوسط في بعض المتاجر، مما يشير إلى وجود قيم متطرفة (Outliers)`;
+            } else {
+                analysis += `الفرق بسيط بين الوسيط والوسط، مما يشير إلى توزيع طبيعي للأسعار`;
+            }
+            
+            analysis += `</p>`;
+            
+            summaryDiv.innerHTML = analysis;
+        }
+        
+        // ====================
+        // حفظ النشاط
+        // ====================
+        function saveActivity(activityNumber) {
+            const studentName = document.getElementById('studentName').value.trim();
+            const studentId = document.getElementById('studentId').value.trim();
+            
+            if (!studentName || !studentId) {
+                alert('الرجاء إدخال اسم المتدربة والرقم التدريبي');
+                return;
+            }
+            
+            // حساب المقاييس أولاً
+            const results = calculateAllMeasures();
+            
+            if (!results) {
+                alert('الرجاء إدخال بيانات الأسعار أولاً');
+                return;
+            }
+            
+            // جمع بيانات المنتجات
+            const products = [];
+            const rows = document.querySelectorAll('#pricesTable tr');
+            rows.forEach(row => {
+                const cells = row.querySelectorAll('td');
+                if (cells.length >= 5) {
+                    const nameInput = cells[1].querySelector('input');
+                    const priceAInput = cells[2].querySelector('input');
+                    const priceBInput = cells[3].querySelector('input');
+                    const priceCInput = cells[4].querySelector('input');
+                    
+                    if (nameInput && priceAInput && priceBInput && priceCInput) {
+                        products.push({
+                            name: nameInput.value,
+                            storeA: parseFloat(priceAInput.value) || 0,
+                            storeB: parseFloat(priceBInput.value) || 0,
+                            storeC: parseFloat(priceCInput.value) || 0
+                        });
+                    }
+                }
+            });
+            
+            // تجميع بيانات النشاط
+            const activityData = {
+                studentName: studentName,
+                studentId: studentId,
+                products: products,
+                comparison: document.getElementById('comparison').value,
+                recommendations: document.getElementById('recommendations').value,
+                results: results,
+                completionDate: new Date().toLocaleDateString('ar-SA'),
+                activityNumber: activityNumber
+            };
+            
+            // حفظ في localStorage
+            localStorage.setItem(`activity${activityNumber}_data`, JSON.stringify(activityData, null, 2));
+            
+            // تحديث قائمة الأنشطة المكتملة
+            updateCompletedActivities(activityNumber);
+            
+            // تحديث حالة النشاط
+            updateActivityStatus();
+            
+            // إنشاء ملف للتحميل
+            createDownloadFile(activityData, activityNumber, studentName, studentId);
+            
+            // إشعار للمستخدم
+            showSuccessMessage(activityNumber, results);
+        }
+        
+        // ====================
+        // تحديث قائمة الأنشطة المكتملة
+        // ====================
+        function updateCompletedActivities(activityNumber) {
+            let completed = JSON.parse(localStorage.getItem('completedActivities')) || [];
+            if (!completed.includes(activityNumber)) {
+                completed.push(activityNumber);
+                localStorage.setItem('completedActivities', JSON.stringify(completed));
+            }
+        }
+        
+        // ====================
+        // تحديث حالة النشاط
+        // ====================
+        function updateActivityStatus() {
+            const savedData = localStorage.getItem(`activity${ACTIVITY_NUMBER}_data`);
+            const statusElement = document.getElementById('activityStatus');
+            
+            if (savedData) {
+                statusElement.textContent = '✅ مكتمل';
+                statusElement.style.background = '#4CAF50';
+            } else {
+                statusElement.textContent = '⏳ غير مكتمل';
+                statusElement.style.background = '#ff9800';
+            }
+        }
+        
+        // ====================
+        // إنشاء ملف للتحميل
+        // ====================
+        function createDownloadFile(data, activityNumber, studentName, studentId) {
+            const blob = new Blob([JSON.stringify(data, null, 2)], { 
+                type: 'application/json' 
+            });
+            
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `نشاط${activityNumber}_${studentName}_${studentId}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+        
+        // ====================
+        // الحفظ التلقائي
+        // ====================
+        function autoSave(results) {
+            const studentName = document.getElementById('studentName').value.trim();
+            const studentId = document.getElementById('studentId').value.trim();
+            
+            if (!studentName || !studentId) return;
+            
+            const autoSaveData = {
+                studentName: studentName,
+                studentId: studentId,
+                results: results,
+                timestamp: new Date().toISOString()
+            };
+            
+            localStorage.setItem(`activity${ACTIVITY_NUMBER}_autosave`, JSON.stringify(autoSaveData));
+        }
+        
+        // ====================
+        // عرض رسالة النجاح
+        // ====================
+        function showSuccessMessage(activityNumber, results) {
+            let completed = JSON.parse(localStorage.getItem('completedActivities')) || [];
+            const completedCount = completed.length;
+            
+            let message = `✅ تم حفظ النشاط ${activityNumber} بنجاح!\n\n`;
+            message += `📊 أنشطة مكتملة: ${completedCount}/7\n\n`;
+            
+            if (results) {
+                message += `📈 النتائج المحسوبة:\n`;
+                message += `   • المتجر الأقل سعراً: ${results.cheapestStore}\n`;
+                message += `   • متوسط أسعار المتاجر: ${results.meanA} - ${results.meanB} - ${results.meanC} ريال\n`;
+                message += `   • المتجر الأكثر تناسقاً: ${results.mostConsistentStore}\n\n`;
+            }
+            
+            message += `💾 تم حفظ البيانات في جهازك\n`;
+            message += `📄 تم تحميل نسخة احتياطية`;
+            
+            alert(message);
+        }
+        
+        // ====================
+        // مسح النشاط
+        // ====================
+        function clearActivity() {
+            if (confirm('هل أنت متأكدة من مسح جميع بيانات النشاط؟')) {
+                localStorage.removeItem(`activity${ACTIVITY_NUMBER}_data`);
+                localStorage.removeItem(`activity${ACTIVITY_NUMBER}_autosave`);
+                
+                // تحديث قائمة الأنشطة المكتملة
+                let completed = JSON.parse(localStorage.getItem('completedActivities')) || [];
+                const index = completed.indexOf(ACTIVITY_NUMBER);
+                if (index > -1) {
+                    completed.splice(index, 1);
+                    localStorage.setItem('completedActivities', JSON.stringify(completed));
+                }
+                
+                // إعادة تعيين الحقول
+                document.getElementById('studentName').value = '';
+                document.getElementById('studentId').value = '';
+                document.getElementById('comparison').value = '';
+                document.getElementById('recommendations').value = '';
+                
+                initializePricesTable();
+                updateActivityStatus();
+                
+                alert('تم مسح بيانات النشاط بنجاح');
+            }
+        }
     </script>
 </body>
 </html>
