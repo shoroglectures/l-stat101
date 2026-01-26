@@ -2,8 +2,231 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ورقة عمل: التنبؤ بمبيعات منتجات الصيف</title>
-    <style>/* نفس التصميم */</style>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 3px solid #006747;
+            padding-bottom: 20px;
+        }
+        
+        .header h1 {
+            color: #006747;
+            margin-bottom: 10px;
+        }
+        
+        .header h2 {
+            color: #666;
+            font-weight: normal;
+        }
+        
+        .info-section {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 8px;
+        }
+        
+        .info-item {
+            margin-bottom: 15px;
+        }
+        
+        .info-item label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #006747;
+        }
+        
+        .info-item input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+            padding: 25px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            border-right: 5px solid #006747;
+        }
+        
+        .section h3 {
+            color: #006747;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #ddd;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+        }
+        
+        th {
+            background: #006747;
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+        
+        td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+        
+        tr:nth-child(even) {
+            background: #f5f5f5;
+        }
+        
+        input[type="text"], input[type="number"], select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            text-align: center;
+        }
+        
+        .calculation-section {
+            background: #e8f5e9;
+            border-color: #2e7d32;
+        }
+        
+        .calculation-section h3 {
+            color: #2e7d32;
+        }
+        
+        .chart-container {
+            width: 100%;
+            height: 400px;
+            margin: 30px 0;
+            position: relative;
+        }
+        
+        .instructions {
+            background: #fff3e0;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 30px;
+            border-right: 5px solid #ff9800;
+        }
+        
+        .instructions h3 {
+            color: #ff9800;
+        }
+        
+        .btn {
+            background: #006747;
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px;
+            transition: background 0.3s;
+        }
+        
+        .btn:hover {
+            background: #004d36;
+        }
+        
+        .btn-chart {
+            background: #2196f3;
+        }
+        
+        .btn-chart:hover {
+            background: #0b7dda;
+        }
+        
+        .btn-reset {
+            background: #f44336;
+        }
+        
+        .btn-reset:hover {
+            background: #d32f2f;
+        }
+        
+        .btn-container {
+            text-align: center;
+            margin-top: 30px;
+        }
+        
+        textarea {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            margin-top: 15px;
+            resize: vertical;
+            min-height: 100px;
+        }
+        
+        .product-row {
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .product-row:hover {
+            background: #e8f5e9;
+        }
+        
+        .highlight {
+            background: #fff9c4 !important;
+            font-weight: bold;
+        }
+        
+        @media print {
+            body { background: white; }
+            .container { box-shadow: none; }
+            .btn-container { display: none; }
+            .instructions { page-break-before: always; }
+        }
+        
+        @media (max-width: 768px) {
+            .info-section {
+                grid-template-columns: 1fr;
+            }
+            
+            .chart-container {
+                height: 300px;
+            }
+        }
+    </style>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
@@ -13,55 +236,775 @@
             <h2>(السلاسل الزمنية - معادلة الاتجاه العام - التنبؤ المستقبلي)</h2>
         </div>
         
-        <div class="section">
-            <h3>الجزء الأول: بيانات المبيعات التاريخية (3 سنوات)</h3>
-            <table id="timeSeriesTable"><!-- بيانات المبيعات السنوية --></table>
+        <!-- المعلومات الأساسية -->
+        <div class="info-section">
+            <div class="info-item">
+                <label>اسم المتدربة:</label>
+                <input type="text" id="studentName" placeholder="أدخل اسمك الكامل">
+            </div>
+            <div class="info-item">
+                <label>الرقم التدريبي:</label>
+                <input type="text" id="studentId" placeholder="أدخل رقمك التدريبي">
+            </div>
+            <div class="info-item">
+                <label>اسم المقرر:</label>
+                <input type="text" value="إحص 101 - مقدمة في الإحصاء" readonly>
+            </div>
+            <div class="info-item">
+                <label>تاريخ النشاط:</label>
+                <input type="text" id="activityDate" readonly>
+            </div>
         </div>
         
+        <!-- المشروع -->
+        <div class="section">
+            <h3>المشروع: التنبؤ بمبيعات منتجات الصيف باستخدام السلاسل الزمنية</h3>
+            <p><strong>أهداف المشروع:</strong></p>
+            <ul>
+                <li>تطبيق مفهوم السلاسل الزمنية في التنبؤ بالمبيعات</li>
+                <li>حساب معادلة الاتجاه العام باستخدام طريقة المربعات الصغرى</li>
+                <li>استخدام المعادلة للتنبؤ بالمبيعات المستقبلية</li>
+                <li>تطوير خطة تسويقية بناءً على التنبؤات</li>
+                <li>ربط النتائج بمتطلبات التخطيط في سوق العمل</li>
+            </ul>
+        </div>
+        
+        <!-- الجزء الأول: بيانات المبيعات التاريخية -->
+        <div class="section">
+            <h3>الجزء الأول: بيانات المبيعات التاريخية (3 سنوات)</h3>
+            <p>أدخلي بيانات المبيعات الشهرية لمتجر مستحضرات التجميل (بالآلاف الريالات):</p>
+            
+            <table id="timeSeriesTable">
+                <thead>
+                    <tr>
+                        <th>السنة</th>
+                        <th>يناير</th>
+                        <th>فبراير</th>
+                        <th>مارس</th>
+                        <th>أبريل</th>
+                        <th>مايو</th>
+                        <th>يونيو</th>
+                        <th>يوليو</th>
+                        <th>أغسطس</th>
+                        <th>سبتمبر</th>
+                        <th>أكتوبر</th>
+                        <th>نوفمبر</th>
+                        <th>ديسمبر</th>
+                        <th>المجموع السنوي</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- سيتم إنشاء الصفوف ديناميكياً -->
+                </tbody>
+            </table>
+            
+            <button class="btn" onclick="addYear()">+ إضافة سنة جديدة</button>
+            <button class="btn" onclick="generateSampleData()">توليد بيانات نموذجية</button>
+        </div>
+        
+        <!-- الجزء الثاني: معادلة الاتجاه العام -->
         <div class="section calculation-section">
-            <h3>الجزء الثاني: معادلة الاتجاه العام</h3>
+            <h3>الجزء الثاني: حساب معادلة الاتجاه العام</h3>
+            
             <table>
-                <tr><td>معادلة الاتجاه</td><td><input id="trendEquation" value="ص = أ س + ب" readonly></td></tr>
-                <tr><td>قيمة أ (الميل)</td><td><input id="slope" readonly></td></tr>
-                <tr><td>قيمة ب (الثابت)</td><td><input id="intercept" readonly></td></tr>
-                <tr><td>معامل التحديد (R²)</td><td><input id="rSquared" readonly></td></tr>
+                <thead>
+                    <tr>
+                        <th>الخطوة</th>
+                        <th>الحساب</th>
+                        <th>النتيجة</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>معادلة الاتجاه</td>
+                        <td>ص = أ س + ب</td>
+                        <td><input type="text" id="trendEquation" value="ص = ? س + ?" readonly style="font-weight: bold; color: #2e7d32;"></td>
+                    </tr>
+                    <tr>
+                        <td>قيمة أ (الميل)</td>
+                        <td>يمثل معدل التغير الشهري</td>
+                        <td><input type="text" id="slope" value="0" readonly> ألف ريال/شهر</td>
+                    </tr>
+                    <tr>
+                        <td>قيمة ب (الثابت)</td>
+                        <td>يمثل المبيعات الأساسية</td>
+                        <td><input type="text" id="intercept" value="0" readonly> ألف ريال</td>
+                    </tr>
+                    <tr>
+                        <td>معامل التحديد (R²)</td>
+                        <td>يدل على دقة التنبؤ (0-1)</td>
+                        <td><input type="text" id="rSquared" value="0" readonly></td>
+                    </tr>
+                    <tr>
+                        <td>الاتجاه العام</td>
+                        <td>بناءً على قيمة الميل</td>
+                        <td><input type="text" id="trendDirection" value="مستقر" readonly></td>
+                    </tr>
+                </tbody>
             </table>
             
             <div class="chart-container">
                 <canvas id="timeSeriesChart"></canvas>
             </div>
+            
+            <button class="btn btn-chart" onclick="calculateTrendLine()">حساب معادلة الاتجاه</button>
+            <button class="btn" onclick="showTrendExplanation()">شرح طريقة الحساب</button>
         </div>
         
+        <!-- الجزء الثالث: التنبؤ بالمبيعات المستقبلية -->
         <div class="section">
             <h3>الجزء الثالث: التنبؤ بالمبيعات المستقبلية</h3>
+            
             <div class="info-item">
                 <label>السنة المستهدفة للتنبؤ:</label>
-                <input type="number" id="targetYear" value="2026" min="2024" max="2030">
+                <input type="number" id="targetYear" value="2026" min="2024" max="2030" onchange="predictSales()">
             </div>
+            
             <table>
-                <tr><td>المبيعات المتوقعة</td><td><input id="predictedSales" readonly> ريال</td></tr>
-                <tr><td>نسبة النمو المتوقعة</td><td><input id="growthRate" readonly>%</td></tr>
+                <thead>
+                    <tr>
+                        <th>المؤشر</th>
+                        <th>القيمة</th>
+                        <th>التفسير</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>المبيعات السنوية المتوقعة</td>
+                        <td><input type="text" id="predictedSales" value="0" readonly> ألف ريال</td>
+                        <td>إجمالي المبيعات المتوقعة للسنة</td>
+                    </tr>
+                    <tr>
+                        <td>نسبة النمو المتوقعة</td>
+                        <td><input type="text" id="growthRate" value="0" readonly>%</td>
+                        <td>مقارنة بالسنة الأخيرة</td>
+                    </tr>
+                    <tr>
+                        <td>المبيعات الشهرية المتوسطة</td>
+                        <td><input type="text" id="monthlyAvg" value="0" readonly> ألف ريال</td>
+                        <td>المتوسط الشهري المتوقع</td>
+                    </tr>
+                    <tr>
+                        <td>المبيعات في ذروة الصيف (يونيو-أغسطس)</td>
+                        <td><input type="text" id="summerSales" value="0" readonly> ألف ريال</td>
+                        <td>متوقع خلال أشهر الصيف</td>
+                    </tr>
+                </tbody>
             </table>
             
-            <textarea id="planning" placeholder="ضعي خطة شراء وتسويق بناءً على التنبؤات..."></textarea>
+            <h4>التوصيات العملية بناءً على التنبؤ:</h4>
+            <textarea id="planning" placeholder="ضعي هنا خطة الشراء والتسويق والمخزون بناءً على التنبؤات..."></textarea>
+        </div>
+        
+        <!-- التعليمات -->
+        <div class="instructions">
+            <h3>تعليمات التسليم:</h3>
+            <ol>
+                <li>أدخلي بيانات مبيعات 3 سنوات على الأقل</li>
+                <li>احسبي معادلة الاتجاه العام</li>
+                <li>استخدمي المعادلة للتنبؤ بمبيعات السنة القادمة</li>
+                <li>أضفي خطة تسويقية واقعية بناءً على التنبؤات</li>
+                <li>احفظي الورقة بإسم: "اسمك_النشاط6_إحص101"</li>
+                <li>ارفعي الملف على منصة التدريب</li>
+            </ol>
+        </div>
+        
+        <!-- أزرار التحكم -->
+        <div class="btn-container">
+            <button class="btn" onclick="calculateAll()">حساب الكل</button>
+            <button class="btn" onclick="saveActivity()">حفظ النشاط</button>
+            <button class="btn" onclick="window.print()">طباعة الورقة</button>
+            <button class="btn btn-reset" onclick="clearActivity()">مسح النموذج</button>
         </div>
     </div>
-    
+
     <script>
-        // كود كامل لحساب معادلة الاتجاه والتنبؤ
-        function calculateTrendLine(x, y) {
-            const n = x.length;
-            const sumX = x.reduce((a, b) => a + b, 0);
-            const sumY = y.reduce((a, b) => a + b, 0);
-            const sumXY = x.reduce((sum, xi, i) => sum + xi * y[i], 0);
-            const sumX2 = x.reduce((sum, xi) => sum + xi * xi, 0);
+        // المتغيرات العامة
+        let timeSeriesChart = null;
+        let years = [];
+        let annualSales = [];
+        
+        // تهيئة الصفحة عند التحميل
+        document.addEventListener('DOMContentLoaded', function() {
+            // تعيين التاريخ الحالي
+            const today = new Date();
+            document.getElementById('activityDate').value = today.toLocaleDateString('ar-SA');
             
+            // إضافة سنوات أولية
+            addYear(2023);
+            addYear(2024);
+            addYear(2025);
+            
+            // تحميل البيانات المحفوظة إن وجدت
+            loadSavedData();
+        });
+        
+        // إضافة سنة جديدة للجدول
+        function addYear(year = null) {
+            const tbody = document.querySelector('#timeSeriesTable tbody');
+            const currentYears = document.querySelectorAll('#timeSeriesTable tbody tr');
+            const yearCount = currentYears.length;
+            
+            // تحديد السنة التالية
+            let newYear;
+            if (year) {
+                newYear = year;
+            } else {
+                if (yearCount === 0) {
+                    newYear = 2023;
+                } else {
+                    const lastYear = parseInt(currentYears[yearCount - 1].querySelector('td').textContent);
+                    newYear = lastYear + 1;
+                }
+            }
+            
+            // إنشاء الصف الجديد
+            const row = document.createElement('tr');
+            row.className = 'product-row';
+            row.innerHTML = `
+                <td>${newYear}</td>
+                <td><input type="number" value="${Math.floor(Math.random() * 50) + 30}" min="10" max="200" class="month-input" data-month="0" onchange="updateTotal(this)"></td>
+                <td><input type="number" value="${Math.floor(Math.random() * 50) + 30}" min="10" max="200" class="month-input" data-month="1" onchange="updateTotal(this)"></td>
+                <td><input type="number" value="${Math.floor(Math.random() * 50) + 30}" min="10" max="200" class="month-input" data-month="2" onchange="updateTotal(this)"></td>
+                <td><input type="number" value="${Math.floor(Math.random() * 50) + 40}" min="20" max="250" class="month-input" data-month="3" onchange="updateTotal(this)"></td>
+                <td><input type="number" value="${Math.floor(Math.random() * 60) + 50}" min="30" max="300" class="month-input" data-month="4" onchange="updateTotal(this)"></td>
+                <td><input type="number" value="${Math.floor(Math.random() * 80) + 70}" min="50" max="400" class="month-input" data-month="5" onchange="updateTotal(this)"></td>
+                <td><input type="number" value="${Math.floor(Math.random() * 90) + 80}" min="60" max="450" class="month-input" data-month="6" onchange="updateTotal(this)"></td>
+                <td><input type="number" value="${Math.floor(Math.random() * 80) + 70}" min="50" max="400" class="month-input" data-month="7" onchange="updateTotal(this)"></td>
+                <td><input type="number" value="${Math.floor(Math.random() * 60) + 50}" min="30" max="300" class="month-input" data-month="8" onchange="updateTotal(this)"></td>
+                <td><input type="number" value="${Math.floor(Math.random() * 50) + 40}" min="20" max="250" class="month-input" data-month="9" onchange="updateTotal(this)"></td>
+                <td><input type="number" value="${Math.floor(Math.random() * 50) + 30}" min="10" max="200" class="month-input" data-month="10" onchange="updateTotal(this)"></td>
+                <td><input type="number" value="${Math.floor(Math.random() * 50) + 30}" min="10" max="200" class="month-input" data-month="11" onchange="updateTotal(this)"></td>
+                <td><input type="text" value="0" class="annual-total" readonly></td>
+            `;
+            
+            tbody.appendChild(row);
+            
+            // تحديث المجموع للسنة الجديدة
+            updateRowTotal(row);
+            
+            // إضافة حدث النقر على الصف
+            row.addEventListener('click', function(e) {
+                if (e.target.tagName !== 'INPUT') {
+                    this.classList.toggle('highlight');
+                }
+            });
+        }
+        
+        // توليد بيانات نموذجية
+        function generateSampleData() {
+            const tbody = document.querySelector('#timeSeriesTable tbody');
+            tbody.innerHTML = '';
+            
+            // بيانات نموذجية لثلاث سنوات
+            const sampleData = [
+                {
+                    year: 2023,
+                    months: [35, 38, 42, 48, 55, 72, 85, 78, 62, 50, 42, 38]
+                },
+                {
+                    year: 2024,
+                    months: [40, 43, 48, 55, 65, 85, 95, 88, 70, 58, 48, 44]
+                },
+                {
+                    year: 2025,
+                    months: [45, 48, 54, 62, 75, 98, 110, 98, 78, 66, 54, 50]
+                }
+            ];
+            
+            // إضافة البيانات النموذجية
+            sampleData.forEach(data => {
+                const row = document.createElement('tr');
+                row.className = 'product-row';
+                
+                let cellsHTML = `<td>${data.year}</td>`;
+                data.months.forEach((monthValue, index) => {
+                    cellsHTML += `<td><input type="number" value="${monthValue}" min="10" max="200" class="month-input" data-month="${index}" onchange="updateTotal(this)"></td>`;
+                });
+                cellsHTML += `<td><input type="text" value="0" class="annual-total" readonly></td>`;
+                
+                row.innerHTML = cellsHTML;
+                tbody.appendChild(row);
+                
+                // تحديث المجموع للسنة
+                updateRowTotal(row);
+                
+                // إضافة حدث النقر على الصف
+                row.addEventListener('click', function(e) {
+                    if (e.target.tagName !== 'INPUT') {
+                        this.classList.toggle('highlight');
+                    }
+                });
+            });
+            
+            // حساب الإحصائيات بعد التوليد
+            setTimeout(calculateAll, 100);
+        }
+        
+        // تحديث المجموع السنوي
+        function updateTotal(input) {
+            const row = input.closest('tr');
+            updateRowTotal(row);
+        }
+        
+        // تحديث مجموع الصف
+        function updateRowTotal(row) {
+            const inputs = row.querySelectorAll('.month-input');
+            let total = 0;
+            
+            inputs.forEach(input => {
+                const value = parseFloat(input.value) || 0;
+                total += value;
+            });
+            
+            const totalCell = row.querySelector('.annual-total');
+            totalCell.value = total.toFixed(1);
+        }
+        
+        // حساب معادلة الاتجاه العام
+        function calculateTrendLine() {
+            const rows = document.querySelectorAll('#timeSeriesTable tbody tr');
+            years = [];
+            annualSales = [];
+            
+            // جمع البيانات من الجدول
+            rows.forEach((row, index) => {
+                const yearCell = row.querySelector('td:first-child');
+                const totalCell = row.querySelector('.annual-total');
+                
+                if (yearCell && totalCell) {
+                    const year = parseInt(yearCell.textContent);
+                    const sales = parseFloat(totalCell.value) || 0;
+                    
+                    years.push(year);
+                    annualSales.push(sales);
+                }
+            });
+            
+            // التحقق من وجود بيانات كافية
+            if (years.length < 2) {
+                alert('يحتاج إلى بيانات سنتين على الأقل لحساب الاتجاه');
+                return;
+            }
+            
+            // حساب معادلة الاتجاه العام (ص = أ س + ب)
+            const n = years.length;
+            const sumX = years.reduce((a, b) => a + b, 0);
+            const sumY = annualSales.reduce((a, b) => a + b, 0);
+            const sumXY = years.reduce((sum, xi, i) => sum + xi * annualSales[i], 0);
+            const sumX2 = years.reduce((sum, xi) => sum + xi * xi, 0);
+            
+            // حساب الميل (أ) والثابت (ب)
             const slope = (n * sumXY - sumX * sumY) / (n * sumX2 - sumX * sumX);
             const intercept = (sumY - slope * sumX) / n;
             
-            return { slope, intercept };
+            // حساب معامل التحديد (R²)
+            const yMean = sumY / n;
+            let ssTotal = 0;
+            let ssResidual = 0;
+            
+            years.forEach((year, i) => {
+                const yActual = annualSales[i];
+                const yPredicted = slope * year + intercept;
+                
+                ssTotal += Math.pow(yActual - yMean, 2);
+                ssResidual += Math.pow(yActual - yPredicted, 2);
+            });
+            
+            const rSquared = 1 - (ssResidual / ssTotal);
+            
+            // تحديث النتائج في الجدول
+            document.getElementById('slope').value = slope.toFixed(3);
+            document.getElementById('intercept').value = intercept.toFixed(2);
+            document.getElementById('rSquared').value = rSquared.toFixed(4);
+            document.getElementById('trendEquation').value = `ص = ${slope.toFixed(3)} س + ${intercept.toFixed(2)}`;
+            
+            // تحديد اتجاه الاتجاه
+            let trendDirection = "مستقر";
+            if (slope > 1) trendDirection = "تصاعدي قوي";
+            else if (slope > 0.5) trendDirection = "تصاعدي متوسط";
+            else if (slope > 0.1) trendDirection = "تصاعدي خفيف";
+            else if (slope < -1) trendDirection = "تنازلي قوي";
+            else if (slope < -0.5) trendDirection = "تنازلي متوسط";
+            else if (slope < -0.1) trendDirection = "تنازلي خفيف";
+            
+            document.getElementById('trendDirection').value = trendDirection;
+            
+            // رسم الرسم البياني
+            drawTimeSeriesChart(slope, intercept);
+            
+            // حساب التنبؤ تلقائياً
+            predictSales();
+            
+            return { slope, intercept, rSquared };
         }
-        // ... كود كامل آخر
+        
+        // رسم الرسم البياني للسلاسل الزمنية
+        function drawTimeSeriesChart(slope, intercept) {
+            const ctx = document.getElementById('timeSeriesChart').getContext('2d');
+            
+            // تدمير الرسم البياني القديم إذا كان موجوداً
+            if (timeSeriesChart) {
+                timeSeriesChart.destroy();
+            }
+            
+            // إعداد بيانات الرسم البياني
+            const labels = years.map(year => year.toString());
+            const actualData = annualSales;
+            
+            // حساب القيم المتوقعة بناءً على معادلة الاتجاه
+            const predictedData = years.map(year => slope * year + intercept);
+            
+            // إعداد بيانات التنبؤ لسنوات إضافية
+            const futureYears = [];
+            const futurePredictions = [];
+            const lastYear = Math.max(...years);
+            
+            // إضافة 2 سنة مستقبلية للرسم البياني
+            for (let i = 1; i <= 2; i++) {
+                const futureYear = lastYear + i;
+                futureYears.push(futureYear);
+                futurePredictions.push(slope * futureYear + intercept);
+            }
+            
+            // دمج جميع البيانات
+            const allYears = [...labels, ...futureYears.map(y => y.toString())];
+            const allActualData = [...actualData, ...Array(futureYears.length).fill(null)];
+            const allPredictedData = [...predictedData, ...futurePredictions];
+            
+            // إنشاء الرسم البياني
+            timeSeriesChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: allYears,
+                    datasets: [
+                        {
+                            label: 'المبيعات الفعلية',
+                            data: allActualData,
+                            borderColor: '#006747',
+                            backgroundColor: 'rgba(0, 103, 71, 0.1)',
+                            borderWidth: 3,
+                            fill: false,
+                            tension: 0.2
+                        },
+                        {
+                            label: 'الاتجاه العام',
+                            data: allPredictedData,
+                            borderColor: '#ff9800',
+                            backgroundColor: 'transparent',
+                            borderWidth: 2,
+                            borderDash: [5, 5],
+                            fill: false,
+                            tension: 0
+                        },
+                        {
+                            label: 'التنبؤ المستقبلي',
+                            data: [...Array(actualData.length).fill(null), ...futurePredictions],
+                            borderColor: '#2196f3',
+                            backgroundColor: 'rgba(33, 150, 243, 0.1)',
+                            borderWidth: 3,
+                            borderDash: [3, 3],
+                            fill: true,
+                            tension: 0.2
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'السنة',
+                                font: {
+                                    size: 14,
+                                    weight: 'bold'
+                                }
+                            },
+                            grid: {
+                                display: true
+                            }
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'المبيعات (ألف ريال)',
+                                font: {
+                                    size: 14,
+                                    weight: 'bold'
+                                }
+                            },
+                            beginAtZero: true,
+                            grid: {
+                                display: true
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'top',
+                            rtl: true,
+                            labels: {
+                                usePointStyle: true,
+                                padding: 20
+                            }
+                        },
+                        tooltip: {
+                            rtl: true,
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed.y !== null) {
+                                        label += context.parsed.y.toFixed(1) + ' ألف ريال';
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        // التنبؤ بالمبيعات المستقبلية
+        function predictSales() {
+            const slope = parseFloat(document.getElementById('slope').value) || 0;
+            const intercept = parseFloat(document.getElementById('intercept').value) || 0;
+            
+            if (slope === 0 && intercept === 0) {
+                alert('الرجاء حساب معادلة الاتجاه أولاً');
+                return;
+            }
+            
+            const targetYear = parseInt(document.getElementById('targetYear').value) || 2026;
+            const lastActualYear = Math.max(...years);
+            const lastActualSales = annualSales[annualSales.length - 1];
+            
+            // حساب المبيعات المتوقعة
+            const predictedSales = slope * targetYear + intercept;
+            
+            // حساب نسبة النمو
+            const growthRate = lastActualSales > 0 ? 
+                ((predictedSales - lastActualSales) / lastActualSales * 100) : 0;
+            
+            // تحديث النتائج
+            document.getElementById('predictedSales').value = predictedSales.toFixed(1);
+            document.getElementById('growthRate').value = growthRate.toFixed(1);
+            document.getElementById('monthlyAvg').value = (predictedSales / 12).toFixed(1);
+            
+            // حساب مبيعات الصيف (يونيو-أغسطس) - نفترض أنها 35% من المبيعات السنوية
+            const summerSales = predictedSales * 0.35;
+            document.getElementById('summerSales').value = summerSales.toFixed(1);
+            
+            // توليد توصيات تلقائية
+            generateRecommendations(predictedSales, growthRate);
+            
+            return predictedSales;
+        }
+        
+        // توليد توصيات تلقائية
+        function generateRecommendations(predictedSales, growthRate) {
+            let recommendations = '';
+            
+            if (growthRate > 10) {
+                recommendations = `بناءً على تنبؤ النمو القوي (${growthRate.toFixed(1)}%):\n`;
+                recommendations += "1. زيادة المخزون بنسبة 20% استعداداً لموسم الصيف\n";
+                recommendations += "2. تعزيز الحملات التسويقية للوصول لشرائح جديدة\n";
+                recommendations += "3. توقيع عقود مع موردين جدد لضمان التوريد\n";
+                recommendations += "4. توظيف موظفين إضافيين لموسم الذروة\n";
+            } else if (growthRate > 0) {
+                recommendations = `بناءً على تنبؤ النمو المعتدل (${growthRate.toFixed(1)}%):\n`;
+                recommendations += "1. الحفاظ على مستويات المخزون الحالية مع زيادة طفيفة\n";
+                recommendations += "2. التركيز على ولاء العملاء الحاليين\n";
+                recommendations += "3. تحسين تجربة الشراء عبر الإنترنت\n";
+                recommendations += "4. مراجعة أسعار المنتجات التنافسية\n";
+            } else {
+                recommendations = `بناءً على تنبؤ النمو السلبي (${growthRate.toFixed(1)}%):\n`;
+                recommendations += "1. تقليل المخزون لتجنب التراكم\n";
+                recommendations += "2. التركيز على المنتجات الأكثر مبيعاً\n";
+                recommendations += "3. تقديم عروض ترويجية لزيادة المبيعات\n";
+                recommendations += "4. دراسة السوق للتعرف على أسباب التراجع\n";
+            }
+            
+            recommendations += `\nالميزانية المقترحة للتسويق: ${(predictedSales * 0.15).toFixed(1)} ألف ريال (15% من المبيعات المتوقعة)`;
+            
+            document.getElementById('planning').value = recommendations;
+        }
+        
+        // حساب جميع الإحصائيات
+        function calculateAll() {
+            // تحديث جميع المجاميع أولاً
+            const rows = document.querySelectorAll('#timeSeriesTable tbody tr');
+            rows.forEach(row => updateRowTotal(row));
+            
+            // حساب معادلة الاتجاه
+            const trend = calculateTrendLine();
+            
+            // التنبؤ بالمبيعات
+            if (trend) {
+                predictSales();
+            }
+            
+            alert('تم حساب جميع الإحصائيات بنجاح!');
+        }
+        
+        // شرح طريقة الحساب
+        function showTrendExplanation() {
+            const explanation = `
+📊 شرح طريقة حساب معادلة الاتجاه العام:
+
+1. المعادلة: ص = أ س + ب
+   • ص: المبيعات المتوقعة
+   • س: السنة
+   • أ: الميل (معدل التغير السنوي)
+   • ب: الثابت (المبيعات عند السنة صفر)
+
+2. طريقة حساب الميل (أ):
+   أ = (ن∑س ص - ∑س ∑ص) ÷ (ن∑س² - (∑س)²)
+
+3. طريقة حساب الثابت (ب):
+   ب = (∑ص - أ∑س) ÷ ن
+
+4. معامل التحديد (R²):
+   • قيمته بين 0 و 1
+   • كلما اقترب من 1، كانت دقة التنبؤ أفضل
+   • يفسر نسبة التباين في البيانات
+
+✅ تطبيق عملي:
+• استخدام المعادلة للتنبؤ بالمبيعات المستقبلية
+• التخطيط للمخزون والتسويق بناءً على التنبؤات
+• اتخاذ قرارات استراتيجية في العمل
+
+💡 مثال تطبيقي في سوق العمل:
+• متاجر التجزئة: التنبؤ بمبيعات مواسم العروض
+• الشركات الصناعية: تخطيط الإنتاج السنوي
+• المؤسسات الخدمية: توقع الطلب على الخدمات
+            `;
+            
+            alert(explanation);
+        }
+        
+        // حفظ النشاط
+        function saveActivity() {
+            const studentName = document.getElementById('studentName').value;
+            const studentId = document.getElementById('studentId').value;
+            
+            if (!studentName || !studentId) {
+                alert('الرجاء إدخال اسم المتدربة والرقم التدريبي');
+                return;
+            }
+            
+            // جمع بيانات النشاط
+            const activityData = {
+                studentName: studentName,
+                studentId: studentId,
+                activity: "النشاط 6: التنبؤ بمبيعات منتجات الصيف",
+                date: new Date().toLocaleDateString('ar-SA'),
+                years: years,
+                annualSales: annualSales,
+                trendEquation: document.getElementById('trendEquation').value,
+                slope: document.getElementById('slope').value,
+                intercept: document.getElementById('intercept').value,
+                rSquared: document.getElementById('rSquared').value,
+                targetYear: document.getElementById('targetYear').value,
+                predictedSales: document.getElementById('predictedSales').value,
+                growthRate: document.getElementById('growthRate').value,
+                planning: document.getElementById('planning').value,
+                chartData: {
+                    labels: years.map(y => y.toString()),
+                    data: annualSales
+                }
+            };
+            
+            // حفظ في التخزين المحلي
+            localStorage.setItem('statActivity6', JSON.stringify(activityData));
+            
+            // حفظ الأنشطة المكتملة
+            let completedActivities = JSON.parse(localStorage.getItem('completedActivities')) || [];
+            if (!completedActivities.includes(6)) {
+                completedActivities.push(6);
+                localStorage.setItem('completedActivities', JSON.stringify(completedActivities));
+            }
+            
+            // إنشاء ملف للتحميل
+            const blob = new Blob([JSON.stringify(activityData, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `نشاط6_${studentName}_${studentId}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            
+            // تحديث الصفحة الرئيسية
+            if (window.opener) {
+                window.opener.updateActivityProgress();
+            }
+            
+            alert('تم حفظ النشاط بنجاح! تمت إضافته إلى الأنشطة المكتملة.');
+        }
+        
+        // تحميل البيانات المحفوظة
+        function loadSavedData() {
+            const savedData = localStorage.getItem('statActivity6');
+            if (savedData) {
+                try {
+                    const data = JSON.parse(savedData);
+                    
+                    document.getElementById('studentName').value = data.studentName || '';
+                    document.getElementById('studentId').value = data.studentId || '';
+                    
+                    // لا نقوم بتحميل البيانات المعقدة تلقائياً للحفاظ على بساطة الواجهة
+                    // ولكن يمكن إضافة زر "تحميل البيانات السابقة" إذا لزم الأمر
+                    
+                } catch (e) {
+                    console.error('خطأ في تحميل البيانات المحفوظة:', e);
+                }
+            }
+        }
+        
+        // مسح النموذج
+        function clearActivity() {
+            if (confirm('هل أنت متأكدة من مسح جميع البيانات؟')) {
+                // مسح الحقول الأساسية
+                document.getElementById('studentName').value = '';
+                document.getElementById('studentId').value = '';
+                
+                // مسح الجدول وإعادة تهيئته
+                const tbody = document.querySelector('#timeSeriesTable tbody');
+                tbody.innerHTML = '';
+                
+                // إضافة سنوات أولية جديدة
+                addYear(2023);
+                addYear(2024);
+                addYear(2025);
+                
+                // مسح النتائج
+                document.getElementById('slope').value = '0';
+                document.getElementById('intercept').value = '0';
+                document.getElementById('rSquared').value = '0';
+                document.getElementById('trendEquation').value = 'ص = ? س + ?';
+                document.getElementById('trendDirection').value = 'مستقر';
+                document.getElementById('predictedSales').value = '0';
+                document.getElementById('growthRate').value = '0';
+                document.getElementById('monthlyAvg').value = '0';
+                document.getElementById('summerSales').value = '0';
+                document.getElementById('planning').value = '';
+                
+                // تدمير الرسم البياني
+                if (timeSeriesChart) {
+                    timeSeriesChart.destroy();
+                    timeSeriesChart = null;
+                }
+                
+                alert('تم مسح النموذج بنجاح!');
+            }
+        }
     </script>
 </body>
 </html>
