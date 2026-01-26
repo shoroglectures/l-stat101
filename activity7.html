@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ورقة عمل: تحليل تغير أسعار منتجات التجميل</title>
+    <title>النشاط 7: تحليل تغير أسعار منتجات التجميل</title>
     <style>
         * {
             box-sizing: border-box;
@@ -32,6 +32,7 @@
             margin-bottom: 30px;
             border-bottom: 3px solid #006747;
             padding-bottom: 20px;
+            position: relative;
         }
         
         .header h1 {
@@ -42,6 +43,37 @@
         .header h2 {
             color: #666;
             font-weight: normal;
+        }
+        
+        .back-btn {
+            position: absolute;
+            left: 20px;
+            top: 20px;
+            background: #006747;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .back-btn:hover {
+            background: #004d36;
+        }
+        
+        .activity-status {
+            display: inline-block;
+            padding: 5px 15px;
+            background: #ff9800;
+            color: white;
+            border-radius: 20px;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+        
+        .activity-status.completed {
+            background: #4CAF50;
         }
         
         .info-section {
@@ -112,7 +144,7 @@
             background: #f5f5f5;
         }
         
-        input[type="text"], input[type="number"], select {
+        input[type="text"], input[type="number"], select, textarea {
             width: 100%;
             padding: 8px;
             border: 1px solid #ddd;
@@ -157,11 +189,14 @@
             cursor: pointer;
             font-size: 16px;
             margin: 10px;
-            transition: background 0.3s;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
         }
         
         .btn:hover {
             background: #004d36;
+            transform: translateY(-2px);
         }
         
         .btn-index {
@@ -178,6 +213,22 @@
         
         .btn-reset:hover {
             background: #d32f2f;
+        }
+        
+        .btn-next {
+            background: #4CAF50;
+        }
+        
+        .btn-next:hover {
+            background: #388E3C;
+        }
+        
+        .btn-print {
+            background: #2196f3;
+        }
+        
+        .btn-print:hover {
+            background: #0b7dda;
         }
         
         .btn-container {
@@ -243,6 +294,14 @@
                 display: block;
                 overflow-x: auto;
             }
+            
+            .back-btn {
+                position: relative;
+                left: auto;
+                top: auto;
+                margin-bottom: 15px;
+                display: inline-block;
+            }
         }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -250,8 +309,13 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>ورقة عمل: تحليل تغير أسعار منتجات التجميل</h1>
+            <a href="index.html" class="back-btn">← العودة للرئيسية</a>
+            <h1>النشاط 7: تحليل تغير أسعار منتجات التجميل</h1>
             <h2>(الأرقام القياسية - نسبة التغير - التحليل الزمني)</h2>
+            <div style="margin-top: 10px;">
+                <span>حالة النشاط: </span>
+                <span class="activity-status" id="activityStatus">⏳ غير مكتمل</span>
+            </div>
         </div>
         
         <!-- المعلومات الأساسية -->
@@ -482,38 +546,145 @@
         <!-- أزرار التحكم -->
         <div class="btn-container">
             <button class="btn" onclick="calculateAllIndices()">حساب الكل</button>
-            <button class="btn" onclick="saveActivity()">حفظ النشاط</button>
-            <button class="btn" onclick="window.print()">طباعة الورقة</button>
-            <button class="btn btn-reset" onclick="clearActivity()">مسح النموذج</button>
+            <button class="btn" onclick="saveActivity(7)">حفظ النشاط</button>
+            <button class="btn btn-print" onclick="window.print()">طباعة الورقة</button>
+            <a href="index.html" class="btn">العودة للرئيسية</a>
+            <!-- إذا كان هناك نشاط 8، يمكنك إضافة الرابط هنا -->
+            <!-- <a href="activity8.html" class="btn btn-next">النشاط التالي →</a> -->
         </div>
     </div>
 
     <script>
-        // المتغيرات العامة
+        // ====================
+        // متغيرات عامة للنشاط
+        // ====================
+        const ACTIVITY_NUMBER = 7;
         let products = [];
         let indexChart = null;
         
+        // ====================
         // تهيئة الصفحة عند التحميل
+        // ====================
         document.addEventListener('DOMContentLoaded', function() {
+            initializeActivity();
+            updateActivityStatus();
+        });
+        
+        // ====================
+        // تهيئة النشاط
+        // ====================
+        function initializeActivity() {
             // تعيين التاريخ الحالي
             const today = new Date();
             document.getElementById('activityDate').value = today.toLocaleDateString('ar-SA');
             
-            // إضافة منتجات أولية
-            addProduct("أحمر شفاه", 45, 48, 52, 150, 145, 140);
-            addProduct("كريم أساس", 85, 90, 95, 80, 85, 90);
-            addProduct("ماسكارا", 35, 38, 42, 200, 210, 220);
-            addProduct("ظل عيون", 60, 65, 70, 120, 125, 130);
-            addProduct("مرطب شفاه", 25, 27, 30, 180, 190, 200);
-            
-            // تحميل البيانات المحفوظة إن وجدت
+            // تحميل البيانات المحفوظة
             loadSavedData();
             
-            // حساب المؤشرات الأولية
-            setTimeout(calculateAllIndices, 500);
-        });
+            // إضافة منتجات أولية إذا لم تكن هناك بيانات محفوظة
+            if (!document.getElementById('studentName').value) {
+                addProduct("أحمر شفاه", 45, 48, 52, 150, 145, 140);
+                addProduct("كريم أساس", 85, 90, 95, 80, 85, 90);
+                addProduct("ماسكارا", 35, 38, 42, 200, 210, 220);
+                addProduct("ظل عيون", 60, 65, 70, 120, 125, 130);
+                addProduct("مرطب شفاه", 25, 27, 30, 180, 190, 200);
+                
+                // حساب المؤشرات الأولية
+                setTimeout(calculateAllIndices, 500);
+            }
+        }
         
+        // ====================
+        // تحميل البيانات المحفوظة
+        // ====================
+        function loadSavedData() {
+            const savedData = localStorage.getItem(`activity${ACTIVITY_NUMBER}_data`);
+            
+            if (savedData) {
+                try {
+                    const data = JSON.parse(savedData);
+                    
+                    // تعبئة الحقول الأساسية
+                    document.getElementById('studentName').value = data.studentName || '';
+                    document.getElementById('studentId').value = data.studentId || '';
+                    document.getElementById('recommendations').value = data.recommendations || '';
+                    document.getElementById('pricingDecision').value = data.pricingDecision || '';
+                    
+                    // تعبئة بيانات المنتجات إذا كانت موجودة
+                    if (data.products && data.products.length > 0) {
+                        products = data.products;
+                        updateProductsTable();
+                    }
+                    
+                    // تعبئة نتائج الحساب إذا كانت موجودة
+                    if (data.indices) {
+                        document.getElementById('simpleIndex2024').value = data.indices.simpleIndex2024 || '0%';
+                        document.getElementById('simpleIndex2025').value = data.indices.simpleIndex2025 || '0%';
+                        document.getElementById('aggregateIndex2024').value = data.indices.aggregateIndex2024 || '0%';
+                        document.getElementById('aggregateIndex2025').value = data.indices.aggregateIndex2025 || '0%';
+                        document.getElementById('laspeyres2024').value = data.indices.laspeyres2024 || '0%';
+                        document.getElementById('laspeyres2025').value = data.indices.laspeyres2025 || '0%';
+                        document.getElementById('paasche2024').value = data.indices.paasche2024 || '0%';
+                        document.getElementById('paasche2025').value = data.indices.paasche2025 || '0%';
+                        document.getElementById('fisher2024').value = data.indices.fisher2024 || '0%';
+                        document.getElementById('fisher2025').value = data.indices.fisher2025 || '0%';
+                    }
+                    
+                    // تعبئة نتائج التحليل إذا كانت موجودة
+                    if (data.analysis) {
+                        document.getElementById('avgAnnualChange').value = data.analysis.avgAnnualChange || '0%';
+                        document.getElementById('fastestIncrease').value = data.analysis.fastestIncrease || '-';
+                        document.getElementById('fastestIncreaseRate').value = data.analysis.fastestIncreaseRate || '0%';
+                        document.getElementById('highestInflationYear').value = data.analysis.highestInflationYear || '-';
+                        document.getElementById('inflationRateEstimate').value = data.analysis.inflationRateEstimate || '0%';
+                        document.getElementById('salaryIncrease').value = data.analysis.salaryIncrease || '0%';
+                        
+                        // تحديث تفسير التضخم إذا كان موجوداً
+                        if (data.analysis.inflationImpact) {
+                            document.getElementById('inflationImpact').value = data.analysis.inflationImpact;
+                        }
+                        if (data.analysis.avgChangeInterpretation) {
+                            document.getElementById('avgChangeInterpretation').value = data.analysis.avgChangeInterpretation;
+                        }
+                    }
+                    
+                    // تحديث توصيات التسعير
+                    if (data.pricingDecision) {
+                        updatePricingRecommendation();
+                    }
+                    
+                    // رسم الرسم البياني إذا كانت هناك بيانات كافية
+                    if (data.indices && products.length > 0) {
+                        const simple2024 = parseFloat(data.indices.simpleIndex2024) || 0;
+                        const simple2025 = parseFloat(data.indices.simpleIndex2025) || 0;
+                        const laspeyres2024 = parseFloat(data.indices.laspeyres2024) || 0;
+                        const laspeyres2025 = parseFloat(data.indices.laspeyres2025) || 0;
+                        const paasche2024 = parseFloat(data.indices.paasche2024) || 0;
+                        const paasche2025 = parseFloat(data.indices.paasche2025) || 0;
+                        
+                        if (simple2024 > 0 || simple2025 > 0) {
+                            drawIndexChart(simple2024, simple2025, laspeyres2024, laspeyres2025, paasche2024, paasche2025);
+                        }
+                    }
+                    
+                    console.log(`تم تحميل بيانات النشاط ${ACTIVITY_NUMBER}`);
+                    
+                } catch (e) {
+                    console.error('خطأ في تحميل البيانات المحفوظة:', e);
+                    // البيانات الافتراضية في حالة الخطأ
+                    products = [];
+                    addProduct("أحمر شفاه", 45, 48, 52, 150, 145, 140);
+                    addProduct("كريم أساس", 85, 90, 95, 80, 85, 90);
+                    addProduct("ماسكارا", 35, 38, 42, 200, 210, 220);
+                    addProduct("ظل عيون", 60, 65, 70, 120, 125, 130);
+                    addProduct("مرطب شفاه", 25, 27, 30, 180, 190, 200);
+                }
+            }
+        }
+        
+        // ====================
         // إضافة منتج جديد
+        // ====================
         function addProduct(name = "", price1 = 0, price2 = 0, price3 = 0, qty1 = 0, qty2 = 0, qty3 = 0) {
             products.push({
                 name: name || `منتج ${products.length + 1}`,
@@ -525,7 +696,9 @@
             return products[products.length - 1];
         }
         
+        // ====================
         // تحديث جدول المنتجات
+        // ====================
         function updateProductsTable() {
             const tbody = document.getElementById('productsTableBody');
             tbody.innerHTML = '';
@@ -594,7 +767,9 @@
             document.getElementById('avgChange3').value = avgChange3.toFixed(1) + '%';
         }
         
+        // ====================
         // تحديث بيانات المنتج
+        // ====================
         function updateProductName(index, name) {
             if (products[index]) {
                 products[index].name = name;
@@ -617,7 +792,9 @@
             }
         }
         
+        // ====================
         // توليد بيانات نموذجية
+        // ====================
         function generateSampleData() {
             products = [];
             
@@ -639,11 +816,13 @@
             alert('تم توليد بيانات 7 منتجات نموذجية بنجاح!');
         }
         
+        // ====================
         // حساب جميع المؤشرات
+        // ====================
         function calculateAllIndices() {
             if (products.length === 0) {
                 alert('الرجاء إضافة منتجات أولاً');
-                return;
+                return null;
             }
             
             // 1. حساب الرقم القياسي البسيط (المتوسط الهندسي)
@@ -682,7 +861,7 @@
             document.getElementById('fisher2025').value = fisher2025 + '%';
             
             // تحليل إضافي
-            performAdvancedAnalysis(simpleIndex2024, simpleIndex2025, laspeyres2025);
+            const analysisResults = performAdvancedAnalysis(simpleIndex2024, simpleIndex2025, laspeyres2025);
             
             // رسم الرسم البياني
             drawIndexChart(simpleIndex2024, simpleIndex2025, laspeyres2024, laspeyres2025, paasche2024, paasche2025);
@@ -692,11 +871,14 @@
                 aggregateIndex2024, aggregateIndex2025,
                 laspeyres2024, laspeyres2025,
                 paasche2024, paasche2025,
-                fisher2024, fisher2025
+                fisher2024, fisher2025,
+                analysisResults
             };
         }
         
+        // ====================
         // حساب الرقم القياسي البسيط (المتوسط الهندسي للتغيرات)
+        // ====================
         function calculateSimpleIndex(yearIndex, baseYearIndex) {
             if (products.length === 0) return 0;
             
@@ -720,7 +902,9 @@
             return (geometricMean * 100).toFixed(2);
         }
         
+        // ====================
         // حساب الرقم القياسي التجميعي البسيط
+        // ====================
         function calculateAggregateIndex(yearIndex, baseYearIndex) {
             if (products.length === 0) return 0;
             
@@ -737,7 +921,9 @@
             return ((sumCurrent / sumBase) * 100).toFixed(2);
         }
         
+        // ====================
         // حساب مؤشر لاسبير (الأسعار الحالية × كميات سنة الأساس)
+        // ====================
         function calculateLaspeyresIndex(yearIndex, baseYearIndex) {
             if (products.length === 0) return 0;
             
@@ -758,7 +944,9 @@
             return ((sumCurrentPriceBaseQty / sumBasePriceBaseQty) * 100).toFixed(2);
         }
         
+        // ====================
         // حساب مؤشر باش (الأسعار الحالية × كميات السنة الحالية)
+        // ====================
         function calculatePaascheIndex(yearIndex, baseYearIndex) {
             if (products.length === 0) return 0;
             
@@ -779,7 +967,9 @@
             return ((sumCurrentPriceCurrentQty / sumBasePriceCurrentQty) * 100).toFixed(2);
         }
         
+        // ====================
         // تحليل متقدم للبيانات
+        // ====================
         function performAdvancedAnalysis(simpleIndex2024, simpleIndex2025, laspeyres2025) {
             // 1. متوسط نسبة التغير السنوي
             const totalChange = parseFloat(simpleIndex2025) - 100;
@@ -845,9 +1035,22 @@
             
             // 6. توليد توصيات تلقائية
             generateRecommendations(estimatedInflation, fastestProduct);
+            
+            return {
+                avgAnnualChange,
+                interpretation,
+                fastestProduct,
+                highestYear,
+                highestRate,
+                estimatedInflation,
+                inflationImpact,
+                salaryIncrease
+            };
         }
         
+        // ====================
         // توليد توصيات تلقائية
+        // ====================
         function generateRecommendations(inflationRate, fastestProduct) {
             let recommendations = `بناءً على تحليل الأرقام القياسية:\n\n`;
             
@@ -885,9 +1088,13 @@
             }
             
             document.getElementById('recommendations').value = recommendations;
+            
+            return recommendations;
         }
         
+        // ====================
         // رسم الرسم البياني للمؤشرات
+        // ====================
         function drawIndexChart(simple2024, simple2025, laspeyres2024, laspeyres2025, paasche2024, paasche2025) {
             const ctx = document.getElementById('indexChart').getContext('2d');
             
@@ -992,7 +1199,9 @@
             });
         }
         
+        // ====================
         // تحديث توصيات التسعير
+        // ====================
         function updatePricingRecommendation() {
             const decision = document.getElementById('pricingDecision').value;
             const explanationDiv = document.getElementById('pricingExplanation');
@@ -1025,7 +1234,9 @@
             }
         }
         
+        // ====================
         // شرح أنواع المؤشرات
+        // ====================
         function showIndexExplanation() {
             const explanation = `
 📊 **شرح أنواع الأرقام القياسية:**
@@ -1065,22 +1276,25 @@
             alert(explanation);
         }
         
+        // ====================
         // حفظ النشاط
-        function saveActivity() {
-            const studentName = document.getElementById('studentName').value;
-            const studentId = document.getElementById('studentId').value;
+        // ====================
+        function saveActivity(activityNumber) {
+            const studentName = document.getElementById('studentName').value.trim();
+            const studentId = document.getElementById('studentId').value.trim();
             
             if (!studentName || !studentId) {
                 alert('الرجاء إدخال اسم المتدربة والرقم التدريبي');
                 return;
             }
             
-            // جمع بيانات النشاط
+            // حساب جميع المؤشرات
+            const indices = calculateAllIndices();
+            
+            // تجميع بيانات النشاط
             const activityData = {
                 studentName: studentName,
                 studentId: studentId,
-                activity: "النشاط 7: تحليل تغير أسعار منتجات التجميل",
-                date: new Date().toLocaleDateString('ar-SA'),
                 products: products,
                 indices: {
                     simpleIndex2024: document.getElementById('simpleIndex2024').value,
@@ -1096,79 +1310,121 @@
                 },
                 analysis: {
                     avgAnnualChange: document.getElementById('avgAnnualChange').value,
+                    avgChangeInterpretation: document.getElementById('avgChangeInterpretation').value,
                     fastestIncrease: document.getElementById('fastestIncrease').value,
+                    fastestIncreaseRate: document.getElementById('fastestIncreaseRate').value,
                     highestInflationYear: document.getElementById('highestInflationYear').value,
+                    inflationRate: document.getElementById('inflationRate').value,
                     inflationRateEstimate: document.getElementById('inflationRateEstimate').value,
+                    inflationImpact: document.getElementById('inflationImpact').value,
                     salaryIncrease: document.getElementById('salaryIncrease').value
                 },
                 recommendations: document.getElementById('recommendations').value,
-                pricingDecision: document.getElementById('pricingDecision').value
+                pricingDecision: document.getElementById('pricingDecision').value,
+                completionDate: new Date().toLocaleDateString('ar-SA'),
+                activityNumber: activityNumber
             };
             
-            // حفظ في التخزين المحلي
-            localStorage.setItem('statActivity7', JSON.stringify(activityData));
+            // حفظ في localStorage
+            localStorage.setItem(`activity${activityNumber}_data`, JSON.stringify(activityData, null, 2));
             
-            // حفظ الأنشطة المكتملة
-            let completedActivities = JSON.parse(localStorage.getItem('completedActivities')) || [];
-            if (!completedActivities.includes(7)) {
-                completedActivities.push(7);
-                localStorage.setItem('completedActivities', JSON.stringify(completedActivities));
+            // تحديث قائمة الأنشطة المكتملة
+            let completed = JSON.parse(localStorage.getItem('completedActivities')) || [];
+            if (!completed.includes(activityNumber)) {
+                completed.push(activityNumber);
+                localStorage.setItem('completedActivities', JSON.stringify(completed));
             }
             
+            // تحديث حالة النشاط
+            updateActivityStatus();
+            
             // إنشاء ملف للتحميل
-            const blob = new Blob([JSON.stringify(activityData, null, 2)], { type: 'application/json' });
+            createDownloadFile(activityData, activityNumber, studentName, studentId);
+            
+            // إشعار للمستخدم
+            showSuccessMessage(activityNumber, completed.length);
+        }
+        
+        // ====================
+        // تحديث حالة النشاط
+        // ====================
+        function updateActivityStatus() {
+            const savedData = localStorage.getItem(`activity${ACTIVITY_NUMBER}_data`);
+            const statusElement = document.getElementById('activityStatus');
+            
+            if (savedData) {
+                statusElement.textContent = '✅ مكتمل';
+                statusElement.classList.add('completed');
+            } else {
+                statusElement.textContent = '⏳ غير مكتمل';
+                statusElement.classList.remove('completed');
+            }
+        }
+        
+        // ====================
+        // إنشاء ملف للتحميل
+        // ====================
+        function createDownloadFile(data, activityNumber, studentName, studentId) {
+            const blob = new Blob([JSON.stringify(data, null, 2)], { 
+                type: 'application/json' 
+            });
+            
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = `نشاط7_${studentName}_${studentId}.json`;
+            a.download = `نشاط${activityNumber}_${studentName}_${studentId}.json`;
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
-            
-            // تحديث الصفحة الرئيسية
-            if (window.opener) {
-                window.opener.updateActivityProgress();
-            }
-            
-            alert('تم حفظ النشاط بنجاح! تمت إضافته إلى الأنشطة المكتملة.');
+            URL.revokeObjectURL(url);
         }
         
-        // تحميل البيانات المحفوظة
-        function loadSavedData() {
-            const savedData = localStorage.getItem('statActivity7');
-            if (savedData) {
-                try {
-                    const data = JSON.parse(savedData);
-                    
-                    document.getElementById('studentName').value = data.studentName || '';
-                    document.getElementById('studentId').value = data.studentId || '';
-                    
-                    // يمكن إضافة خيار لتحميل البيانات الكاملة لاحقاً
-                    
-                } catch (e) {
-                    console.error('خطأ في تحميل البيانات المحفوظة:', e);
-                }
-            }
+        // ====================
+        // عرض رسالة النجاح
+        // ====================
+        function showSuccessMessage(activityNumber, completedCount) {
+            const message = `✅ تم حفظ النشاط ${activityNumber} بنجاح!\n\n` +
+                          `📊 أنشطة مكتملة: ${completedCount}/7\n\n` +
+                          `📈 تم حساب جميع الأرقام القياسية\n` +
+                          `💰 تم تحديد معدل التضخم: ${document.getElementById('inflationRateEstimate').value}\n` +
+                          `💼 تم إنشاء توصيات عملية\n` +
+                          `💾 تم حفظ البيانات في جهازك\n` +
+                          `📄 تم تحميل نسخة احتياطية`;
+            
+            alert(message);
         }
         
-        // مسح النموذج
+        // ====================
+        // مسح النشاط
+        // ====================
         function clearActivity() {
-            if (confirm('هل أنت متأكدة من مسح جميع البيانات؟')) {
-                // مسح الحقول الأساسية
+            if (confirm('هل أنت متأكدة من مسح جميع بيانات النشاط؟')) {
+                localStorage.removeItem(`activity${ACTIVITY_NUMBER}_data`);
+                
+                // تحديث قائمة الأنشطة المكتملة
+                let completed = JSON.parse(localStorage.getItem('completedActivities')) || [];
+                const index = completed.indexOf(ACTIVITY_NUMBER);
+                if (index > -1) {
+                    completed.splice(index, 1);
+                    localStorage.setItem('completedActivities', JSON.stringify(completed));
+                }
+                
+                // إعادة تعيين النموذج
                 document.getElementById('studentName').value = '';
                 document.getElementById('studentId').value = '';
+                document.getElementById('recommendations').value = '';
+                document.getElementById('pricingDecision').value = '';
+                document.getElementById('pricingExplanation').style.display = 'none';
                 
-                // مسح المنتجات وإعادة تهيئتها
+                // إعادة تعيين المنتجات
                 products = [];
-                
-                // إضافة منتجات أولية جديدة
                 addProduct("أحمر شفاه", 45, 48, 52, 150, 145, 140);
                 addProduct("كريم أساس", 85, 90, 95, 80, 85, 90);
                 addProduct("ماسكارا", 35, 38, 42, 200, 210, 220);
                 addProduct("ظل عيون", 60, 65, 70, 120, 125, 130);
                 addProduct("مرطب شفاه", 25, 27, 30, 180, 190, 200);
                 
-                // مسح النتائج
+                // إعادة تعيين نتائج الحساب
                 document.getElementById('simpleIndex2024').value = '0%';
                 document.getElementById('simpleIndex2025').value = '0%';
                 document.getElementById('aggregateIndex2024').value = '0%';
@@ -1181,6 +1437,7 @@
                 document.getElementById('fisher2025').value = '0%';
                 
                 document.getElementById('avgAnnualChange').value = '0%';
+                document.getElementById('avgChangeInterpretation').value = 'تحليل...';
                 document.getElementById('fastestIncrease').value = '-';
                 document.getElementById('fastestIncreaseRate').value = '0%';
                 document.getElementById('highestInflationYear').value = '-';
@@ -1188,9 +1445,6 @@
                 document.getElementById('inflationRateEstimate').value = '0%';
                 document.getElementById('inflationImpact').value = 'تأثير...';
                 document.getElementById('salaryIncrease').value = '0%';
-                document.getElementById('recommendations').value = '';
-                document.getElementById('pricingDecision').value = '';
-                document.getElementById('pricingExplanation').style.display = 'none';
                 
                 // تدمير الرسم البياني
                 if (indexChart) {
@@ -1198,7 +1452,9 @@
                     indexChart = null;
                 }
                 
-                alert('تم مسح النموذج بنجاح!');
+                updateActivityStatus();
+                
+                alert('تم مسح بيانات النشاط بنجاح');
             }
         }
     </script>
