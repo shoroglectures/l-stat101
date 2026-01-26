@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ورقة عمل: جمع بيانات السوق النسائي</title>
+    <title>النشاط 1: جمع بيانات السوق النسائي</title>
     <style>
         * {
             box-sizing: border-box;
@@ -32,6 +32,7 @@
             margin-bottom: 30px;
             border-bottom: 3px solid #006747;
             padding-bottom: 20px;
+            position: relative;
         }
         
         .header h1 {
@@ -42,6 +43,23 @@
         .header h2 {
             color: #666;
             font-weight: normal;
+        }
+        
+        .back-btn {
+            position: absolute;
+            left: 20px;
+            top: 20px;
+            background: #006747;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .back-btn:hover {
+            background: #004d36;
         }
         
         .info-section {
@@ -112,7 +130,7 @@
             background: #f5f5f5;
         }
         
-        input[type="text"], input[type="number"], select {
+        input[type="text"], input[type="number"], select, textarea {
             width: 100%;
             padding: 8px;
             border: 1px solid #ddd;
@@ -150,11 +168,14 @@
             cursor: pointer;
             font-size: 16px;
             margin: 10px;
-            transition: background 0.3s;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
         }
         
         .btn:hover {
             background: #004d36;
+            transform: translateY(-2px);
         }
         
         .btn-print {
@@ -165,9 +186,27 @@
             background: #0b7dda;
         }
         
+        .btn-next {
+            background: #4CAF50;
+        }
+        
+        .btn-next:hover {
+            background: #388E3C;
+        }
+        
         .btn-container {
             text-align: center;
             margin-top: 30px;
+        }
+        
+        .activity-status {
+            display: inline-block;
+            padding: 5px 15px;
+            background: #4CAF50;
+            color: white;
+            border-radius: 20px;
+            font-weight: bold;
+            margin-left: 10px;
         }
         
         @media print {
@@ -181,8 +220,13 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>ورقة عمل: جمع بيانات السوق النسائي</h1>
+            <a href="index.html" class="back-btn">← العودة للرئيسية</a>
+            <h1>النشاط 1: جمع بيانات السوق النسائي</h1>
             <h2>(تصميم الاستبيان - جمع البيانات - تحليل العينات)</h2>
+            <div style="margin-top: 10px;">
+                <span>حالة النشاط: </span>
+                <span class="activity-status" id="activityStatus">⏳ غير مكتمل</span>
+            </div>
         </div>
         
         <!-- المعلومات الأساسية -->
@@ -246,7 +290,7 @@
                         <th>خيارات الإجابة</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="questionsTable">
                     <tr>
                         <td>1</td>
                         <td><input type="text" placeholder="سؤال مغلق" value="سؤال مغلق"></td>
@@ -259,20 +303,9 @@
                         <td><input type="text" placeholder="ما هي العوامل التي تؤثر على اختيارك؟"></td>
                         <td><input type="text" placeholder="إجابة حرة"></td>
                     </tr>
-                    <tr>
-                        <td>3</td>
-                        <td><input type="text" placeholder="مقياس ليكرت" value="مقياس ليكرت"></td>
-                        <td><input type="text" placeholder="ما مدى رضاك عن المنتج؟"></td>
-                        <td><input type="text" placeholder="غير راض، محايد، راض، راض جدا"></td>
-                    </tr>
-                    <tr>
-                        <td>4</td>
-                        <td><input type="text" placeholder="سؤال تصنيفي" value="سؤال تصنيفي"></td>
-                        <td><input type="text" placeholder="ما هي فئتك العمرية؟"></td>
-                        <td><input type="text" placeholder="18-25، 26-35، 36-45"></td>
-                    </tr>
                 </tbody>
             </table>
+            <button class="btn" onclick="addQuestion()" style="margin-top: 10px;">+ إضافة سؤال جديد</button>
         </div>
         
         <!-- الجزء الثاني: مصادر جمع البيانات -->
@@ -289,54 +322,23 @@
                         <th>البيانات المتوقعة</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="sourcesTable">
                     <tr>
                         <td>1</td>
-                        <td><input type="text" placeholder="تقارير رسمية"></td>
+                        <td><input type="text" placeholder="تقارير رسمية" value="تقارير رسمية"></td>
                         <td><input type="text" placeholder="هيئة الغذاء والدواء"></td>
                         <td><input type="text" placeholder="معدلات استهلاك المنتجات"></td>
                     </tr>
-                    <tr>
-                        <td>2</td>
-                        <td><input type="text" placeholder="دراسات سابقة"></td>
-                        <td><input type="text" placeholder="بحث جامعة الملك سعود"></td>
-                        <td><input type="text" placeholder="اتجاهات السوق"></td>
-                    </tr>
                 </tbody>
             </table>
-            
-            <h4>المصادر الميدانية (الأولية):</h4>
-            <table>
-                <thead>
-                    <tr>
-                        <th>طريقة الجمع</th>
-                        <th>المزايا</th>
-                        <th>العيوب</th>
-                        <th>الملاءمة لموضوعك</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>المقابلة الشخصية</td>
-                        <td><input type="text" placeholder="دقة عالية"></td>
-                        <td><input type="text" placeholder="تكاليف عالية"></td>
-                        <td><select><option>مناسبة</option><option>غير مناسبة</option></select></td>
-                    </tr>
-                    <tr>
-                        <td>الاستبيان الإلكتروني</td>
-                        <td><input type="text" placeholder="سرعة التوزيع"></td>
-                        <td><input type="text" placeholder="معدل استجابة منخفض"></td>
-                        <td><select><option>مناسبة</option><option>غير مناسبة</option></select></td>
-                    </tr>
-                </tbody>
-            </table>
+            <button class="btn" onclick="addSource()" style="margin-top: 10px;">+ إضافة مصدر جديد</button>
         </div>
         
         <!-- الجزء الثالث: جمع البيانات الفعلي -->
         <div class="section">
             <h3>الجزء الثالث: جمع البيانات الفعلي</h3>
             
-            <h4>بيانات العينة (أدخلي بيانات 10 مشاركات):</h4>
+            <h4>بيانات العينة (أدخلي بيانات 5 مشاركات كحد أدنى):</h4>
             <table>
                 <thead>
                     <tr>
@@ -377,14 +379,8 @@
                         <td><input type="number" id="countSatisfaction" readonly></td>
                     </tr>
                     <tr>
-                        <td>المجموع</td>
-                        <td><input type="number" id="sumAge" readonly></td>
-                        <td><input type="number" id="sumPrice" readonly></td>
-                        <td><input type="number" id="sumSatisfaction" readonly></td>
-                    </tr>
-                    <tr>
                         <td>المتوسط الحسابي</td>
-                        <td><input type="number" id="avgAge" readonly></td>
+                        <td><input type="text" id="avgAge" readonly value="-"></td>
                         <td><input type="number" id="avgPrice" readonly></td>
                         <td><input type="number" id="avgSatisfaction" readonly></td>
                     </tr>
@@ -406,27 +402,139 @@
             <h3>تعليمات التسليم:</h3>
             <ol>
                 <li>املئي جميع أجزاء ورقة العمل بدقة</li>
-                <li>احفظي الورقة بإسم: "اسمك_النشاط1_إحص101"</li>
+                <li>احفظي الورقة قبل المغادرة ليتم حفظ تقدمك</li>
                 <li>تأكدي من صحة جميع الحسابات الإحصائية</li>
-                <li>ارفعي الملف على منصة التدريب قبل الموعد النهائي</li>
-                <li>احتفظي بنسخة من البيانات المجمعة للاستخدام في الأنشطة القادمة</li>
+                <li>يمكنك العودة للنشاط لاحقاً لاستكماله</li>
             </ol>
         </div>
         
         <!-- أزرار التحكم -->
         <div class="btn-container">
             <button class="btn" onclick="calculateStatistics()">حساب الإحصائيات</button>
-            <button class="btn" onclick="saveActivity()">حفظ النشاط</button>
+            <button class="btn" onclick="saveActivity(1)">حفظ النشاط</button>
             <button class="btn btn-print" onclick="window.print()">طباعة الورقة</button>
-            <button class="btn" onclick="clearActivity()">مسح النموذج</button>
+            <a href="index.html" class="btn">العودة للرئيسية</a>
+            <a href="activity2.html" class="btn btn-next">النشاط التالي →</a>
         </div>
     </div>
 
     <script>
-        // بيانات أولية للعينة
-        let sampleRows = 3;
+        // ====================
+        // متغيرات عامة للنشاط
+        // ====================
+        const ACTIVITY_NUMBER = 1;
+        let sampleRows = 0;
         
-        // تهيئة الجدول ببيانات أولية
+        // ====================
+        // تهيئة الصفحة عند التحميل
+        // ====================
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeActivity();
+            updateActivityStatus();
+        });
+        
+        // ====================
+        // تهيئة النشاط
+        // ====================
+        function initializeActivity() {
+            // تحميل البيانات المحفوظة
+            loadSavedData();
+            
+            // تهيئة جداول البيانات
+            initializeSampleTable();
+            initializeQuestionsTable();
+            initializeSourcesTable();
+            
+            // حساب الإحصائيات الأولية
+            calculateStatistics();
+        }
+        
+        // ====================
+        // تحميل البيانات المحفوظة
+        // ====================
+        function loadSavedData() {
+            const savedData = localStorage.getItem(`activity${ACTIVITY_NUMBER}_data`);
+            
+            if (savedData) {
+                try {
+                    const data = JSON.parse(savedData);
+                    
+                    // تعبئة الحقول الأساسية
+                    document.getElementById('studentName').value = data.studentName || '';
+                    document.getElementById('studentId').value = data.studentId || '';
+                    document.getElementById('studyTopic').value = data.studyTopic || '';
+                    document.getElementById('studyPopulation').value = data.studyPopulation || '';
+                    document.getElementById('sampleSize').value = data.sampleSize || '';
+                    document.getElementById('conclusions').value = data.conclusions || '';
+                    
+                    // تعبئة أسئلة الاستبيان
+                    if (data.questions && data.questions.length > 0) {
+                        const tbody = document.getElementById('questionsTable');
+                        tbody.innerHTML = '';
+                        
+                        data.questions.forEach((question, index) => {
+                            const row = document.createElement('tr');
+                            row.innerHTML = `
+                                <td>${index + 1}</td>
+                                <td><input type="text" value="${question.type || ''}"></td>
+                                <td><input type="text" value="${question.example || ''}"></td>
+                                <td><input type="text" value="${question.options || ''}"></td>
+                            `;
+                            tbody.appendChild(row);
+                        });
+                    }
+                    
+                    // تعبئة مصادر البيانات
+                    if (data.sources && data.sources.length > 0) {
+                        const tbody = document.getElementById('sourcesTable');
+                        tbody.innerHTML = '';
+                        
+                        data.sources.forEach((source, index) => {
+                            const row = document.createElement('tr');
+                            row.innerHTML = `
+                                <td>${index + 1}</td>
+                                <td><input type="text" value="${source.sourceType || ''}"></td>
+                                <td><input type="text" value="${source.sourceName || ''}"></td>
+                                <td><input type="text" value="${source.expectedData || ''}"></td>
+                            `;
+                            tbody.appendChild(row);
+                        });
+                    }
+                    
+                    // تعبئة بيانات العينة
+                    if (data.sampleData && data.sampleData.length > 0) {
+                        const tbody = document.getElementById('sampleData');
+                        tbody.innerHTML = '';
+                        
+                        data.sampleData.forEach((sample, index) => {
+                            const row = document.createElement('tr');
+                            row.innerHTML = `
+                                <td>${index + 1}</td>
+                                <td><select><option ${sample.age === '18-25' ? 'selected' : ''}>18-25</option><option ${sample.age === '26-35' ? 'selected' : ''}>26-35</option><option ${sample.age === '36-45' ? 'selected' : ''}>36-45</option></select></td>
+                                <td><input type="text" value="${sample.product || ''}"></td>
+                                <td><input type="number" value="${sample.price || ''}" min="10" max="200"></td>
+                                <td><select><option ${sample.satisfaction === 1 ? 'selected' : ''}>1</option><option ${sample.satisfaction === 2 ? 'selected' : ''}>2</option><option ${sample.satisfaction === 3 ? 'selected' : ''}>3</option><option ${sample.satisfaction === 4 ? 'selected' : ''}>4</option><option ${sample.satisfaction === 5 ? 'selected' : ''}>5</option></select></td>
+                            `;
+                            tbody.appendChild(row);
+                        });
+                        
+                        sampleRows = data.sampleData.length;
+                    }
+                    
+                    console.log(`تم تحميل بيانات النشاط ${ACTIVITY_NUMBER}`);
+                    
+                } catch (e) {
+                    console.error('خطأ في تحميل البيانات المحفوظة:', e);
+                    initializeSampleTable(); // البيانات الافتراضية في حالة الخطأ
+                }
+            } else {
+                initializeSampleTable(); // البيانات الافتراضية
+            }
+        }
+        
+        // ====================
+        // تهيئة جدول العينات
+        // ====================
         function initializeSampleTable() {
             const sampleData = [
                 { age: '18-25', product: 'أحمر شفاه', price: 45, satisfaction: 4 },
@@ -450,10 +558,61 @@
             });
             
             sampleRows = sampleData.length;
-            calculateStatistics();
         }
         
+        // ====================
+        // تهيئة جدول الأسئلة
+        // ====================
+        function initializeQuestionsTable() {
+            const tbody = document.getElementById('questionsTable');
+            // بيانات أولية موجودة بالفعل في HTML
+        }
+        
+        // ====================
+        // تهيئة جدول المصادر
+        // ====================
+        function initializeSourcesTable() {
+            const tbody = document.getElementById('sourcesTable');
+            // بيانات أولية موجودة بالفعل في HTML
+        }
+        
+        // ====================
+        // إضافة سؤال جديد
+        // ====================
+        function addQuestion() {
+            const tbody = document.getElementById('questionsTable');
+            const rowCount = tbody.querySelectorAll('tr').length;
+            
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${rowCount + 1}</td>
+                <td><input type="text" placeholder="نوع السؤال"></td>
+                <td><input type="text" placeholder="صياغة السؤال"></td>
+                <td><input type="text" placeholder="خيارات الإجابة"></td>
+            `;
+            tbody.appendChild(row);
+        }
+        
+        // ====================
+        // إضافة مصدر جديد
+        // ====================
+        function addSource() {
+            const tbody = document.getElementById('sourcesTable');
+            const rowCount = tbody.querySelectorAll('tr').length;
+            
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${rowCount + 1}</td>
+                <td><input type="text" placeholder="نوع المصدر"></td>
+                <td><input type="text" placeholder="اسم المصدر"></td>
+                <td><input type="text" placeholder="البيانات المتوقعة"></td>
+            `;
+            tbody.appendChild(row);
+        }
+        
+        // ====================
         // إضافة صف جديد للعينة
+        // ====================
         function addSampleRow() {
             sampleRows++;
             const tbody = document.getElementById('sampleData');
@@ -468,7 +627,9 @@
             tbody.appendChild(row);
         }
         
+        // ====================
         // حساب الإحصائيات
+        // ====================
         function calculateStatistics() {
             const rows = document.querySelectorAll('#sampleData tr');
             const ages = [];
@@ -484,22 +645,22 @@
                     const satisfactionSelect = cells[4].querySelector('select');
                     
                     if (ageSelect && priceInput && satisfactionSelect) {
-                        // تصنيف الفئة العمرية (تحويل إلى قيمة رقمية)
+                        // تصنيف الفئة العمرية
                         const ageValue = ageSelect.value;
                         ages.push(ageValue);
                         
                         // السعر
                         const priceValue = parseFloat(priceInput.value) || 0;
-                        prices.push(priceValue);
+                        if (priceValue > 0) prices.push(priceValue);
                         
                         // مستوى الرضا
                         const satisfactionValue = parseInt(satisfactionSelect.value) || 0;
-                        satisfactions.push(satisfactionValue);
+                        if (satisfactionValue > 0) satisfactions.push(satisfactionValue);
                     }
                 }
             });
             
-            // حساب الإحصائيات للفئة العمرية (معالجة نوعية)
+            // حساب الإحصائيات للفئة العمرية
             const ageCount = ages.length;
             const ageGroups = {};
             ages.forEach(age => {
@@ -524,7 +685,7 @@
             // إيجاد المنوال للأسعار
             const priceGroups = {};
             prices.forEach(price => {
-                const roundedPrice = Math.round(price / 10) * 10; // تجميع كل 10 ريال
+                const roundedPrice = Math.round(price / 10) * 10;
                 priceGroups[roundedPrice] = (priceGroups[roundedPrice] || 0) + 1;
             });
             
@@ -562,64 +723,195 @@
             document.getElementById('countPrice').value = priceCount;
             document.getElementById('countSatisfaction').value = satisfactionCount;
             
-            document.getElementById('sumAge').value = ageCount;
-            document.getElementById('sumPrice').value = priceSum.toFixed(2);
-            document.getElementById('sumSatisfaction').value = satisfactionSum;
-            
-            document.getElementById('avgAge').value = '-'; // نوعي
             document.getElementById('avgPrice').value = priceAvg;
             document.getElementById('avgSatisfaction').value = satisfactionAvg;
             
-            document.getElementById('modeAge').value = modeAge;
-            document.getElementById('modePrice').value = modePrice;
-            document.getElementById('modeSatisfaction').value = modeSatisfaction;
+            document.getElementById('modeAge').value = modeAge || '-';
+            document.getElementById('modePrice').value = modePrice || '-';
+            document.getElementById('modeSatisfaction').value = modeSatisfaction || '-';
+            
+            return {
+                ageCount, priceCount, satisfactionCount,
+                priceAvg, satisfactionAvg,
+                modeAge, modePrice, modeSatisfaction
+            };
         }
         
+        // ====================
         // حفظ النشاط
-        function saveActivity() {
-            const studentName = document.getElementById('studentName').value;
-            const studentId = document.getElementById('studentId').value;
+        // ====================
+        function saveActivity(activityNumber) {
+            const studentName = document.getElementById('studentName').value.trim();
+            const studentId = document.getElementById('studentId').value.trim();
             
             if (!studentName || !studentId) {
                 alert('الرجاء إدخال اسم المتدربة والرقم التدريبي');
                 return;
             }
             
-            // جمع بيانات النشاط
+            // جمع بيانات الأسئلة
+            const questions = [];
+            const questionRows = document.querySelectorAll('#questionsTable tr');
+            questionRows.forEach(row => {
+                const cells = row.querySelectorAll('td');
+                if (cells.length >= 4) {
+                    const typeInput = cells[1].querySelector('input');
+                    const exampleInput = cells[2].querySelector('input');
+                    const optionsInput = cells[3].querySelector('input');
+                    
+                    if (typeInput && exampleInput && optionsInput) {
+                        questions.push({
+                            type: typeInput.value,
+                            example: exampleInput.value,
+                            options: optionsInput.value
+                        });
+                    }
+                }
+            });
+            
+            // جمع بيانات المصادر
+            const sources = [];
+            const sourceRows = document.querySelectorAll('#sourcesTable tr');
+            sourceRows.forEach(row => {
+                const cells = row.querySelectorAll('td');
+                if (cells.length >= 4) {
+                    const typeInput = cells[1].querySelector('input');
+                    const nameInput = cells[2].querySelector('input');
+                    const dataInput = cells[3].querySelector('input');
+                    
+                    if (typeInput && nameInput && dataInput) {
+                        sources.push({
+                            sourceType: typeInput.value,
+                            sourceName: nameInput.value,
+                            expectedData: dataInput.value
+                        });
+                    }
+                }
+            });
+            
+            // جمع بيانات العينة
+            const sampleData = [];
+            const sampleRows = document.querySelectorAll('#sampleData tr');
+            sampleRows.forEach(row => {
+                const cells = row.querySelectorAll('td');
+                if (cells.length >= 5) {
+                    const ageSelect = cells[1].querySelector('select');
+                    const productInput = cells[2].querySelector('input');
+                    const priceInput = cells[3].querySelector('input');
+                    const satisfactionSelect = cells[4].querySelector('select');
+                    
+                    if (ageSelect && productInput && priceInput && satisfactionSelect) {
+                        sampleData.push({
+                            age: ageSelect.value,
+                            product: productInput.value,
+                            price: parseFloat(priceInput.value) || 0,
+                            satisfaction: parseInt(satisfactionSelect.value) || 0
+                        });
+                    }
+                }
+            });
+            
+            // حساب الإحصائيات
+            const statistics = calculateStatistics();
+            
+            // تجميع بيانات النشاط
             const activityData = {
                 studentName: studentName,
                 studentId: studentId,
                 studyTopic: document.getElementById('studyTopic').value,
                 studyPopulation: document.getElementById('studyPopulation').value,
                 sampleSize: document.getElementById('sampleSize').value,
-                date: new Date().toLocaleDateString('ar-SA'),
-                statistics: {
-                    priceAvg: document.getElementById('avgPrice').value,
-                    satisfactionAvg: document.getElementById('avgSatisfaction').value,
-                    modeAge: document.getElementById('modeAge').value,
-                    modePrice: document.getElementById('modePrice').value
-                }
+                questions: questions,
+                sources: sources,
+                sampleData: sampleData,
+                conclusions: document.getElementById('conclusions').value,
+                statistics: statistics,
+                completionDate: new Date().toLocaleDateString('ar-SA'),
+                activityNumber: activityNumber
             };
             
-            // حفظ في التخزين المحلي
-            localStorage.setItem('statActivity1', JSON.stringify(activityData));
+            // حفظ في localStorage
+            localStorage.setItem(`activity${activityNumber}_data`, JSON.stringify(activityData, null, 2));
+            
+            // تحديث قائمة الأنشطة المكتملة
+            let completed = JSON.parse(localStorage.getItem('completedActivities')) || [];
+            if (!completed.includes(activityNumber)) {
+                completed.push(activityNumber);
+                localStorage.setItem('completedActivities', JSON.stringify(completed));
+            }
+            
+            // تحديث حالة النشاط
+            updateActivityStatus();
             
             // إنشاء ملف للتحميل
-            const blob = new Blob([JSON.stringify(activityData, null, 2)], { type: 'application/json' });
+            createDownloadFile(activityData, activityNumber, studentName, studentId);
+            
+            // إشعار للمستخدم
+            showSuccessMessage(activityNumber, completed.length);
+        }
+        
+        // ====================
+        // تحديث حالة النشاط
+        // ====================
+        function updateActivityStatus() {
+            const savedData = localStorage.getItem(`activity${ACTIVITY_NUMBER}_data`);
+            const statusElement = document.getElementById('activityStatus');
+            
+            if (savedData) {
+                statusElement.textContent = '✅ مكتمل';
+                statusElement.style.background = '#4CAF50';
+            } else {
+                statusElement.textContent = '⏳ غير مكتمل';
+                statusElement.style.background = '#ff9800';
+            }
+        }
+        
+        // ====================
+        // إنشاء ملف للتحميل
+        // ====================
+        function createDownloadFile(data, activityNumber, studentName, studentId) {
+            const blob = new Blob([JSON.stringify(data, null, 2)], { 
+                type: 'application/json' 
+            });
+            
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = `نشاط1_${studentName}_${studentId}.json`;
+            a.download = `نشاط${activityNumber}_${studentName}_${studentId}.json`;
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
-            
-            alert('تم حفظ النشاط بنجاح! يمكنك الآن طباعة الورقة.');
+            URL.revokeObjectURL(url);
         }
         
-        // مسح النموذج
+        // ====================
+        // عرض رسالة النجاح
+        // ====================
+        function showSuccessMessage(activityNumber, completedCount) {
+            const message = `✅ تم حفظ النشاط ${activityNumber} بنجاح!\n\n` +
+                          `📊 أنشطة مكتملة: ${completedCount}/7\n\n` +
+                          `💾 تم حفظ البيانات في جهازك\n` +
+                          `📄 تم تحميل نسخة احتياطية`;
+            
+            alert(message);
+        }
+        
+        // ====================
+        // مسح النشاط
+        // ====================
         function clearActivity() {
-            if (confirm('هل أنت متأكدة من مسح جميع البيانات؟')) {
+            if (confirm('هل أنت متأكدة من مسح جميع بيانات النشاط؟')) {
+                localStorage.removeItem(`activity${ACTIVITY_NUMBER}_data`);
+                
+                // تحديث قائمة الأنشطة المكتملة
+                let completed = JSON.parse(localStorage.getItem('completedActivities')) || [];
+                const index = completed.indexOf(ACTIVITY_NUMBER);
+                if (index > -1) {
+                    completed.splice(index, 1);
+                    localStorage.setItem('completedActivities', JSON.stringify(completed));
+                }
+                
+                // إعادة تعيين النموذج
                 document.querySelectorAll('input:not([readonly])').forEach(input => {
                     if (input.type !== 'button') input.value = '';
                 });
@@ -631,28 +923,11 @@
                 document.getElementById('conclusions').value = '';
                 
                 initializeSampleTable();
+                updateActivityStatus();
+                
+                alert('تم مسح بيانات النشاط بنجاح');
             }
         }
-        
-        // تهيئة الصفحة عند التحميل
-        document.addEventListener('DOMContentLoaded', function() {
-            initializeSampleTable();
-            
-            // تحميل البيانات المحفوظة إن وجدت
-            const savedData = localStorage.getItem('statActivity1');
-            if (savedData) {
-                try {
-                    const data = JSON.parse(savedData);
-                    document.getElementById('studentName').value = data.studentName || '';
-                    document.getElementById('studentId').value = data.studentId || '';
-                    document.getElementById('studyTopic').value = data.studyTopic || '';
-                    document.getElementById('studyPopulation').value = data.studyPopulation || '';
-                    document.getElementById('sampleSize').value = data.sampleSize || '';
-                } catch (e) {
-                    console.error('خطأ في تحميل البيانات المحفوظة:', e);
-                }
-            }
-        });
     </script>
 </body>
 </html>
