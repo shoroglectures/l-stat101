@@ -2,8 +2,250 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ورقة عمل: تحليل تغير أسعار منتجات التجميل</title>
-    <style>/* نفس التصميم */</style>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 3px solid #006747;
+            padding-bottom: 20px;
+        }
+        
+        .header h1 {
+            color: #006747;
+            margin-bottom: 10px;
+        }
+        
+        .header h2 {
+            color: #666;
+            font-weight: normal;
+        }
+        
+        .info-section {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 8px;
+        }
+        
+        .info-item {
+            margin-bottom: 15px;
+        }
+        
+        .info-item label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #006747;
+        }
+        
+        .info-item input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+            padding: 25px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            border-right: 5px solid #006747;
+        }
+        
+        .section h3 {
+            color: #006747;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #ddd;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+        }
+        
+        th {
+            background: #006747;
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+        
+        td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+        
+        tr:nth-child(even) {
+            background: #f5f5f5;
+        }
+        
+        input[type="text"], input[type="number"], select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            text-align: center;
+        }
+        
+        .calculation-section {
+            background: #e8f5e9;
+            border-color: #2e7d32;
+        }
+        
+        .calculation-section h3 {
+            color: #2e7d32;
+        }
+        
+        .chart-container {
+            width: 100%;
+            height: 400px;
+            margin: 30px 0;
+            position: relative;
+        }
+        
+        .instructions {
+            background: #fff3e0;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 30px;
+            border-right: 5px solid #ff9800;
+        }
+        
+        .instructions h3 {
+            color: #ff9800;
+        }
+        
+        .btn {
+            background: #006747;
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px;
+            transition: background 0.3s;
+        }
+        
+        .btn:hover {
+            background: #004d36;
+        }
+        
+        .btn-index {
+            background: #9c27b0;
+        }
+        
+        .btn-index:hover {
+            background: #7b1fa2;
+        }
+        
+        .btn-reset {
+            background: #f44336;
+        }
+        
+        .btn-reset:hover {
+            background: #d32f2f;
+        }
+        
+        .btn-container {
+            text-align: center;
+            margin-top: 30px;
+        }
+        
+        textarea {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            margin-top: 15px;
+            resize: vertical;
+            min-height: 100px;
+        }
+        
+        .price-change {
+            font-weight: bold;
+            padding: 3px 8px;
+            border-radius: 3px;
+            display: inline-block;
+        }
+        
+        .increase {
+            background-color: #ffebee;
+            color: #c62828;
+        }
+        
+        .decrease {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+        }
+        
+        .stable {
+            background-color: #fff3e0;
+            color: #f57c00;
+        }
+        
+        .index-highlight {
+            background-color: #e3f2fd !important;
+            font-weight: bold;
+        }
+        
+        @media print {
+            body { background: white; }
+            .container { box-shadow: none; }
+            .btn-container { display: none; }
+            .instructions { page-break-before: always; }
+        }
+        
+        @media (max-width: 768px) {
+            .info-section {
+                grid-template-columns: 1fr;
+            }
+            
+            .chart-container {
+                height: 300px;
+            }
+            
+            .wide-table {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <div class="container">
@@ -12,60 +254,953 @@
             <h2>(الأرقام القياسية - نسبة التغير - التحليل الزمني)</h2>
         </div>
         
-        <div class="section">
-            <h3>الجزء الأول: أسعار 5 منتجات خلال 3 سنوات</h3>
-            <table id="priceIndexTable"><!-- أسعار المنتجات --></table>
+        <!-- المعلومات الأساسية -->
+        <div class="info-section">
+            <div class="info-item">
+                <label>اسم المتدربة:</label>
+                <input type="text" id="studentName" placeholder="أدخل اسمك الكامل">
+            </div>
+            <div class="info-item">
+                <label>الرقم التدريبي:</label>
+                <input type="text" id="studentId" placeholder="أدخل رقمك التدريبي">
+            </div>
+            <div class="info-item">
+                <label>اسم المقرر:</label>
+                <input type="text" value="إحص 101 - مقدمة في الإحصاء" readonly>
+            </div>
+            <div class="info-item">
+                <label>تاريخ النشاط:</label>
+                <input type="text" id="activityDate" readonly>
+            </div>
         </div>
         
+        <!-- المشروع -->
+        <div class="section">
+            <h3>المشروع: تحليل تغير أسعار منتجات التجميل باستخدام الأرقام القياسية</h3>
+            <p><strong>أهداف المشروع:</strong></p>
+            <ul>
+                <li>تطبيق مفهوم الأرقام القياسية لقياس التغير في الأسعار</li>
+                <li>حساب الأرقام القياسية البسيطة والتجميعية والمرجحة</li>
+                <li>تحليل معدل التضخم في أسعار منتجات التجميل</li>
+                <li>استخدام النتائج لتقديم توصيات عملية للشركات والأفراد</li>
+                <li>ربط التحليل بواقع سوق العمل وقرارات التسعير</li>
+            </ul>
+        </div>
+        
+        <!-- الجزء الأول: أسعار المنتجات -->
+        <div class="section">
+            <h3>الجزء الأول: أسعار 5 منتجات تجميل خلال 3 سنوات</h3>
+            <p>أدخلي أسعار المنتجات وكميات الاستهلاك (بالوحدات الشهرية):</p>
+            
+            <div class="wide-table">
+                <table id="priceIndexTable">
+                    <thead>
+                        <tr>
+                            <th rowspan="2">اسم المنتج</th>
+                            <th colspan="3">الأسعار (ريال)</th>
+                            <th colspan="3">الكميات المستهلكة (وحدة/شهر)</th>
+                            <th colspan="3">نسبة التغير %</th>
+                        </tr>
+                        <tr>
+                            <th>2023 (سنة الأساس)</th>
+                            <th>2024</th>
+                            <th>2025</th>
+                            <th>2023</th>
+                            <th>2024</th>
+                            <th>2025</th>
+                            <th>2023→2024</th>
+                            <th>2024→2025</th>
+                            <th>2023→2025</th>
+                        </tr>
+                    </thead>
+                    <tbody id="productsTableBody">
+                        <!-- سيتم إنشاء الصفوف ديناميكياً -->
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th>المجموع / المتوسط</th>
+                            <th><input type="text" id="totalPrice2023" value="0" readonly></th>
+                            <th><input type="text" id="totalPrice2024" value="0" readonly></th>
+                            <th><input type="text" id="totalPrice2025" value="0" readonly></th>
+                            <th><input type="text" id="totalQty2023" value="0" readonly></th>
+                            <th><input type="text" id="totalQty2024" value="0" readonly></th>
+                            <th><input type="text" id="totalQty2025" value="0" readonly></th>
+                            <th><input type="text" id="avgChange1" value="0%" readonly></th>
+                            <th><input type="text" id="avgChange2" value="0%" readonly></th>
+                            <th><input type="text" id="avgChange3" value="0%" readonly></th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+            
+            <button class="btn" onclick="addProduct()">+ إضافة منتج جديد</button>
+            <button class="btn" onclick="generateSampleData()">توليد بيانات نموذجية</button>
+            <button class="btn" onclick="calculateAllIndices()">حساب جميع المؤشرات</button>
+        </div>
+        
+        <!-- الجزء الثاني: الأرقام القياسية -->
         <div class="section calculation-section">
-            <h3>الجزء الثاني: الأرقام القياسية</h3>
+            <h3>الجزء الثاني: حساب الأرقام القياسية</h3>
+            
             <table>
-                <thead><tr><th>نوع الرقم القياسي</th><th>سنة الأساس</th><th>السنة الثانية</th><th>السنة الثالثة</th></tr></thead>
+                <thead>
+                    <tr>
+                        <th>نوع الرقم القياسي</th>
+                        <th>سنة الأساس (2023)</th>
+                        <th>السنة الثانية (2024)</th>
+                        <th>السنة الثالثة (2025)</th>
+                        <th>التفسير</th>
+                    </tr>
+                </thead>
                 <tbody>
-                    <tr><td>البسيط (لكل منتج)</td><td>100%</td><td><input id="indexYear2" readonly></td><td><input id="indexYear3" readonly></td></tr>
-                    <tr><td>التجميعي البسيط</td><td>100%</td><td><input id="aggregateIndex" readonly></td><td><input id="aggregateIndex3" readonly></td></tr>
-                    <tr><td>المرجح (لاسبير)</td><td>100%</td><td><input id="laspeyres" readonly></td><td><input id="laspeyres3" readonly></td></tr>
-                    <tr><td>المرجح (باش)</td><td>100%</td><td><input id="paasche" readonly></td><td><input id="paasche3" readonly></td></tr>
+                    <tr>
+                        <td><strong>البسيط (لكل منتج)</strong></td>
+                        <td>100%</td>
+                        <td><input type="text" id="simpleIndex2024" value="0%" readonly class="index-highlight"></td>
+                        <td><input type="text" id="simpleIndex2025" value="0%" readonly class="index-highlight"></td>
+                        <td>قياس تغير سعر كل منتج على حدة</td>
+                    </tr>
+                    <tr>
+                        <td><strong>التجميعي البسيط</strong></td>
+                        <td>100%</td>
+                        <td><input type="text" id="aggregateIndex2024" value="0%" readonly></td>
+                        <td><input type="text" id="aggregateIndex2025" value="0%" readonly></td>
+                        <td>متوسط تغير جميع الأسعار بدون ترجيح</td>
+                    </tr>
+                    <tr>
+                        <td><strong>لاسبير (مرجح)</strong></td>
+                        <td>100%</td>
+                        <td><input type="text" id="laspeyres2024" value="0%" readonly></td>
+                        <td><input type="text" id="laspeyres2025" value="0%" readonly></td>
+                        <td>الأسعار الحالية × كميات سنة الأساس</td>
+                    </tr>
+                    <tr>
+                        <td><strong>باش (مرجح)</strong></td>
+                        <td>100%</td>
+                        <td><input type="text" id="paasche2024" value="0%" readonly></td>
+                        <td><input type="text" id="paasche2025" value="0%" readonly></td>
+                        <td>الأسعار الحالية × كميات السنة الحالية</td>
+                    </tr>
+                    <tr>
+                        <td><strong>فشر (المثالي)</strong></td>
+                        <td>100%</td>
+                        <td><input type="text" id="fisher2024" value="0%" readonly></td>
+                        <td><input type="text" id="fisher2025" value="0%" readonly></td>
+                        <td>المتوسط الهندسي لـ لاسبير و باش</td>
+                    </tr>
                 </tbody>
             </table>
+            
+            <div class="chart-container">
+                <canvas id="indexChart"></canvas>
+            </div>
+            
+            <button class="btn btn-index" onclick="showIndexExplanation()">شرح أنواع المؤشرات</button>
         </div>
         
+        <!-- الجزء الثالث: تحليل التغير والتوصيات -->
         <div class="section">
-            <h3>الجزء الثالث: تحليل التغير والتوصيات</h3>
+            <h3>الجزء الثالث: تحليل التغير والتوصيات العملية</h3>
+            
             <table>
-                <tr><td>متوسط نسبة التغير السنوي</td><td><input id="avgChange" readonly>%</td></tr>
-                <tr><td>أسرع منتج ارتفاعاً</td><td><input id="fastestIncrease" readonly></td></tr>
-                <tr><td>أكثر سنة تضخماً</td><td><input id="highestInflation" readonly></td></tr>
+                <thead>
+                    <tr>
+                        <th>المؤشر التحليلي</th>
+                        <th>القيمة</th>
+                        <th>التفسير والتوصية</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>متوسط نسبة التغير السنوي (2023-2025)</td>
+                        <td><input type="text" id="avgAnnualChange" value="0%" readonly></td>
+                        <td><input type="text" id="avgChangeInterpretation" value="تحليل..." readonly></td>
+                    </tr>
+                    <tr>
+                        <td>أسرع منتج ارتفاعاً في السعر</td>
+                        <td><input type="text" id="fastestIncrease" value="-" readonly></td>
+                        <td><input type="text" id="fastestIncreaseRate" value="0%" readonly></td>
+                    </tr>
+                    <tr>
+                        <td>أكثر سنة تضخماً في الأسعار</td>
+                        <td><input type="text" id="highestInflationYear" value="-" readonly></td>
+                        <td><input type="text" id="inflationRate" value="0%" readonly></td>
+                    </tr>
+                    <tr>
+                        <td>معدل التضخم المقدر</td>
+                        <td><input type="text" id="inflationRateEstimate" value="0%" readonly></td>
+                        <td><input type="text" id="inflationImpact" value="تأثير..." readonly></td>
+                    </tr>
+                </tbody>
             </table>
             
-            <textarea id="salaryRecommendation" placeholder="بناءً على نسبة التغير في الأسعار، ما هي نسبة زيادة الرواتب المناسبة؟"></textarea>
+            <h4>التوصيات العملية بناءً على التحليل:</h4>
+            <div class="info-item">
+                <label>نسبة زيادة الرواتب المقترحة:</label>
+                <input type="text" id="salaryIncrease" value="0%" readonly style="font-weight: bold; color: #006747;">
+            </div>
+            
+            <textarea id="recommendations" placeholder="ضعي هنا توصياتك للشركات والمستهلكين بناءً على تحليل الأرقام القياسية..."></textarea>
+            
+            <div class="info-item">
+                <label>قرار التسعير للموسم القادم:</label>
+                <select id="pricingDecision" onchange="updatePricingRecommendation()">
+                    <option value="">اختر قرار التسعير المناسب</option>
+                    <option value="increase">رفع الأسعار بنسبة 5-10%</option>
+                    <option value="stable">تثبيت الأسعار مع تحسين الجودة</option>
+                    <option value="decrease">خفض الأسعار لزيادة الحصة السوقية</option>
+                    <option value="promotion">عروض ترويجية بدلاً من التخفيض</option>
+                </select>
+            </div>
+            
+            <div id="pricingExplanation" style="padding: 15px; background: #f0f7ff; border-radius: 5px; margin-top: 10px; display: none;">
+                <strong>تفسير القرار:</strong> <span id="pricingText"></span>
+            </div>
+        </div>
+        
+        <!-- التعليمات -->
+        <div class="instructions">
+            <h3>تعليمات التسليم:</h3>
+            <ol>
+                <li>أدخلي بيانات 5 منتجات على الأقل</li>
+                <li>احسبي جميع أنواع الأرقام القياسية</li>
+                <li>حللي اتجاه تغير الأسعار على مدار 3 سنوات</li>
+                <li>قدمي توصيات عملية للشركات والمستهلكين</li>
+                <li>احفظي الورقة بإسم: "اسمك_النشاط7_إحص101"</li>
+                <li>ارفعي الملف على منصة التدريب</li>
+            </ol>
+            
+            <p><strong>ملاحظة:</strong> تُستخدم الأرقام القياسية في:</p>
+            <ul>
+                <li>قياس التضخم وتغير تكاليف المعيشة</li>
+                <li>تحديد زيادات الرواتب والمكافآت</li>
+                <li>اتخاذ قرارات التسعير في الشركات</li>
+                <li>مقارنة القوة الشرائية بين السنوات</li>
+            </ul>
+        </div>
+        
+        <!-- أزرار التحكم -->
+        <div class="btn-container">
+            <button class="btn" onclick="calculateAllIndices()">حساب الكل</button>
+            <button class="btn" onclick="saveActivity()">حفظ النشاط</button>
+            <button class="btn" onclick="window.print()">طباعة الورقة</button>
+            <button class="btn btn-reset" onclick="clearActivity()">مسح النموذج</button>
         </div>
     </div>
-    
+
     <script>
-        // كود كامل لحساب الأرقام القياسية
-        function calculateSimpleIndex(currentPrice, basePrice) {
-            return ((currentPrice / basePrice) * 100).toFixed(2);
+        // المتغيرات العامة
+        let products = [];
+        let indexChart = null;
+        
+        // تهيئة الصفحة عند التحميل
+        document.addEventListener('DOMContentLoaded', function() {
+            // تعيين التاريخ الحالي
+            const today = new Date();
+            document.getElementById('activityDate').value = today.toLocaleDateString('ar-SA');
+            
+            // إضافة منتجات أولية
+            addProduct("أحمر شفاه", 45, 48, 52, 150, 145, 140);
+            addProduct("كريم أساس", 85, 90, 95, 80, 85, 90);
+            addProduct("ماسكارا", 35, 38, 42, 200, 210, 220);
+            addProduct("ظل عيون", 60, 65, 70, 120, 125, 130);
+            addProduct("مرطب شفاه", 25, 27, 30, 180, 190, 200);
+            
+            // تحميل البيانات المحفوظة إن وجدت
+            loadSavedData();
+            
+            // حساب المؤشرات الأولية
+            setTimeout(calculateAllIndices, 500);
+        });
+        
+        // إضافة منتج جديد
+        function addProduct(name = "", price1 = 0, price2 = 0, price3 = 0, qty1 = 0, qty2 = 0, qty3 = 0) {
+            products.push({
+                name: name || `منتج ${products.length + 1}`,
+                prices: [price1, price2, price3],
+                quantities: [qty1, qty2, qty3]
+            });
+            
+            updateProductsTable();
+            return products[products.length - 1];
         }
         
-        function calculateLaspeyresIndex(prices1, prices0, quantities0) {
-            let sum1q0 = 0, sum0q0 = 0;
-            for (let i = 0; i < prices1.length; i++) {
-                sum1q0 += prices1[i] * quantities0[i];
-                sum0q0 += prices0[i] * quantities0[i];
-            }
-            return ((sum1q0 / sum0q0) * 100).toFixed(2);
+        // تحديث جدول المنتجات
+        function updateProductsTable() {
+            const tbody = document.getElementById('productsTableBody');
+            tbody.innerHTML = '';
+            
+            let totalPrice2023 = 0, totalPrice2024 = 0, totalPrice2025 = 0;
+            let totalQty2023 = 0, totalQty2024 = 0, totalQty2025 = 0;
+            
+            products.forEach((product, index) => {
+                const row = document.createElement('tr');
+                
+                // حساب نسب التغير
+                const change1 = product.prices[1] > 0 ? ((product.prices[1] - product.prices[0]) / product.prices[0] * 100).toFixed(1) : 0;
+                const change2 = product.prices[2] > 0 ? ((product.prices[2] - product.prices[1]) / product.prices[1] * 100).toFixed(1) : 0;
+                const change3 = product.prices[2] > 0 ? ((product.prices[2] - product.prices[0]) / product.prices[0] * 100).toFixed(1) : 0;
+                
+                // تحديد لون نسبة التغير
+                const getChangeClass = (change) => {
+                    const num = parseFloat(change);
+                    if (num > 0) return 'increase';
+                    if (num < 0) return 'decrease';
+                    return 'stable';
+                };
+                
+                row.innerHTML = `
+                    <td><input type="text" value="${product.name}" onchange="updateProductName(${index}, this.value)"></td>
+                    <td><input type="number" value="${product.prices[0]}" min="0" max="1000" step="0.1" onchange="updateProductPrice(${index}, 0, this.value)"></td>
+                    <td><input type="number" value="${product.prices[1]}" min="0" max="1000" step="0.1" onchange="updateProductPrice(${index}, 1, this.value)"></td>
+                    <td><input type="number" value="${product.prices[2]}" min="0" max="1000" step="0.1" onchange="updateProductPrice(${index}, 2, this.value)"></td>
+                    <td><input type="number" value="${product.quantities[0]}" min="0" max="1000" step="1" onchange="updateProductQuantity(${index}, 0, this.value)"></td>
+                    <td><input type="number" value="${product.quantities[1]}" min="0" max="1000" step="1" onchange="updateProductQuantity(${index}, 1, this.value)"></td>
+                    <td><input type="number" value="${product.quantities[2]}" min="0" max="1000" step="1" onchange="updateProductQuantity(${index}, 2, this.value)"></td>
+                    <td><span class="price-change ${getChangeClass(change1)}">${change1}%</span></td>
+                    <td><span class="price-change ${getChangeClass(change2)}">${change2}%</span></td>
+                    <td><span class="price-change ${getChangeClass(change3)}">${change3}%</span></td>
+                `;
+                
+                tbody.appendChild(row);
+                
+                // تحديث المجاميع
+                totalPrice2023 += parseFloat(product.prices[0]) || 0;
+                totalPrice2024 += parseFloat(product.prices[1]) || 0;
+                totalPrice2025 += parseFloat(product.prices[2]) || 0;
+                totalQty2023 += parseFloat(product.quantities[0]) || 0;
+                totalQty2024 += parseFloat(product.quantities[1]) || 0;
+                totalQty2025 += parseFloat(product.quantities[2]) || 0;
+            });
+            
+            // تحديث التذييل
+            document.getElementById('totalPrice2023').value = totalPrice2023.toFixed(1);
+            document.getElementById('totalPrice2024').value = totalPrice2024.toFixed(1);
+            document.getElementById('totalPrice2025').value = totalPrice2025.toFixed(1);
+            document.getElementById('totalQty2023').value = totalQty2023.toFixed(0);
+            document.getElementById('totalQty2024').value = totalQty2024.toFixed(0);
+            document.getElementById('totalQty2025').value = totalQty2025.toFixed(0);
+            
+            // حساب متوسط نسب التغير
+            const avgChange1 = products.length > 0 ? 
+                products.reduce((sum, p) => sum + ((p.prices[1] - p.prices[0]) / p.prices[0] * 100), 0) / products.length : 0;
+            const avgChange2 = products.length > 0 ? 
+                products.reduce((sum, p) => sum + ((p.prices[2] - p.prices[1]) / p.prices[1] * 100), 0) / products.length : 0;
+            const avgChange3 = products.length > 0 ? 
+                products.reduce((sum, p) => sum + ((p.prices[2] - p.prices[0]) / p.prices[0] * 100), 0) / products.length : 0;
+            
+            document.getElementById('avgChange1').value = avgChange1.toFixed(1) + '%';
+            document.getElementById('avgChange2').value = avgChange2.toFixed(1) + '%';
+            document.getElementById('avgChange3').value = avgChange3.toFixed(1) + '%';
         }
         
-        function calculatePaascheIndex(prices1, prices0, quantities1) {
-            let sum1q1 = 0, sum0q1 = 0;
-            for (let i = 0; i < prices1.length; i++) {
-                sum1q1 += prices1[i] * quantities1[i];
-                sum0q1 += prices0[i] * quantities1[i];
+        // تحديث بيانات المنتج
+        function updateProductName(index, name) {
+            if (products[index]) {
+                products[index].name = name;
             }
-            return ((sum1q1 / sum0q1) * 100).toFixed(2);
         }
-        // ... كود كامل آخر
+        
+        function updateProductPrice(index, year, price) {
+            if (products[index]) {
+                products[index].prices[year] = parseFloat(price) || 0;
+                updateProductsTable();
+                calculateAllIndices();
+            }
+        }
+        
+        function updateProductQuantity(index, year, quantity) {
+            if (products[index]) {
+                products[index].quantities[year] = parseFloat(quantity) || 0;
+                updateProductsTable();
+                calculateAllIndices();
+            }
+        }
+        
+        // توليد بيانات نموذجية
+        function generateSampleData() {
+            products = [];
+            
+            const sampleProducts = [
+                { name: "أحمر شفاه", prices: [45, 48, 52], quantities: [150, 145, 140] },
+                { name: "كريم أساس", prices: [85, 90, 95], quantities: [80, 85, 90] },
+                { name: "ماسكارا", prices: [35, 38, 42], quantities: [200, 210, 220] },
+                { name: "ظل عيون", prices: [60, 65, 70], quantities: [120, 125, 130] },
+                { name: "مرطب شفاه", prices: [25, 27, 30], quantities: [180, 190, 200] },
+                { name: "عطر نسائي", prices: [120, 130, 140], quantities: [50, 55, 60] },
+                { name: "مزيل مكياج", prices: [40, 42, 45], quantities: [100, 105, 110] }
+            ];
+            
+            sampleProducts.forEach(p => {
+                addProduct(p.name, p.prices[0], p.prices[1], p.prices[2], p.quantities[0], p.quantities[1], p.quantities[2]);
+            });
+            
+            setTimeout(calculateAllIndices, 100);
+            alert('تم توليد بيانات 7 منتجات نموذجية بنجاح!');
+        }
+        
+        // حساب جميع المؤشرات
+        function calculateAllIndices() {
+            if (products.length === 0) {
+                alert('الرجاء إضافة منتجات أولاً');
+                return;
+            }
+            
+            // 1. حساب الرقم القياسي البسيط (المتوسط الهندسي)
+            const simpleIndex2024 = calculateSimpleIndex(1, 0);
+            const simpleIndex2025 = calculateSimpleIndex(2, 0);
+            
+            document.getElementById('simpleIndex2024').value = simpleIndex2024 + '%';
+            document.getElementById('simpleIndex2025').value = simpleIndex2025 + '%';
+            
+            // 2. حساب الرقم القياسي التجميعي البسيط
+            const aggregateIndex2024 = calculateAggregateIndex(1, 0);
+            const aggregateIndex2025 = calculateAggregateIndex(2, 0);
+            
+            document.getElementById('aggregateIndex2024').value = aggregateIndex2024 + '%';
+            document.getElementById('aggregateIndex2025').value = aggregateIndex2025 + '%';
+            
+            // 3. حساب مؤشر لاسبير
+            const laspeyres2024 = calculateLaspeyresIndex(1, 0);
+            const laspeyres2025 = calculateLaspeyresIndex(2, 0);
+            
+            document.getElementById('laspeyres2024').value = laspeyres2024 + '%';
+            document.getElementById('laspeyres2025').value = laspeyres2025 + '%';
+            
+            // 4. حساب مؤشر باش
+            const paasche2024 = calculatePaascheIndex(1, 0);
+            const paasche2025 = calculatePaascheIndex(2, 0);
+            
+            document.getElementById('paasche2024').value = paasche2024 + '%';
+            document.getElementById('paasche2025').value = paasche2025 + '%';
+            
+            // 5. حساب مؤشر فيشر (المثالي)
+            const fisher2024 = Math.sqrt(laspeyres2024 * paasche2024).toFixed(2);
+            const fisher2025 = Math.sqrt(laspeyres2025 * paasche2025).toFixed(2);
+            
+            document.getElementById('fisher2024').value = fisher2024 + '%';
+            document.getElementById('fisher2025').value = fisher2025 + '%';
+            
+            // تحليل إضافي
+            performAdvancedAnalysis(simpleIndex2024, simpleIndex2025, laspeyres2025);
+            
+            // رسم الرسم البياني
+            drawIndexChart(simpleIndex2024, simpleIndex2025, laspeyres2024, laspeyres2025, paasche2024, paasche2025);
+            
+            return {
+                simpleIndex2024, simpleIndex2025,
+                aggregateIndex2024, aggregateIndex2025,
+                laspeyres2024, laspeyres2025,
+                paasche2024, paasche2025,
+                fisher2024, fisher2025
+            };
+        }
+        
+        // حساب الرقم القياسي البسيط (المتوسط الهندسي للتغيرات)
+        function calculateSimpleIndex(yearIndex, baseYearIndex) {
+            if (products.length === 0) return 0;
+            
+            let productOfRatios = 1;
+            let validProducts = 0;
+            
+            products.forEach(product => {
+                const basePrice = product.prices[baseYearIndex];
+                const currentPrice = product.prices[yearIndex];
+                
+                if (basePrice > 0 && currentPrice > 0) {
+                    productOfRatios *= (currentPrice / basePrice);
+                    validProducts++;
+                }
+            });
+            
+            if (validProducts === 0) return 0;
+            
+            // المتوسط الهندسي
+            const geometricMean = Math.pow(productOfRatios, 1 / validProducts);
+            return (geometricMean * 100).toFixed(2);
+        }
+        
+        // حساب الرقم القياسي التجميعي البسيط
+        function calculateAggregateIndex(yearIndex, baseYearIndex) {
+            if (products.length === 0) return 0;
+            
+            let sumCurrent = 0;
+            let sumBase = 0;
+            
+            products.forEach(product => {
+                sumCurrent += product.prices[yearIndex];
+                sumBase += product.prices[baseYearIndex];
+            });
+            
+            if (sumBase === 0) return 0;
+            
+            return ((sumCurrent / sumBase) * 100).toFixed(2);
+        }
+        
+        // حساب مؤشر لاسبير (الأسعار الحالية × كميات سنة الأساس)
+        function calculateLaspeyresIndex(yearIndex, baseYearIndex) {
+            if (products.length === 0) return 0;
+            
+            let sumCurrentPriceBaseQty = 0;
+            let sumBasePriceBaseQty = 0;
+            
+            products.forEach(product => {
+                const currentPrice = product.prices[yearIndex];
+                const basePrice = product.prices[baseYearIndex];
+                const baseQuantity = product.quantities[baseYearIndex];
+                
+                sumCurrentPriceBaseQty += currentPrice * baseQuantity;
+                sumBasePriceBaseQty += basePrice * baseQuantity;
+            });
+            
+            if (sumBasePriceBaseQty === 0) return 0;
+            
+            return ((sumCurrentPriceBaseQty / sumBasePriceBaseQty) * 100).toFixed(2);
+        }
+        
+        // حساب مؤشر باش (الأسعار الحالية × كميات السنة الحالية)
+        function calculatePaascheIndex(yearIndex, baseYearIndex) {
+            if (products.length === 0) return 0;
+            
+            let sumCurrentPriceCurrentQty = 0;
+            let sumBasePriceCurrentQty = 0;
+            
+            products.forEach(product => {
+                const currentPrice = product.prices[yearIndex];
+                const basePrice = product.prices[baseYearIndex];
+                const currentQuantity = product.quantities[yearIndex];
+                
+                sumCurrentPriceCurrentQty += currentPrice * currentQuantity;
+                sumBasePriceCurrentQty += basePrice * currentQuantity;
+            });
+            
+            if (sumBasePriceCurrentQty === 0) return 0;
+            
+            return ((sumCurrentPriceCurrentQty / sumBasePriceCurrentQty) * 100).toFixed(2);
+        }
+        
+        // تحليل متقدم للبيانات
+        function performAdvancedAnalysis(simpleIndex2024, simpleIndex2025, laspeyres2025) {
+            // 1. متوسط نسبة التغير السنوي
+            const totalChange = parseFloat(simpleIndex2025) - 100;
+            const avgAnnualChange = totalChange / 2; // لمدة سنتين
+            document.getElementById('avgAnnualChange').value = avgAnnualChange.toFixed(1) + '%';
+            
+            // تفسير متوسط التغير
+            let interpretation = "استقرار نسبي في الأسعار";
+            if (avgAnnualChange > 10) interpretation = "ارتفاع تضخمي حاد في الأسعار";
+            else if (avgAnnualChange > 5) interpretation = "ارتفاع ملحوظ في الأسعار";
+            else if (avgAnnualChange > 2) interpretation = "ارتفاع معتدل في الأسعار";
+            else if (avgAnnualChange < -2) interpretation = "انخفاض في الأسعار";
+            
+            document.getElementById('avgChangeInterpretation').value = interpretation;
+            
+            // 2. أسرع منتج ارتفاعاً
+            let fastestProduct = { name: "-", rate: 0 };
+            products.forEach(product => {
+                if (product.prices[0] > 0) {
+                    const changeRate = ((product.prices[2] - product.prices[0]) / product.prices[0] * 100);
+                    if (changeRate > fastestProduct.rate) {
+                        fastestProduct = { name: product.name, rate: changeRate };
+                    }
+                }
+            });
+            
+            document.getElementById('fastestIncrease').value = fastestProduct.name;
+            document.getElementById('fastestIncreaseRate').value = fastestProduct.rate.toFixed(1) + '%';
+            
+            // 3. أكثر سنة تضخماً
+            const inflation2024 = parseFloat(simpleIndex2024) - 100;
+            const inflation2025 = parseFloat(simpleIndex2025) - parseFloat(simpleIndex2024);
+            
+            let highestYear = "-";
+            let highestRate = 0;
+            
+            if (inflation2024 > inflation2025) {
+                highestYear = "2024";
+                highestRate = inflation2024;
+            } else {
+                highestYear = "2025";
+                highestRate = inflation2025;
+            }
+            
+            document.getElementById('highestInflationYear').value = highestYear;
+            document.getElementById('inflationRate').value = highestRate.toFixed(1) + '%';
+            
+            // 4. معدل التضخم المقدر (باستخدام لاسبير)
+            const estimatedInflation = parseFloat(laspeyres2025) - 100;
+            document.getElementById('inflationRateEstimate').value = estimatedInflation.toFixed(1) + '%';
+            
+            // تأثير التضخم
+            let inflationImpact = "تأثير محدود على القوة الشرائية";
+            if (estimatedInflation > 15) inflationImpact = "تآكل كبير في القوة الشرائية";
+            else if (estimatedInflation > 10) inflationImpact = "انخفاض ملحوظ في القوة الشرائية";
+            else if (estimatedInflation > 5) inflationImpact = "انخفاض متوسط في القوة الشرائية";
+            
+            document.getElementById('inflationImpact').value = inflationImpact;
+            
+            // 5. نسبة زيادة الرواتب المقترحة
+            const salaryIncrease = Math.min(Math.max(estimatedInflation + 2, 5), 15);
+            document.getElementById('salaryIncrease').value = salaryIncrease.toFixed(1) + '%';
+            
+            // 6. توليد توصيات تلقائية
+            generateRecommendations(estimatedInflation, fastestProduct);
+        }
+        
+        // توليد توصيات تلقائية
+        function generateRecommendations(inflationRate, fastestProduct) {
+            let recommendations = `بناءً على تحليل الأرقام القياسية:\n\n`;
+            
+            recommendations += `1. معدل التضخم المقدر: ${inflationRate.toFixed(1)}%\n`;
+            recommendations += `2. أسرع منتج ارتفاعاً: ${fastestProduct.name} (${fastestProduct.rate.toFixed(1)}%)\n\n`;
+            
+            recommendations += `✅ **توصيات للشركات:**\n`;
+            if (inflationRate > 10) {
+                recommendations += `• مراجعة هيكل التكاليف وتبسيط العمليات\n`;
+                recommendations += `• البحث عن موردين بديلين للمواد الخام\n`;
+                recommendations += `• تقديم عروض حزمة لمنتجات متعددة\n`;
+            } else if (inflationRate > 5) {
+                recommendations += `• زيادة فعالية التسويق الرقمي\n`;
+                recommendations += `• تحسين كفاءة سلسلة التوريد\n`;
+                recommendations += `• تقديم منتجات بأسعار متنوعة\n`;
+            } else {
+                recommendations += `• التركيز على تحسين جودة المنتجات\n`;
+                recommendations += `• تعزيز ولاء العملاء\n`;
+                recommendations += `• توسيع نطاق المنتجات\n`;
+            }
+            
+            recommendations += `\n✅ **توصيات للمستهلكين:**\n`;
+            if (inflationRate > 10) {
+                recommendations += `• تفضيل المنتجات ذات العمر الطويل\n`;
+                recommendations += `• الشراء في مواسم التخفيضات\n`;
+                recommendations += `• مقارنة الأسعار بين المتاجر الإلكترونية\n`;
+            } else if (inflationRate > 5) {
+                recommendations += `• شراء المنتجات الأكثر استخداماً بكميات أكبر\n`;
+                recommendations += `• البحث عن بدائل بأسعار مناسبة\n`;
+                recommendations += `• الاستفادة من برامج الولاء والعضويات\n`;
+            } else {
+                recommendations += `• التركيز على جودة المنتج وليس السعر فقط\n`;
+                recommendations += `• تجربة منتجات جديدة بأسعار معقولة\n`;
+                recommendations += `• التخطيط للمشتريات مسبقاً\n`;
+            }
+            
+            document.getElementById('recommendations').value = recommendations;
+        }
+        
+        // رسم الرسم البياني للمؤشرات
+        function drawIndexChart(simple2024, simple2025, laspeyres2024, laspeyres2025, paasche2024, paasche2025) {
+            const ctx = document.getElementById('indexChart').getContext('2d');
+            
+            // تدمير الرسم البياني القديم إذا كان موجوداً
+            if (indexChart) {
+                indexChart.destroy();
+            }
+            
+            // إنشاء الرسم البياني
+            indexChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['2024', '2025'],
+                    datasets: [
+                        {
+                            label: 'البسيط',
+                            data: [parseFloat(simple2024), parseFloat(simple2025)],
+                            backgroundColor: 'rgba(0, 103, 71, 0.7)',
+                            borderColor: 'rgba(0, 103, 71, 1)',
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'لاسبير',
+                            data: [parseFloat(laspeyres2024), parseFloat(laspeyres2025)],
+                            backgroundColor: 'rgba(255, 152, 0, 0.7)',
+                            borderColor: 'rgba(255, 152, 0, 1)',
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'باش',
+                            data: [parseFloat(paasche2024), parseFloat(paasche2025)],
+                            backgroundColor: 'rgba(33, 150, 243, 0.7)',
+                            borderColor: 'rgba(33, 150, 243, 1)',
+                            borderWidth: 1
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'السنة',
+                                font: {
+                                    size: 14,
+                                    weight: 'bold'
+                                }
+                            },
+                            grid: {
+                                display: true
+                            }
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'الرقم القياسي (%)',
+                                font: {
+                                    size: 14,
+                                    weight: 'bold'
+                                }
+                            },
+                            beginAtZero: true,
+                            grid: {
+                                display: true
+                            },
+                            ticks: {
+                                callback: function(value) {
+                                    return value + '%';
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'top',
+                            rtl: true,
+                            labels: {
+                                usePointStyle: true,
+                                padding: 20
+                            }
+                        },
+                        tooltip: {
+                            rtl: true,
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed.y !== null) {
+                                        label += context.parsed.y.toFixed(1) + '%';
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        // تحديث توصيات التسعير
+        function updatePricingRecommendation() {
+            const decision = document.getElementById('pricingDecision').value;
+            const explanationDiv = document.getElementById('pricingExplanation');
+            const pricingText = document.getElementById('pricingText');
+            
+            let explanation = "";
+            
+            switch(decision) {
+                case 'increase':
+                    explanation = "مناسب عند ارتفاع تكاليف الإنتاج بشكل كبير أو زيادة الطلب على المنتج. يجب مراقبة رد فعل المنافسين والمستهلكين.";
+                    break;
+                case 'stable':
+                    explanation = "مناسب عندما تكون المنافسة شديدة أو عند التركيز على بناء ولاء العملاء. يمكن تحسين الجودة مع تثبيت السعر.";
+                    break;
+                case 'decrease':
+                    explanation = "إستراتيجية هجومية لزيادة الحصة السوقية. مناسبة عند دخول سوق جديد أو مواجهة منافسة قوية بالسعر.";
+                    break;
+                case 'promotion':
+                    explanation = "بديل ذكي عن التخفيض الدائم. يحافظ على قيمة العلامة التجارية مع زيادة المبيعات مؤقتاً.";
+                    break;
+                default:
+                    explanation = "";
+            }
+            
+            if (explanation) {
+                pricingText.textContent = explanation;
+                explanationDiv.style.display = 'block';
+            } else {
+                explanationDiv.style.display = 'none';
+            }
+        }
+        
+        // شرح أنواع المؤشرات
+        function showIndexExplanation() {
+            const explanation = `
+📊 **شرح أنواع الأرقام القياسية:**
+
+1. **الرقم القياسي البسيط:**
+   • يقيس تغير سعر كل منتج على حدة
+   • الصيغة: (السعر الحالي ÷ السعر الأساسي) × 100
+   • مثال: إذا كان سعر المنتج 50 ريال وأصبح 55 ريال → المؤشر = 110%
+
+2. **الرقم القياسي التجميعي البسيط:**
+   • متوسط تغير جميع الأسعار بدون ترجيح
+   • الصيغة: (مجموع الأسعار الحالية ÷ مجموع الأسعار الأساسية) × 100
+   • مناسب لمقارنة مستوى الأسعار العام
+
+3. **مؤشر لاسبير (مرجح بالكميات الأساسية):**
+   • يستخدم كميات سنة الأساس كأوزان
+   • الصيغة: (∑(الأسعار الحالية × الكميات الأساسية) ÷ ∑(الأسعار الأساسية × الكميات الأساسية)) × 100
+   • يميل إلى المبالغة في قياس التضخم
+
+4. **مؤشر باش (مرجح بالكميات الحالية):**
+   • يستخدم كميات السنة الحالية كأوزان
+   • الصيغة: (∑(الأسعار الحالية × الكميات الحالية) ÷ ∑(الأسعار الأساسية × الكميات الحالية)) × 100
+   • يميل إلى التقليل من قياس التضخم
+
+5. **مؤشر فيشر (المثالي):**
+   • المتوسط الهندسي لمؤشري لاسبير وباش
+   • الصيغة: √(لاسبير × باش)
+   • يعتبر الأكثر دقة من الناحية النظرية
+
+💡 **التطبيق العملي في سوق العمل:**
+• البنوك المركزية: قياس التضخم وتحديد السياسات النقدية
+• إدارة الموارد البشرية: تحديد زيادات الرواتب السنوية
+• إدارة التسويق: اتخاذ قرارات التسعير والتخفيضات
+• التخطيط المالي: تعديل الميزانيات والتوقعات
+            `;
+            
+            alert(explanation);
+        }
+        
+        // حفظ النشاط
+        function saveActivity() {
+            const studentName = document.getElementById('studentName').value;
+            const studentId = document.getElementById('studentId').value;
+            
+            if (!studentName || !studentId) {
+                alert('الرجاء إدخال اسم المتدربة والرقم التدريبي');
+                return;
+            }
+            
+            // جمع بيانات النشاط
+            const activityData = {
+                studentName: studentName,
+                studentId: studentId,
+                activity: "النشاط 7: تحليل تغير أسعار منتجات التجميل",
+                date: new Date().toLocaleDateString('ar-SA'),
+                products: products,
+                indices: {
+                    simpleIndex2024: document.getElementById('simpleIndex2024').value,
+                    simpleIndex2025: document.getElementById('simpleIndex2025').value,
+                    aggregateIndex2024: document.getElementById('aggregateIndex2024').value,
+                    aggregateIndex2025: document.getElementById('aggregateIndex2025').value,
+                    laspeyres2024: document.getElementById('laspeyres2024').value,
+                    laspeyres2025: document.getElementById('laspeyres2025').value,
+                    paasche2024: document.getElementById('paasche2024').value,
+                    paasche2025: document.getElementById('paasche2025').value,
+                    fisher2024: document.getElementById('fisher2024').value,
+                    fisher2025: document.getElementById('fisher2025').value
+                },
+                analysis: {
+                    avgAnnualChange: document.getElementById('avgAnnualChange').value,
+                    fastestIncrease: document.getElementById('fastestIncrease').value,
+                    highestInflationYear: document.getElementById('highestInflationYear').value,
+                    inflationRateEstimate: document.getElementById('inflationRateEstimate').value,
+                    salaryIncrease: document.getElementById('salaryIncrease').value
+                },
+                recommendations: document.getElementById('recommendations').value,
+                pricingDecision: document.getElementById('pricingDecision').value
+            };
+            
+            // حفظ في التخزين المحلي
+            localStorage.setItem('statActivity7', JSON.stringify(activityData));
+            
+            // حفظ الأنشطة المكتملة
+            let completedActivities = JSON.parse(localStorage.getItem('completedActivities')) || [];
+            if (!completedActivities.includes(7)) {
+                completedActivities.push(7);
+                localStorage.setItem('completedActivities', JSON.stringify(completedActivities));
+            }
+            
+            // إنشاء ملف للتحميل
+            const blob = new Blob([JSON.stringify(activityData, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `نشاط7_${studentName}_${studentId}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            
+            // تحديث الصفحة الرئيسية
+            if (window.opener) {
+                window.opener.updateActivityProgress();
+            }
+            
+            alert('تم حفظ النشاط بنجاح! تمت إضافته إلى الأنشطة المكتملة.');
+        }
+        
+        // تحميل البيانات المحفوظة
+        function loadSavedData() {
+            const savedData = localStorage.getItem('statActivity7');
+            if (savedData) {
+                try {
+                    const data = JSON.parse(savedData);
+                    
+                    document.getElementById('studentName').value = data.studentName || '';
+                    document.getElementById('studentId').value = data.studentId || '';
+                    
+                    // يمكن إضافة خيار لتحميل البيانات الكاملة لاحقاً
+                    
+                } catch (e) {
+                    console.error('خطأ في تحميل البيانات المحفوظة:', e);
+                }
+            }
+        }
+        
+        // مسح النموذج
+        function clearActivity() {
+            if (confirm('هل أنت متأكدة من مسح جميع البيانات؟')) {
+                // مسح الحقول الأساسية
+                document.getElementById('studentName').value = '';
+                document.getElementById('studentId').value = '';
+                
+                // مسح المنتجات وإعادة تهيئتها
+                products = [];
+                
+                // إضافة منتجات أولية جديدة
+                addProduct("أحمر شفاه", 45, 48, 52, 150, 145, 140);
+                addProduct("كريم أساس", 85, 90, 95, 80, 85, 90);
+                addProduct("ماسكارا", 35, 38, 42, 200, 210, 220);
+                addProduct("ظل عيون", 60, 65, 70, 120, 125, 130);
+                addProduct("مرطب شفاه", 25, 27, 30, 180, 190, 200);
+                
+                // مسح النتائج
+                document.getElementById('simpleIndex2024').value = '0%';
+                document.getElementById('simpleIndex2025').value = '0%';
+                document.getElementById('aggregateIndex2024').value = '0%';
+                document.getElementById('aggregateIndex2025').value = '0%';
+                document.getElementById('laspeyres2024').value = '0%';
+                document.getElementById('laspeyres2025').value = '0%';
+                document.getElementById('paasche2024').value = '0%';
+                document.getElementById('paasche2025').value = '0%';
+                document.getElementById('fisher2024').value = '0%';
+                document.getElementById('fisher2025').value = '0%';
+                
+                document.getElementById('avgAnnualChange').value = '0%';
+                document.getElementById('fastestIncrease').value = '-';
+                document.getElementById('fastestIncreaseRate').value = '0%';
+                document.getElementById('highestInflationYear').value = '-';
+                document.getElementById('inflationRate').value = '0%';
+                document.getElementById('inflationRateEstimate').value = '0%';
+                document.getElementById('inflationImpact').value = 'تأثير...';
+                document.getElementById('salaryIncrease').value = '0%';
+                document.getElementById('recommendations').value = '';
+                document.getElementById('pricingDecision').value = '';
+                document.getElementById('pricingExplanation').style.display = 'none';
+                
+                // تدمير الرسم البياني
+                if (indexChart) {
+                    indexChart.destroy();
+                    indexChart = null;
+                }
+                
+                alert('تم مسح النموذج بنجاح!');
+            }
+        }
     </script>
 </body>
 </html>
