@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>ورقة عمل: دراسة العلاقة بين الإعلان والمبيعات</title>
+    <style>/* نفس التصميم */</style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>ورقة عمل: دراسة العلاقة بين الإعلان والمبيعات</h1>
+            <h2>(معامل الارتباط - بيرسون - سبيرمان - التحليل الخطي)</h2>
+        </div>
+        
+        <div class="section">
+            <h3>الجزء الأول: بيانات الإنفاق الإعلاني والمبيعات (10 أشهر)</h3>
+            <table id="correlationTable"><!-- بيانات الإعلان والمبيعات --></table>
+        </div>
+        
+        <div class="section calculation-section">
+            <h3>الجزء الثاني: معاملات الارتباط</h3>
+            <table>
+                <tr><td>معامل بيرسون (r)</td><td><input id="pearson" readonly></td></tr>
+                <tr><td>معامل سبيرمان (ρ)</td><td><input id="spearman" readonly></td></tr>
+                <tr><td>نوع العلاقة</td><td><input id="relationType" readonly></td></tr>
+                <tr><td>قوة العلاقة</td><td><input id="relationStrength" readonly></td></tr>
+            </table>
+            
+            <div class="chart-container">
+                <canvas id="scatterChart"></canvas>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h3>الجزء الثالث: التوصيات التسويقية</h3>
+            <textarea id="recommendations" placeholder="بناءً على نتائج الارتباط، ما هي توصياتك لتحسين الإنفاق الإعلاني؟"></textarea>
+        </div>
+    </div>
+    
+    <script>
+        // كود كامل لحساب معاملات الارتباط
+        function calculatePearson(x, y) {
+            const n = x.length;
+            const sumX = x.reduce((a, b) => a + b, 0);
+            const sumY = y.reduce((a, b) => a + b, 0);
+            const sumXY = x.reduce((sum, xi, i) => sum + xi * y[i], 0);
+            const sumX2 = x.reduce((sum, xi) => sum + xi * xi, 0);
+            const sumY2 = y.reduce((sum, yi) => sum + yi * yi, 0);
+            
+            const numerator = n * sumXY - sumX * sumY;
+            const denominator = Math.sqrt((n * sumX2 - sumX * sumX) * (n * sumY2 - sumY * sumY));
+            
+            return denominator === 0 ? 0 : numerator / denominator;
+        }
+        // ... كود كامل آخر
+    </script>
+</body>
+</html>

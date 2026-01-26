@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>ورقة عمل: تحليل جودة المنتجات</title>
+    <style>/* نفس التصميم */</style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>ورقة عمل: تحليل جودة المنتجات</h1>
+            <h2>(مقاييس التشتت - المدى - التباين - الانحراف المعياري)</h2>
+        </div>
+        
+        <div class="section">
+            <h3>الجزء الأول: تقييمات جودة 20 منتج</h3>
+            <table id="qualityTable"><!-- جدول التقييمات --></table>
+        </div>
+        
+        <div class="section calculation-section">
+            <h3>الجزء الثاني: مقاييس التشتت</h3>
+            <table>
+                <tr><td>المدى</td><td><input id="range" readonly></td></tr>
+                <tr><td>التباين</td><td><input id="variance" readonly></td></tr>
+                <tr><td>الانحراف المعياري</td><td><input id="stdDev" readonly></td></tr>
+                <tr><td>معامل الاختلاف</td><td><input id="cv" readonly>%</td></tr>
+            </table>
+        </div>
+        
+        <div class="section">
+            <h3>الجزء الثالث: تفسير النتائج</h3>
+            <textarea id="interpretation" placeholder="ماذا تخبرنا مقاييس التشتت عن تجانس جودة المنتجات؟"></textarea>
+        </div>
+    </div>
+    
+    <script>
+        // كود كامل لحساب مقاييس التشتت
+        function calculateVariance(values) {
+            const mean = values.reduce((a, b) => a + b, 0) / values.length;
+            const squaredDiffs = values.map(v => Math.pow(v - mean, 2));
+            return squaredDiffs.reduce((a, b) => a + b, 0) / values.length;
+        }
+        
+        function calculateStandardDeviation(values) {
+            return Math.sqrt(calculateVariance(values));
+        }
+        
+        function calculateCoefficientOfVariation(values) {
+            const mean = values.reduce((a, b) => a + b, 0) / values.length;
+            const stdDev = calculateStandardDeviation(values);
+            return ((stdDev / mean) * 100).toFixed(2);
+        }
+        // ... كود كامل آخر
+    </script>
+</body>
+</html>

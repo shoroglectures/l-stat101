@@ -1,0 +1,1248 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>منصة قياس ارتباط مقرر مقدمة في الإحصاء بسوق العمل</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* === إعدادات عامة === */
+        :root {
+            --tv-green: #006747;
+            --dark-grey: #333333;
+            --light-grey: #f4f4f4;
+            --white: #ffffff;
+            --accent: #00a86b;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Tajawal', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--white);
+            color: var(--dark-grey);
+            line-height: 1.6;
+        }
+
+        /* === شريط التقدم === */
+        .loading-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--tv-green), var(--accent));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s ease;
+            z-index: 1000;
+        }
+
+        /* === الهيدر والشعار === */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 5%;
+            background-color: var(--white);
+            border-bottom: 1px solid #ddd;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .logo-text {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--tv-green);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-text i {
+            font-size: 2rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark-grey);
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--tv-green);
+        }
+
+        /* === القسم الرئيسي (Hero Section) === */
+        .hero {
+            background-image: linear-gradient(rgba(0, 103, 71, 0.8), rgba(0, 103, 71, 0.8)), url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            min-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: var(--white);
+            padding: 40px 20px;
+        }
+
+        .hero h1 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 800;
+            margin: 0 0 20px 0;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .hero p {
+            font-size: clamp(1rem, 3vw, 1.4rem);
+            max-width: 800px;
+            margin: 0 0 40px 0;
+        }
+
+        .hero-btn {
+            background-color: var(--white);
+            color: var(--tv-green);
+            padding: 15px 35px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            display: inline-block;
+        }
+
+        .hero-btn:hover {
+            background-color: var(--light-grey);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 8px rgba(0,0,0,0.15);
+        }
+        
+        /* === أقسام المحتوى === */
+        .section {
+            padding: 80px 5%;
+            text-align: center;
+        }
+
+        .section-title {
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            color: var(--tv-green);
+            margin-bottom: 20px;
+            font-weight: 800;
+        }
+
+        .section-subtitle {
+            font-size: clamp(1rem, 2.5vw, 1.2rem);
+            color: #666;
+            margin-bottom: 60px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        /* === قسم المنهجية === */
+        .methodology-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .method-card {
+            background: var(--light-grey);
+            padding: 30px 20px;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .method-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 5px;
+            height: 100%;
+            background-color: var(--tv-green);
+            transition: width 0.3s ease;
+        }
+        
+        .method-card:hover::before {
+            width: 10px;
+        }
+        
+        .method-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+        }
+
+        .method-card .icon {
+            font-size: 3rem;
+            color: var(--tv-green);
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .method-card h3 {
+            font-size: 1.3rem;
+            margin: 15px 0 10px 0;
+        }
+
+        /* === قسم الأهداف التفصيلية === */
+        .objectives-section {
+            background-color: var(--light-grey);
+        }
+
+        .objectives-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 40px 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .objectives-table th {
+            background-color: var(--tv-green);
+            color: var(--white);
+            padding: 18px 15px;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .objectives-table td {
+            padding: 15px;
+            border-bottom: 1px solid #e0e0e0;
+            text-align: right;
+            vertical-align: top;
+        }
+
+        .objectives-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .objectives-table tr:hover {
+            background-color: #f0f0f0;
+        }
+
+        .unit-icon {
+            font-size: 1.5rem;
+            margin-left: 10px;
+            vertical-align: middle;
+        }
+
+        .unit-title {
+            font-weight: 700;
+            color: var(--tv-green);
+        }
+
+        .objectives-list {
+            text-align: right;
+            margin: 0;
+            padding-right: 15px;
+        }
+
+        .objectives-list li {
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+
+        /* === قسم الأنشطة التفاعلية === */
+        .activities-section {
+            background-color: var(--light-grey);
+        }
+
+        .activities-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .activity-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .activity-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+
+        .activity-header {
+            background: linear-gradient(135deg, var(--tv-green), var(--accent));
+            color: white;
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .activity-icon {
+            font-size: 2rem;
+        }
+
+        .activity-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .activity-body {
+            padding: 1.5rem;
+        }
+
+        .activity-description {
+            margin-bottom: 1.5rem;
+            color: #555;
+        }
+
+        .activity-steps {
+            margin-bottom: 1.5rem;
+        }
+
+        .activity-steps h4 {
+            margin-bottom: 10px;
+            color: var(--dark-grey);
+        }
+
+        .activity-steps ol {
+            padding-right: 1.2rem;
+        }
+
+        .activity-steps li {
+            margin-bottom: 8px;
+        }
+
+        .activity-skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 1.5rem;
+        }
+
+        .skill-tag {
+            background: var(--light-grey);
+            color: var(--dark-grey);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+        }
+
+        .activity-actions {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .btn {
+            display: inline-block;
+            background: var(--tv-green);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            flex: 1;
+            text-align: center;
+        }
+
+        .btn:hover {
+            background: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--tv-green);
+            color: var(--tv-green);
+        }
+
+        .btn-outline:hover {
+            background: var(--tv-green);
+            color: white;
+        }
+
+        /* === قسم الاستبيان === */
+        .forms-section {
+            background: var(--light-grey);
+            padding: 80px 5%;
+            text-align: center;
+        }
+
+        .forms-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            padding: 50px 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .forms-icon {
+            font-size: 4rem;
+            color: var(--tv-green);
+            margin-bottom: 25px;
+            display: block;
+        }
+
+        .forms-title {
+            color: var(--tv-green);
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .forms-description {
+            color: #666;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .forms-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--tv-green);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+
+        .forms-btn:hover {
+            background: var(--accent);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        /* === قسم النتائج (Dashboard) === */
+        .dashboard-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            background-color: var(--light-grey);
+            padding: 40px 30px;
+            border-radius: 10px;
+        }
+
+        .stat-card {
+            background-color: var(--white);
+            padding: 25px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-card h3 {
+            color: var(--tv-green);
+            font-size: 1.1rem;
+            margin: 0 0 10px 0;
+        }
+        
+        .stat-card .number {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 800;
+            color: var(--dark-grey);
+            margin: 0;
+            line-height: 1;
+        }
+
+        .charts-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .chart-box {
+            background: var(--white);
+            padding: 25px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+        
+        .chart-box h4 {
+            text-align: center;
+            color: var(--tv-green);
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+        }
+        
+        .chart-container {
+            width: 100%;
+            height: 300px;
+            position: relative;
+        }
+
+        /* === قسم التوصيات === */
+        .recommendations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            text-align: right;
+        }
+
+        .rec-card {
+            background-color: var(--light-grey);
+            padding: 25px 20px;
+            border-radius: 8px;
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            transition: transform 0.3s ease;
+        }
+        
+        .rec-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .rec-card .icon {
+            font-size: 1.8rem;
+            color: var(--tv-green);
+            margin-top: 5px;
+            flex-shrink: 0;
+        }
+        
+        .rec-card h4 {
+            margin: 0 0 10px 0;
+            font-size: 1.2rem;
+        }
+        
+        .rec-card p {
+            margin: 0;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        /* === التذييل (Footer) === */
+        .footer {
+            background-color: var(--dark-grey);
+            color: var(--white);
+            padding: 40px 5%;
+            text-align: center;
+        }
+        
+        .footer p {
+            line-height: 1.6;
+            margin: 5px 0;
+        }
+
+        /* === التجاوب مع الشاشات الصغيرة === */
+        @media (max-width: 992px) {
+            .hero {
+                min-height: 70vh;
+            }
+            
+            .charts-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .objectives-table {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header { 
+                flex-direction: column; 
+                gap: 15px; 
+                padding: 15px 20px;
+            }
+            
+            .logo-text {
+                font-size: 1.5rem;
+            }
+            
+            .nav-links {
+                gap: 1rem;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .hero {
+                min-height: 60vh;
+                padding: 30px 15px;
+            }
+            
+            .section {
+                padding: 60px 20px;
+            }
+            
+            .footer { 
+                padding: 40px 20px;
+            }
+            
+            .dashboard-container {
+                padding: 30px 20px;
+                gap: 20px;
+            }
+            
+            .methodology-grid,
+            .recommendations-grid {
+                gap: 20px;
+            }
+            
+            .method-card,
+            .rec-card {
+                padding: 20px 15px;
+            }
+            
+            .objectives-table th,
+            .objectives-table td {
+                padding: 12px 10px;
+                font-size: 0.9rem;
+            }
+            
+            .activities-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .activity-actions {
+                flex-direction: column;
+            }
+            
+            .forms-container {
+                padding: 30px 25px;
+            }
+            
+            .forms-icon {
+                font-size: 3rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .hero {
+                min-height: 50vh;
+            }
+            
+            .section {
+                padding: 40px 15px;
+            }
+            
+            .dashboard-container {
+                grid-template-columns: 1fr;
+                padding: 20px 15px;
+            }
+            
+            .chart-container {
+                height: 250px;
+            }
+            
+            .objectives-table {
+                font-size: 0.85rem;
+            }
+            
+            .activity-actions .btn {
+                padding: 10px 15px;
+                font-size: 0.9rem;
+            }
+            
+            .forms-btn {
+                padding: 12px 20px;
+                font-size: 1rem;
+            }
+        }
+        
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- شريط التقدم -->
+    <div class="loading-bar" id="loadingBar"></div>
+
+    <header class="header">
+        <div class="logo-text">
+            <i class="fas fa-chart-line"></i>
+            <span>منصة الإحصاء التطبيقي</span>
+        </div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="#methodology">المنهجية</a></li>
+                <li><a href="#objectives">الأهداف</a></li>
+                <li><a href="#activities">الأنشطة</a></li>
+                <li><a href="#forms">الاستبيان</a></li>
+                <li><a href="#dashboard">النتائج</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <h1>نحو تدريب إحصائي يواكب سوق العمل</h1>
+            <p>
+                عرض منهجي لتطبيق وقياس ارتباط مقرر مقدمة في الإحصاء (STAT-101) بمتطلبات سوق العمل السعودي
+            </p>
+            <a href="#activities" class="hero-btn">ابدأ الأنشطة التفاعلية</a>
+        </section>
+
+        <section id="methodology" class="section">
+            <h2 class="section-title">المنهجية والنموذج المتبع</h2>
+            <p class="section-subtitle">
+                تم بناء آلية القياس على أربع مراحل متكاملة لضمان تحقيق الأهداف وجمع البيانات بدقة.
+            </p>
+            <div class="methodology-grid">
+                <div class="method-card">
+                    <div class="icon">📝</div>
+                    <h3>المرحلة الأولى: التخطيط</h3>
+                    <p>ربط كل هدف تفصيلي بمهارة إحصائية ومجال عمل محدد.</p>
+                </div>
+                <div class="method-card">
+                    <div class="icon">📂</div>
+                    <h3>المرحلة الثانية: التنفيذ</h3>
+                    <p>تطبيق الأنشطة العملية لجمع وعرض وتحليل البيانات.</p>
+                </div>
+                <div class="method-card">
+                    <div class="icon">📊</div>
+                    <h3>المرحلة الثالثة: القياس</h3>
+                    <p>تحليل رضا المتدربات عبر استبيانات إحصائية.</p>
+                </div>
+                <div class="method-card">
+                    <div class="icon">📈</div>
+                    <h3>المرحلة الرابعة: إعداد التقارير</h3>
+                    <p>عرض النتائج والمؤشرات لاتخاذ قرارات تطويرية.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- قسم الأهداف التفصيلية -->
+        <section id="objectives" class="section objectives-section">
+            <h2 class="section-title">الأهداف التفصيلية للمقرر وارتباطها بسوق العمل</h2>
+            <div class="table-container">
+                <table class="objectives-table">
+                    <thead>
+                        <tr>
+                            <th>الوحدة الدراسية</th>
+                            <th>الهدف التفصيلي</th>
+                            <th>تطبيقات مباشرة في سوق العمل السعودي</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="unit-icon">📋</span> <span class="unit-title">الوحدة الأولى: جمع البيانات</span></td>
+                            <td>فهم مصادر جمع البيانات وطرق جمعها وأساليبها</td>
+                            <td>
+                                <ul class="objectives-list">
+                                    <li>البحوث التسويقية: جمع بيانات العملاء وتفضيلاتهم</li>
+                                    <li>التخطيط الاستراتيجي: جمع البيانات الديموغرافية والاقتصادية</li>
+                                    <li>إدارة الجودة: جمع بيانات عن جودة المنتجات والخدمات</li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><span class="unit-icon">📊</span> <span class="unit-title">الوحدة الثانية: عرض البيانات</span></td>
+                            <td>تنظيم البيانات وتلخيصها وعرضها جدولياً وبيانياً</td>
+                            <td>
+                                <ul class="objectives-list">
+                                    <li>التقارير الإدارية: عرض بيانات الأداء والمؤشرات</li>
+                                    <li>عروض العمل: تحويل البيانات الرقمية إلى رسوم بيانية</li>
+                                    <li>البحوث الأكاديمية: عرض نتائج الدراسات والبحوث</li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><span class="unit-icon">🧮</span> <span class="unit-title">الوحدة الثالثة: مقاييس النزعة المركزية</span></td>
+                            <td>حساب واستخدام الوسط الحسابي والوسيط والمنوال</td>
+                            <td>
+                                <ul class="objectives-list">
+                                    <li>التحليل المالي: حساب متوسط الدخل والمبيعات</li>
+                                    <li>إدارة الموارد البشرية: تحديد متوسط الرواتب والمكافآت</li>
+                                    <li>البحوث الاجتماعية: تحديد القيم الأكثر تكراراً في الاستبيانات</li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><span class="unit-icon">📐</span> <span class="unit-title">الوحدة الرابعة: مقاييس التشتت</span></td>
+                            <td>حساب المدى والتباين والانحراف المعياري ومعامل الاختلاف</td>
+                            <td>
+                                <ul class="objectives-list">
+                                    <li>التحليل المالي: قياس مخاطر الاستثمارات</li>
+                                    <li>مراقبة الجودة: قياس مدى تجانس المنتجات</li>
+                                    <li>البحوث العلمية: قياس درجة التباين في العينات</li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><span class="unit-icon">🔗</span> <span class="unit-title">الوحدة الخامسة: معاملات الارتباط البسيط</span></td>
+                            <td>دراسة العلاقة بين المتغيرات وتحديد نوع العلاقة ومدى قوة ترابطها</td>
+                            <td>
+                                <ul class="objectives-list">
+                                    <li>بحوث التسويق: دراسة العلاقة بين الإعلان والمبيعات</li>
+                                    <li>التحليل الاقتصادي: دراسة العلاقة بين العرض والطلب</li>
+                                    <li>البحوث الاجتماعية: دراسة العلاقة بين التعليم والدخل</li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><span class="unit-icon">📈</span> <span class="unit-title">الوحدة السادسة: السلاسل الزمنية</span></td>
+                            <td>التنبؤ بالمبيعات المستقبلية باستخدام السلاسل الزمنية ومعادلة الاتجاه العام</td>
+                            <td>
+                                <ul class="objectives-list">
+                                    <li>التخطيط المالي: التنبؤ بالمبيعات والأرباح المستقبلية</li>
+                                    <li>إدارة المخزون: التنبؤ بالطلب على المنتجات</li>
+                                    <li>التخطيط الاستراتيجي: التنبؤ بالنمو الاقتصادي والتوسع</li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><span class="unit-icon">📉</span> <span class="unit-title">الوحدة السابعة: الأرقام القياسية</span></td>
+                            <td>استخدام الأرقام القياسية لدراسة نسبة التغير في المتغيرات</td>
+                            <td>
+                                <ul class="objectives-list">
+                                    <li>التحليل الاقتصادي: قياس التضخم وتغير الأسعار</li>
+                                    <li>إدارة الموارد البشرية: تحديد زيادات الرواتب</li>
+                                    <li>بحوث السوق: قياس التغير في حصص السوق</li>
+                                </ul>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- قسم الأنشطة التفاعلية - 7 أنشطة -->
+        <section id="activities" class="section activities-section">
+            <h2 class="section-title">الأنشطة العملية التفاعلية</h2>
+            <p class="section-subtitle">طبيقي ما تعلمتيه من خلال 7 أنشطة عملية تغطي جميع وحدات المقرر</p>
+
+            <div class="activities-grid">
+                <!-- النشاط 1 -->
+                <div class="activity-card">
+                    <div class="activity-header">
+                        <div class="activity-icon">📋</div>
+                        <div class="activity-title">النشاط 1: جمع بيانات السوق النسائي</div>
+                    </div>
+                    <div class="activity-body">
+                        <p class="activity-description">تصميم استبيان وجمع بيانات عن منتجات التجميل النسائية</p>
+                        <div class="activity-skills">
+                            <span class="skill-tag">تصميم الاستبيان</span>
+                            <span class="skill-tag">جمع البيانات</span>
+                            <span class="skill-tag">تحليل العينات</span>
+                        </div>
+                        <div class="activity-actions">
+                            <a href="activity1.html" class="btn" target="_blank">ابدأ النشاط</a>
+                            <button class="btn btn-outline show-details" onclick="showActivityDetails(1)">عرض التفاصيل</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- النشاط 2 -->
+                <div class="activity-card">
+                    <div class="activity-header">
+                        <div class="activity-icon">📊</div>
+                        <div class="activity-title">النشاط 2: عرض بيانات المتجر الإلكتروني</div>
+                    </div>
+                    <div class="activity-body">
+                        <p class="activity-description">تحويل بيانات مبيعات إلى جداول تكرارية ورسوم بيانية</p>
+                        <div class="activity-skills">
+                            <span class="skill-tag">الجداول التكرارية</span>
+                            <span class="skill-tag">المدرج التكراري</span>
+                            <span class="skill-tag">الرسوم البيانية</span>
+                        </div>
+                        <div class="activity-actions">
+                            <a href="activity2.html" class="btn" target="_blank">ابدأ النشاط</a>
+                            <button class="btn btn-outline show-details" onclick="showActivityDetails(2)">عرض التفاصيل</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- النشاط 3 -->
+                <div class="activity-card">
+                    <div class="activity-header">
+                        <div class="activity-icon">🧮</div>
+                        <div class="activity-title">النشاط 3: تحليل أسعار المنتجات</div>
+                    </div>
+                    <div class="activity-body">
+                        <p class="activity-description">حساب مقاييس النزعة المركزية لأسعار منتجات التجميل</p>
+                        <div class="activity-skills">
+                            <span class="skill-tag">الوسط الحسابي</span>
+                            <span class="skill-tag">الوسيط</span>
+                            <span class="skill-tag">المنوال</span>
+                        </div>
+                        <div class="activity-actions">
+                            <a href="activity3.html" class="btn" target="_blank">ابدأ النشاط</a>
+                            <button class="btn btn-outline show-details" onclick="showActivityDetails(3)">عرض التفاصيل</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- النشاط 4 -->
+                <div class="activity-card">
+                    <div class="activity-header">
+                        <div class="activity-icon">📐</div>
+                        <div class="activity-title">النشاط 4: تحليل جودة المنتجات</div>
+                    </div>
+                    <div class="activity-body">
+                        <p class="activity-description">دراسة مدى تجانس جودة المنتجات باستخدام مقاييس التشتت</p>
+                        <div class="activity-skills">
+                            <span class="skill-tag">المدى</span>
+                            <span class="skill-tag">التباين</span>
+                            <span class="skill-tag">الانحراف المعياري</span>
+                        </div>
+                        <div class="activity-actions">
+                            <a href="activity4.html" class="btn" target="_blank">ابدأ النشاط</a>
+                            <button class="btn btn-outline show-details" onclick="showActivityDetails(4)">عرض التفاصيل</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- النشاط 5 -->
+                <div class="activity-card">
+                    <div class="activity-header">
+                        <div class="activity-icon">🔗</div>
+                        <div class="activity-title">النشاط 5: دراسة العلاقة بين الإعلان والمبيعات</div>
+                    </div>
+                    <div class="activity-body">
+                        <p class="activity-description">تحليل العلاقة بين إنفاق الإعلان ومعدل المبيعات</p>
+                        <div class="activity-skills">
+                            <span class="skill-tag">معامل بيرسون</span>
+                            <span class="skill-tag">معامل سبيرمان</span>
+                            <span class="skill-tag">تحليل الارتباط</span>
+                        </div>
+                        <div class="activity-actions">
+                            <a href="activity5.html" class="btn" target="_blank">ابدأ النشاط</a>
+                            <button class="btn btn-outline show-details" onclick="showActivityDetails(5)">عرض التفاصيل</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- النشاط 6 -->
+                <div class="activity-card">
+                    <div class="activity-header">
+                        <div class="activity-icon">📈</div>
+                        <div class="activity-title">النشاط 6: التنبؤ بمبيعات منتجات الصيف</div>
+                    </div>
+                    <div class="activity-body">
+                        <p class="activity-description">استخدام السلاسل الزمنية للتنبؤ بالمبيعات المستقبلية</p>
+                        <div class="activity-skills">
+                            <span class="skill-tag">السلاسل الزمنية</span>
+                            <span class="skill-tag">معادلة الاتجاه</span>
+                            <span class="skill-tag">التنبؤ المستقبلي</span>
+                        </div>
+                        <div class="activity-actions">
+                            <a href="activity6.html" class="btn" target="_blank">ابدأ النشاط</a>
+                            <button class="btn btn-outline show-details" onclick="showActivityDetails(6)">عرض التفاصيل</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- النشاط 7 -->
+                <div class="activity-card">
+                    <div class="activity-header">
+                        <div class="activity-icon">📉</div>
+                        <div class="activity-title">النشاط 7: تحليل تغير أسعار منتجات التجميل</div>
+                    </div>
+                    <div class="activity-body">
+                        <p class="activity-description">استخدام الأرقام القياسية لدراسة تغير الأسعار</p>
+                        <div class="activity-skills">
+                            <span class="skill-tag">الأرقام القياسية</span>
+                            <span class="skill-tag">نسبة التغير</span>
+                            <span class="skill-tag">التحليل الزمني</span>
+                        </div>
+                        <div class="activity-actions">
+                            <a href="activity7.html" class="btn" target="_blank">ابدأ النشاط</a>
+                            <button class="btn btn-outline show-details" onclick="showActivityDetails(7)">عرض التفاصيل</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- قسم الاستبيان (تم تغييره من الاستبيان الرسمي) -->
+        <section id="forms" class="forms-section">
+            <div class="forms-container">
+                <i class="fas fa-file-alt forms-icon"></i>
+                <h2 class="forms-title">الاستبيان: قياس رضا المتدربات</h2>
+                <p class="forms-description">
+                    شاركي في الاستبيان للمساهمة في تحسين جودة التدريب وتطوير المقررات بما يتناسب مع متطلبات سوق العمل
+                </p>
+                <a href="https://forms.office.com/r/zXFP4Ve2mQ?origin=lprLink" target="_blank" class="forms-btn">
+                    <i class="fab fa-microsoft"></i>
+                    الانتقال إلى الاستبيان
+                </a>
+            </div>
+        </section>
+
+        <!-- قسم النتائج العامة -->
+        <section id="dashboard" class="section">
+            <h2 class="section-title">النتائج والإحصائيات</h2>
+            <p class="section-subtitle">للعام التدريبي 1447هـ - الفصل الثاني</p>
+            <div class="dashboard-container">
+                <div class="stat-card">
+                    <h3>معدل ارتباط المقرر بسوق العمل</h3>
+                    <p class="number">0%</p>
+                </div>
+                <div class="stat-card">
+                    <h3>نسبة المهارات المطبقة</h3>
+                    <p class="number">0%</p>
+                </div>
+                <div class="stat-card">
+                    <h3>متوسط رضا المتدربات</h3>
+                    <p class="number">0/5</p>
+                </div>
+            </div>
+
+            <div class="charts-container">
+                <div class="chart-box">
+                    <h4>تحليل رضا المتدربات</h4>
+                    <div class="chart-container">
+                        <canvas id="satisfactionChart"></canvas>
+                    </div>
+                </div>
+                <div class="chart-box">
+                    <h4>أكثر مجالات سوق العمل تركيزاً</h4>
+                    <div class="chart-container">
+                        <canvas id="jobMarketChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="recommendations" class="section">
+            <h2 class="section-title">التوصيات</h2>
+            <div class="recommendations-grid">
+                <div class="rec-card">
+                    <div class="icon">🔄</div>
+                    <div>
+                        <h4>التطوير المستمر</h4>
+                        <p>مواصلة تطوير المقرر بإضافة تطبيقات إحصائية حديثة في التحليل المالي والتسويق الرقمي.</p>
+                    </div>
+                </div>
+                <div class="rec-card">
+                    <div class="icon">🤝</div>
+                    <div>
+                        <h4>تعزيز الشراكات</h4>
+                        <p>بناء شراكات مع مؤسسات تعمل في مجال تحليل البيانات وعلوم البيانات.</p>
+                    </div>
+                </div>
+                <div class="rec-card">
+                    <div class="icon">📚</div>
+                    <div>
+                        <h4>تطوير المحتوى</h4>
+                        <p>إضافة دراسات حالة واقعية من الشركات السعودية لتعزيز الجانب العملي.</p>
+                    </div>
+                </div>
+                <div class="rec-card">
+                    <div class="icon">🎯</div>
+                    <div>
+                        <h4>قياس الأثر</h4>
+                        <p>متابعة الخريجات بعد التوظيف لقياس أثر المهارات الإحصائية المكتسبة على أدائهن.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="footer">
+        <p>منصة قياس ارتباط مقرر مقدمة في الإحصاء بسوق العمل</p>
+        <p><strong>إعداد:</strong> المدربة شروق الحربي | <strong>المقرر:</strong> مقدمة في الإحصاء (STAT-101)</p>
+        <p>جميع الحقوق محفوظة © 1447هـ</p>
+    </footer>
+
+    <script>
+        // تخزين تقدم الأنشطة
+        let completedActivities = JSON.parse(localStorage.getItem('completedActivities')) || [];
+        
+        // شريط التقدم أثناء التمرير
+        window.addEventListener('scroll', function() {
+            const winHeight = window.innerHeight;
+            const docHeight = document.documentElement.scrollHeight;
+            const scrollTop = window.pageYOffset;
+            const trackLength = docHeight - winHeight;
+            const progress = scrollTop / trackLength;
+            
+            document.getElementById('loadingBar').style.transform = `scaleX(${progress})`;
+        });
+
+        // التنقل السلس بين الأقسام
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // عرض تفاصيل النشاط
+        function showActivityDetails(activityNumber) {
+            const activityTitles = [
+                "جمع بيانات السوق النسائي",
+                "عرض بيانات المتجر الإلكتروني",
+                "تحليل أسعار المنتجات",
+                "تحليل جودة المنتجات",
+                "دراسة العلاقة بين الإعلان والمبيعات",
+                "التنبؤ بمبيعات منتجات الصيف",
+                "تحليل تغير أسعار منتجات التجميل"
+            ];
+            
+            const activityDescriptions = [
+                "تصميم استبيان إلكتروني لجمع بيانات عن منتجات التجميل النسائية من عينة من المستهدفات",
+                "تحويل بيانات مبيعات متجر إلكتروني إلى جداول تكرارية ورسوم بيانية مختلفة",
+                "حساب مقاييس النزعة المركزية لأسعار منتجات التجميل ومقارنة بين المتاجر",
+                "دراسة مدى تجانس جودة المنتجات باستخدام مقاييس التشتت المختلفة",
+                "تحليل العلاقة بين ميزانية الإعلان ومعدل المبيعات باستخدام معاملات الارتباط",
+                "استخدام بيانات المبيعات التاريخية للتنبؤ بالمبيعات المستقبلية للموسم القادم",
+                "دراسة تغير أسعار منتجات التجميل خلال سنوات مختلفة باستخدام الأرقام القياسية"
+            ];
+            
+            const index = activityNumber - 1;
+            alert(`📋 النشاط ${activityNumber}: ${activityTitles[index]}\n\n📝 الوصف: ${activityDescriptions[index]}\n\n✅ المهارات المكتسبة: مهارات إحصائية عملية في مجال العمل\n\n🔗 للبدء بالنشاط، اضغطي على زر "ابدأ النشاط"`);
+        }
+
+        // الرسوم البيانية العامة (جميعها صفرية)
+        window.addEventListener('load', function() {
+            // رسم بياني لرضا المتدربات (جميع القيم صفر)
+            const satisfactionCtx = document.getElementById('satisfactionChart').getContext('2d');
+            new Chart(satisfactionCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['جمع البيانات', 'عرض البيانات', 'التحليل الإحصائي', 'التطبيقات العملية', 'الموارد التعليمية'],
+                    datasets: [{
+                        label: 'مستوى الرضا',
+                        data: [0, 0, 0, 0, 0],
+                        backgroundColor: [
+                            'rgba(0, 103, 71, 0.7)',
+                            'rgba(0, 103, 71, 0.7)',
+                            'rgba(0, 103, 71, 0.7)',
+                            'rgba(0, 103, 71, 0.7)',
+                            'rgba(0, 103, 71, 0.7)'
+                        ],
+                        borderColor: [
+                            'rgba(0, 103, 71, 1)',
+                            'rgba(0, 103, 71, 1)',
+                            'rgba(0, 103, 71, 1)',
+                            'rgba(0, 103, 71, 1)',
+                            'rgba(0, 103, 71, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 5,
+                            ticks: {
+                                stepSize: 1
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    }
+                }
+            });
+
+            // رسم بياني لمجالات سوق العمل
+            const jobMarketCtx = document.getElementById('jobMarketChart').getContext('2d');
+            new Chart(jobMarketCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['أبحاث السوق', 'التحليل المالي', 'علوم البيانات', 'مراقبة الجودة', 'البحوث الاجتماعية'],
+                    datasets: [{
+                        label: 'مجالات سوق العمل',
+                        data: [0, 0, 0, 0, 0],
+                        backgroundColor: [
+                            'rgba(0, 103, 71, 0.8)',
+                            'rgba(0, 86, 59, 0.8)',
+                            'rgba(0, 69, 47, 0.8)',
+                            'rgba(0, 52, 36, 0.8)',
+                            'rgba(0, 35, 24, 0.8)'
+                        ],
+                        borderColor: [
+                            'rgba(0, 103, 71, 1)',
+                            'rgba(0, 86, 59, 1)',
+                            'rgba(0, 69, 47, 1)',
+                            'rgba(0, 52, 36, 1)',
+                            'rgba(0, 35, 24, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            rtl: true
+                        }
+                    }
+                }
+            });
+            
+            // تحديث تقدم الأنشطة
+            updateActivityProgress();
+        });
+
+        // تحديث تقدم الأنشطة
+        function updateActivityProgress() {
+            completedActivities = JSON.parse(localStorage.getItem('completedActivities')) || [];
+            
+            // يمكن استخدام هذه البيانات لتحديث المؤشرات في المستقبل
+            if (completedActivities.length > 0) {
+                console.log(`تم إكمال ${completedActivities.length} من أصل 7 أنشطة`);
+            }
+        }
+
+        // تحديث الصفحة عند العودة من الأنشطة
+        window.addEventListener('pageshow', function() {
+            updateActivityProgress();
+        });
+    </script>
+</body>
+</html>

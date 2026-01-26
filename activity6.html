@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>ورقة عمل: التنبؤ بمبيعات منتجات الصيف</title>
+    <style>/* نفس التصميم */</style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>ورقة عمل: التنبؤ بمبيعات منتجات الصيف</h1>
+            <h2>(السلاسل الزمنية - معادلة الاتجاه العام - التنبؤ المستقبلي)</h2>
+        </div>
+        
+        <div class="section">
+            <h3>الجزء الأول: بيانات المبيعات التاريخية (3 سنوات)</h3>
+            <table id="timeSeriesTable"><!-- بيانات المبيعات السنوية --></table>
+        </div>
+        
+        <div class="section calculation-section">
+            <h3>الجزء الثاني: معادلة الاتجاه العام</h3>
+            <table>
+                <tr><td>معادلة الاتجاه</td><td><input id="trendEquation" value="ص = أ س + ب" readonly></td></tr>
+                <tr><td>قيمة أ (الميل)</td><td><input id="slope" readonly></td></tr>
+                <tr><td>قيمة ب (الثابت)</td><td><input id="intercept" readonly></td></tr>
+                <tr><td>معامل التحديد (R²)</td><td><input id="rSquared" readonly></td></tr>
+            </table>
+            
+            <div class="chart-container">
+                <canvas id="timeSeriesChart"></canvas>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h3>الجزء الثالث: التنبؤ بالمبيعات المستقبلية</h3>
+            <div class="info-item">
+                <label>السنة المستهدفة للتنبؤ:</label>
+                <input type="number" id="targetYear" value="2026" min="2024" max="2030">
+            </div>
+            <table>
+                <tr><td>المبيعات المتوقعة</td><td><input id="predictedSales" readonly> ريال</td></tr>
+                <tr><td>نسبة النمو المتوقعة</td><td><input id="growthRate" readonly>%</td></tr>
+            </table>
+            
+            <textarea id="planning" placeholder="ضعي خطة شراء وتسويق بناءً على التنبؤات..."></textarea>
+        </div>
+    </div>
+    
+    <script>
+        // كود كامل لحساب معادلة الاتجاه والتنبؤ
+        function calculateTrendLine(x, y) {
+            const n = x.length;
+            const sumX = x.reduce((a, b) => a + b, 0);
+            const sumY = y.reduce((a, b) => a + b, 0);
+            const sumXY = x.reduce((sum, xi, i) => sum + xi * y[i], 0);
+            const sumX2 = x.reduce((sum, xi) => sum + xi * xi, 0);
+            
+            const slope = (n * sumXY - sumX * sumY) / (n * sumX2 - sumX * sumX);
+            const intercept = (sumY - slope * sumX) / n;
+            
+            return { slope, intercept };
+        }
+        // ... كود كامل آخر
+    </script>
+</body>
+</html>

@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ورقة عمل: جمع بيانات السوق النسائي</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 3px solid #006747;
+            padding-bottom: 20px;
+        }
+        
+        .header h1 {
+            color: #006747;
+            margin-bottom: 10px;
+        }
+        
+        .header h2 {
+            color: #666;
+            font-weight: normal;
+        }
+        
+        .info-section {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 8px;
+        }
+        
+        .info-item {
+            margin-bottom: 15px;
+        }
+        
+        .info-item label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #006747;
+        }
+        
+        .info-item input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+            padding: 25px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            border-right: 5px solid #006747;
+        }
+        
+        .section h3 {
+            color: #006747;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #ddd;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+        }
+        
+        th {
+            background: #006747;
+            color: white;
+            padding: 15px;
+            text-align: right;
+        }
+        
+        td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+        
+        tr:nth-child(even) {
+            background: #f5f5f5;
+        }
+        
+        input[type="text"], input[type="number"], select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            text-align: center;
+        }
+        
+        .calculation-section {
+            background: #e8f5e9;
+            border-color: #2e7d32;
+        }
+        
+        .calculation-section h3 {
+            color: #2e7d32;
+        }
+        
+        .instructions {
+            background: #fff3e0;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 30px;
+            border-right: 5px solid #ff9800;
+        }
+        
+        .instructions h3 {
+            color: #ff9800;
+        }
+        
+        .btn {
+            background: #006747;
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px;
+            transition: background 0.3s;
+        }
+        
+        .btn:hover {
+            background: #004d36;
+        }
+        
+        .btn-print {
+            background: #2196f3;
+        }
+        
+        .btn-print:hover {
+            background: #0b7dda;
+        }
+        
+        .btn-container {
+            text-align: center;
+            margin-top: 30px;
+        }
+        
+        @media print {
+            body { background: white; }
+            .container { box-shadow: none; }
+            .btn-container { display: none; }
+            .instructions { page-break-before: always; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>ورقة عمل: جمع بيانات السوق النسائي</h1>
+            <h2>(تصميم الاستبيان - جمع البيانات - تحليل العينات)</h2>
+        </div>
+        
+        <!-- المعلومات الأساسية -->
+        <div class="info-section">
+            <div class="info-item">
+                <label>اسم المتدربة:</label>
+                <input type="text" id="studentName" placeholder="أدخل اسمك الكامل">
+            </div>
+            <div class="info-item">
+                <label>الرقم التدريبي:</label>
+                <input type="text" id="studentId" placeholder="أدخل رقمك التدريبي">
+            </div>
+            <div class="info-item">
+                <label>اسم المقرر:</label>
+                <input type="text" value="إحص 101 - مقدمة في الإحصاء" readonly>
+            </div>
+            <div class="info-item">
+                <label>تاريخ النشاط:</label>
+                <input type="text" id="activityDate" value="26/01/2026" readonly>
+            </div>
+        </div>
+        
+        <!-- المشروع -->
+        <div class="section">
+            <h3>المشروع: تصميم استبيان لجمع بيانات سوق المنتجات النسائية</h3>
+            <p><strong>أهداف المشروع:</strong></p>
+            <ul>
+                <li>تطبيق مفاهيم جمع البيانات في بيئة عملية</li>
+                <li>فهم أنواع مصادر جمع البيانات (تاريخية وميدانية)</li>
+                <li>تطوير مهارات تصميم الاستبيانات الإلكترونية</li>
+                <li>تحليل العينات ومجتمع الدراسة</li>
+            </ul>
+        </div>
+        
+        <!-- الجزء الأول: تصميم الاستبيان -->
+        <div class="section">
+            <h3>الجزء الأول: تصميم استبيان البحث</h3>
+            
+            <div class="info-item">
+                <label>موضوع الدراسة:</label>
+                <input type="text" id="studyTopic" placeholder="مثال: تفضيلات مستحضرات التجميل الطبيعية">
+            </div>
+            
+            <div class="info-item">
+                <label>مجتمع الدراسة:</label>
+                <input type="text" id="studyPopulation" placeholder="مثال: النساء السعوديات من عمر 18-40 سنة">
+            </div>
+            
+            <div class="info-item">
+                <label>حجم العينة المستهدفة:</label>
+                <input type="number" id="sampleSize" placeholder="20" min="10" max="100">
+            </div>
+            
+            <h4>أسئلة الاستبيان:</h4>
+            <table>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>نوع السؤال</th>
+                        <th>مثال للصياغة</th>
+                        <th>خيارات الإجابة</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td><input type="text" placeholder="سؤال مغلق" value="سؤال مغلق"></td>
+                        <td><input type="text" placeholder="ما هو الماركة المفضلة لديك؟"></td>
+                        <td><input type="text" placeholder="أ، ب، ج، د"></td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td><input type="text" placeholder="سؤال مفتوح" value="سؤال مفتوح"></td>
+                        <td><input type="text" placeholder="ما هي العوامل التي تؤثر على اختيارك؟"></td>
+                        <td><input type="text" placeholder="إجابة حرة"></td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td><input type="text" placeholder="مقياس ليكرت" value="مقياس ليكرت"></td>
+                        <td><input type="text" placeholder="ما مدى رضاك عن المنتج؟"></td>
+                        <td><input type="text" placeholder="غير راض، محايد، راض، راض جدا"></td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td><input type="text" placeholder="سؤال تصنيفي" value="سؤال تصنيفي"></td>
+                        <td><input type="text" placeholder="ما هي فئتك العمرية؟"></td>
+                        <td><input type="text" placeholder="18-25، 26-35، 36-45"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- الجزء الثاني: مصادر جمع البيانات -->
+        <div class="section">
+            <h3>الجزء الثاني: مصادر جمع البيانات</h3>
+            
+            <h4>المصادر التاريخية (الثانوية):</h4>
+            <table>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>نوع المصدر</th>
+                        <th>اسم المصدر</th>
+                        <th>البيانات المتوقعة</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td><input type="text" placeholder="تقارير رسمية"></td>
+                        <td><input type="text" placeholder="هيئة الغذاء والدواء"></td>
+                        <td><input type="text" placeholder="معدلات استهلاك المنتجات"></td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td><input type="text" placeholder="دراسات سابقة"></td>
+                        <td><input type="text" placeholder="بحث جامعة الملك سعود"></td>
+                        <td><input type="text" placeholder="اتجاهات السوق"></td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <h4>المصادر الميدانية (الأولية):</h4>
+            <table>
+                <thead>
+                    <tr>
+                        <th>طريقة الجمع</th>
+                        <th>المزايا</th>
+                        <th>العيوب</th>
+                        <th>الملاءمة لموضوعك</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>المقابلة الشخصية</td>
+                        <td><input type="text" placeholder="دقة عالية"></td>
+                        <td><input type="text" placeholder="تكاليف عالية"></td>
+                        <td><select><option>مناسبة</option><option>غير مناسبة</option></select></td>
+                    </tr>
+                    <tr>
+                        <td>الاستبيان الإلكتروني</td>
+                        <td><input type="text" placeholder="سرعة التوزيع"></td>
+                        <td><input type="text" placeholder="معدل استجابة منخفض"></td>
+                        <td><select><option>مناسبة</option><option>غير مناسبة</option></select></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- الجزء الثالث: جمع البيانات الفعلي -->
+        <div class="section">
+            <h3>الجزء الثالث: جمع البيانات الفعلي</h3>
+            
+            <h4>بيانات العينة (أدخلي بيانات 10 مشاركات):</h4>
+            <table>
+                <thead>
+                    <tr>
+                        <th>رقم المشاركة</th>
+                        <th>الفئة العمرية</th>
+                        <th>المنتج المفضل</th>
+                        <th>السعر المناسب (ريال)</th>
+                        <th>مستوى الرضا (1-5)</th>
+                    </tr>
+                </thead>
+                <tbody id="sampleData">
+                    <!-- سيتم إضافة الصفوف ديناميكياً -->
+                </tbody>
+            </table>
+            
+            <button class="btn" onclick="addSampleRow()">+ إضافة مشاركة جديدة</button>
+        </div>
+        
+        <!-- الجزء الرابع: التحليل الإحصائي -->
+        <div class="section calculation-section">
+            <h3>الجزء الرابع: التحليل الإحصائي الأولي</h3>
+            
+            <h4>ملخص البيانات المجمعة:</h4>
+            <table>
+                <thead>
+                    <tr>
+                        <th>المقياس الإحصائي</th>
+                        <th>الفئة العمرية</th>
+                        <th>السعر المناسب</th>
+                        <th>مستوى الرضا</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>عدد البيانات (ن)</td>
+                        <td><input type="number" id="countAge" readonly></td>
+                        <td><input type="number" id="countPrice" readonly></td>
+                        <td><input type="number" id="countSatisfaction" readonly></td>
+                    </tr>
+                    <tr>
+                        <td>المجموع</td>
+                        <td><input type="number" id="sumAge" readonly></td>
+                        <td><input type="number" id="sumPrice" readonly></td>
+                        <td><input type="number" id="sumSatisfaction" readonly></td>
+                    </tr>
+                    <tr>
+                        <td>المتوسط الحسابي</td>
+                        <td><input type="number" id="avgAge" readonly></td>
+                        <td><input type="number" id="avgPrice" readonly></td>
+                        <td><input type="number" id="avgSatisfaction" readonly></td>
+                    </tr>
+                    <tr>
+                        <td>القيمة الأكثر تكراراً (المنوال)</td>
+                        <td><input type="text" id="modeAge" readonly></td>
+                        <td><input type="text" id="modePrice" readonly></td>
+                        <td><input type="text" id="modeSatisfaction" readonly></td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <h4>استنتاجات أولية:</h4>
+            <textarea id="conclusions" rows="4" placeholder="اكتبي ملاحظاتك واستنتاجاتك من البيانات المجمعة..." style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;"></textarea>
+        </div>
+        
+        <!-- التعليمات -->
+        <div class="instructions">
+            <h3>تعليمات التسليم:</h3>
+            <ol>
+                <li>املئي جميع أجزاء ورقة العمل بدقة</li>
+                <li>احفظي الورقة بإسم: "اسمك_النشاط1_إحص101"</li>
+                <li>تأكدي من صحة جميع الحسابات الإحصائية</li>
+                <li>ارفعي الملف على منصة التدريب قبل الموعد النهائي</li>
+                <li>احتفظي بنسخة من البيانات المجمعة للاستخدام في الأنشطة القادمة</li>
+            </ol>
+        </div>
+        
+        <!-- أزرار التحكم -->
+        <div class="btn-container">
+            <button class="btn" onclick="calculateStatistics()">حساب الإحصائيات</button>
+            <button class="btn" onclick="saveActivity()">حفظ النشاط</button>
+            <button class="btn btn-print" onclick="window.print()">طباعة الورقة</button>
+            <button class="btn" onclick="clearActivity()">مسح النموذج</button>
+        </div>
+    </div>
+
+    <script>
+        // بيانات أولية للعينة
+        let sampleRows = 3;
+        
+        // تهيئة الجدول ببيانات أولية
+        function initializeSampleTable() {
+            const sampleData = [
+                { age: '18-25', product: 'أحمر شفاه', price: 45, satisfaction: 4 },
+                { age: '26-35', product: 'كريم أساس', price: 85, satisfaction: 5 },
+                { age: '18-25', product: 'ماسكارا', price: 35, satisfaction: 3 }
+            ];
+            
+            const tbody = document.getElementById('sampleData');
+            tbody.innerHTML = '';
+            
+            sampleData.forEach((data, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td><select><option ${data.age === '18-25' ? 'selected' : ''}>18-25</option><option ${data.age === '26-35' ? 'selected' : ''}>26-35</option><option ${data.age === '36-45' ? 'selected' : ''}>36-45</option></select></td>
+                    <td><input type="text" value="${data.product}"></td>
+                    <td><input type="number" value="${data.price}" min="10" max="200"></td>
+                    <td><select><option ${data.satisfaction === 1 ? 'selected' : ''}>1</option><option ${data.satisfaction === 2 ? 'selected' : ''}>2</option><option ${data.satisfaction === 3 ? 'selected' : ''}>3</option><option ${data.satisfaction === 4 ? 'selected' : ''}>4</option><option ${data.satisfaction === 5 ? 'selected' : ''}>5</option></select></td>
+                `;
+                tbody.appendChild(row);
+            });
+            
+            sampleRows = sampleData.length;
+            calculateStatistics();
+        }
+        
+        // إضافة صف جديد للعينة
+        function addSampleRow() {
+            sampleRows++;
+            const tbody = document.getElementById('sampleData');
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${sampleRows}</td>
+                <td><select><option>18-25</option><option>26-35</option><option>36-45</option></select></td>
+                <td><input type="text" placeholder="اسم المنتج"></td>
+                <td><input type="number" placeholder="السعر" min="10" max="200"></td>
+                <td><select><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
+            `;
+            tbody.appendChild(row);
+        }
+        
+        // حساب الإحصائيات
+        function calculateStatistics() {
+            const rows = document.querySelectorAll('#sampleData tr');
+            const ages = [];
+            const prices = [];
+            const satisfactions = [];
+            
+            rows.forEach(row => {
+                const cells = row.querySelectorAll('td');
+                if (cells.length >= 5) {
+                    // جمع البيانات
+                    const ageSelect = cells[1].querySelector('select');
+                    const priceInput = cells[3].querySelector('input');
+                    const satisfactionSelect = cells[4].querySelector('select');
+                    
+                    if (ageSelect && priceInput && satisfactionSelect) {
+                        // تصنيف الفئة العمرية (تحويل إلى قيمة رقمية)
+                        const ageValue = ageSelect.value;
+                        ages.push(ageValue);
+                        
+                        // السعر
+                        const priceValue = parseFloat(priceInput.value) || 0;
+                        prices.push(priceValue);
+                        
+                        // مستوى الرضا
+                        const satisfactionValue = parseInt(satisfactionSelect.value) || 0;
+                        satisfactions.push(satisfactionValue);
+                    }
+                }
+            });
+            
+            // حساب الإحصائيات للفئة العمرية (معالجة نوعية)
+            const ageCount = ages.length;
+            const ageGroups = {};
+            ages.forEach(age => {
+                ageGroups[age] = (ageGroups[age] || 0) + 1;
+            });
+            
+            // إيجاد المنوال للفئة العمرية
+            let maxAgeCount = 0;
+            let modeAge = '';
+            for (const [age, count] of Object.entries(ageGroups)) {
+                if (count > maxAgeCount) {
+                    maxAgeCount = count;
+                    modeAge = age;
+                }
+            }
+            
+            // حساب إحصائيات الأسعار
+            const priceCount = prices.length;
+            const priceSum = prices.reduce((a, b) => a + b, 0);
+            const priceAvg = priceCount > 0 ? (priceSum / priceCount).toFixed(2) : 0;
+            
+            // إيجاد المنوال للأسعار
+            const priceGroups = {};
+            prices.forEach(price => {
+                const roundedPrice = Math.round(price / 10) * 10; // تجميع كل 10 ريال
+                priceGroups[roundedPrice] = (priceGroups[roundedPrice] || 0) + 1;
+            });
+            
+            let maxPriceCount = 0;
+            let modePrice = '';
+            for (const [price, count] of Object.entries(priceGroups)) {
+                if (count > maxPriceCount) {
+                    maxPriceCount = count;
+                    modePrice = `${price} ريال`;
+                }
+            }
+            
+            // حساب إحصائيات مستوى الرضا
+            const satisfactionCount = satisfactions.length;
+            const satisfactionSum = satisfactions.reduce((a, b) => a + b, 0);
+            const satisfactionAvg = satisfactionCount > 0 ? (satisfactionSum / satisfactionCount).toFixed(2) : 0;
+            
+            // إيجاد المنوال لمستوى الرضا
+            const satisfactionGroups = {};
+            satisfactions.forEach(sat => {
+                satisfactionGroups[sat] = (satisfactionGroups[sat] || 0) + 1;
+            });
+            
+            let maxSatCount = 0;
+            let modeSatisfaction = '';
+            for (const [sat, count] of Object.entries(satisfactionGroups)) {
+                if (count > maxSatCount) {
+                    maxSatCount = count;
+                    modeSatisfaction = sat;
+                }
+            }
+            
+            // عرض النتائج
+            document.getElementById('countAge').value = ageCount;
+            document.getElementById('countPrice').value = priceCount;
+            document.getElementById('countSatisfaction').value = satisfactionCount;
+            
+            document.getElementById('sumAge').value = ageCount;
+            document.getElementById('sumPrice').value = priceSum.toFixed(2);
+            document.getElementById('sumSatisfaction').value = satisfactionSum;
+            
+            document.getElementById('avgAge').value = '-'; // نوعي
+            document.getElementById('avgPrice').value = priceAvg;
+            document.getElementById('avgSatisfaction').value = satisfactionAvg;
+            
+            document.getElementById('modeAge').value = modeAge;
+            document.getElementById('modePrice').value = modePrice;
+            document.getElementById('modeSatisfaction').value = modeSatisfaction;
+        }
+        
+        // حفظ النشاط
+        function saveActivity() {
+            const studentName = document.getElementById('studentName').value;
+            const studentId = document.getElementById('studentId').value;
+            
+            if (!studentName || !studentId) {
+                alert('الرجاء إدخال اسم المتدربة والرقم التدريبي');
+                return;
+            }
+            
+            // جمع بيانات النشاط
+            const activityData = {
+                studentName: studentName,
+                studentId: studentId,
+                studyTopic: document.getElementById('studyTopic').value,
+                studyPopulation: document.getElementById('studyPopulation').value,
+                sampleSize: document.getElementById('sampleSize').value,
+                date: new Date().toLocaleDateString('ar-SA'),
+                statistics: {
+                    priceAvg: document.getElementById('avgPrice').value,
+                    satisfactionAvg: document.getElementById('avgSatisfaction').value,
+                    modeAge: document.getElementById('modeAge').value,
+                    modePrice: document.getElementById('modePrice').value
+                }
+            };
+            
+            // حفظ في التخزين المحلي
+            localStorage.setItem('statActivity1', JSON.stringify(activityData));
+            
+            // إنشاء ملف للتحميل
+            const blob = new Blob([JSON.stringify(activityData, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `نشاط1_${studentName}_${studentId}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            
+            alert('تم حفظ النشاط بنجاح! يمكنك الآن طباعة الورقة.');
+        }
+        
+        // مسح النموذج
+        function clearActivity() {
+            if (confirm('هل أنت متأكدة من مسح جميع البيانات؟')) {
+                document.querySelectorAll('input:not([readonly])').forEach(input => {
+                    if (input.type !== 'button') input.value = '';
+                });
+                
+                document.querySelectorAll('select').forEach(select => {
+                    select.selectedIndex = 0;
+                });
+                
+                document.getElementById('conclusions').value = '';
+                
+                initializeSampleTable();
+            }
+        }
+        
+        // تهيئة الصفحة عند التحميل
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeSampleTable();
+            
+            // تحميل البيانات المحفوظة إن وجدت
+            const savedData = localStorage.getItem('statActivity1');
+            if (savedData) {
+                try {
+                    const data = JSON.parse(savedData);
+                    document.getElementById('studentName').value = data.studentName || '';
+                    document.getElementById('studentId').value = data.studentId || '';
+                    document.getElementById('studyTopic').value = data.studyTopic || '';
+                    document.getElementById('studyPopulation').value = data.studyPopulation || '';
+                    document.getElementById('sampleSize').value = data.sampleSize || '';
+                } catch (e) {
+                    console.error('خطأ في تحميل البيانات المحفوظة:', e);
+                }
+            }
+        });
+    </script>
+</body>
+</html>
