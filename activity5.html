@@ -2,46 +2,907 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>ورقة عمل: دراسة العلاقة بين الإعلان والمبيعات</title>
-    <style>/* نفس التصميم */</style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>النشاط 5: دراسة العلاقة بين الإعلان والمبيعات</title>
+    <style>
+        * { 
+            box-sizing: border-box; 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+        }
+        
+        body { 
+            margin: 0; 
+            padding: 20px; 
+            background-color: #f5f5f5; 
+            color: #333; 
+            line-height: 1.6; 
+        }
+        
+        .container { 
+            max-width: 1000px; 
+            margin: 0 auto; 
+            background: white; 
+            padding: 30px; 
+            border-radius: 10px; 
+            box-shadow: 0 0 20px rgba(0,0,0,0.1); 
+        }
+        
+        .header { 
+            text-align: center; 
+            margin-bottom: 30px; 
+            border-bottom: 3px solid #006747; 
+            padding-bottom: 20px; 
+            position: relative;
+        }
+        
+        .header h1 { 
+            color: #006747; 
+            margin-bottom: 10px; 
+        }
+        
+        .header h2 { 
+            color: #666; 
+            font-weight: normal; 
+        }
+        
+        .back-btn {
+            position: absolute;
+            left: 20px;
+            top: 20px;
+            background: #006747;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .back-btn:hover {
+            background: #004d36;
+        }
+        
+        .info-section { 
+            display: grid; 
+            grid-template-columns: repeat(2, 1fr); 
+            gap: 20px; 
+            margin-bottom: 30px; 
+            padding: 20px; 
+            background: #f9f9f9; 
+            border-radius: 8px; 
+        }
+        
+        .info-item { 
+            margin-bottom: 15px; 
+        }
+        
+        .info-item label { 
+            display: block; 
+            font-weight: bold; 
+            margin-bottom: 5px; 
+            color: #006747; 
+        }
+        
+        .info-item input { 
+            width: 100%; 
+            padding: 10px; 
+            border: 1px solid #ddd; 
+            border-radius: 5px; 
+            font-size: 16px; 
+        }
+        
+        .section { 
+            margin-bottom: 40px; 
+            padding: 25px; 
+            background: #f9f9f9; 
+            border-radius: 8px; 
+            border-right: 5px solid #006747; 
+        }
+        
+        .section h3 { 
+            color: #006747; 
+            margin-bottom: 20px; 
+            padding-bottom: 10px; 
+            border-bottom: 2px solid #ddd; 
+        }
+        
+        table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            margin: 20px 0; 
+            background: white; 
+        }
+        
+        th { 
+            background: #006747; 
+            color: white; 
+            padding: 15px; 
+            text-align: center; 
+        }
+        
+        td { 
+            padding: 12px; 
+            border: 1px solid #ddd; 
+            text-align: center; 
+        }
+        
+        tr:nth-child(even) { 
+            background: #f5f5f5; 
+        }
+        
+        input[type="text"], input[type="number"], select, textarea { 
+            width: 100%; 
+            padding: 8px; 
+            border: 1px solid #ddd; 
+            border-radius: 4px; 
+            text-align: center; 
+            font-size: 14px;
+        }
+        
+        input[readonly] {
+            background-color: #f9f9f9;
+            font-weight: bold;
+            color: #006747;
+        }
+        
+        .calculation-section { 
+            background: #e8f5e9; 
+            border-color: #2e7d32; 
+        }
+        
+        .calculation-section h3 { 
+            color: #2e7d32; 
+        }
+        
+        .instructions { 
+            background: #fff3e0; 
+            padding: 20px; 
+            border-radius: 8px; 
+            margin-top: 30px; 
+            border-right: 5px solid #ff9800; 
+        }
+        
+        .instructions h3 { 
+            color: #ff9800; 
+        }
+        
+        .btn { 
+            background: #006747; 
+            color: white; 
+            padding: 12px 30px; 
+            border: none; 
+            border-radius: 5px; 
+            cursor: pointer; 
+            font-size: 16px; 
+            margin: 10px; 
+            transition: all 0.3s; 
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn:hover { 
+            background: #004d36; 
+            transform: translateY(-2px);
+        }
+        
+        .btn-print { 
+            background: #2196f3; 
+        }
+        
+        .btn-print:hover { 
+            background: #0b7dda; 
+        }
+
+        .btn-next {
+            background: #4CAF50;
+        }
+
+        .btn-next:hover {
+            background: #388E3C;
+        }
+        
+        .btn-container { 
+            text-align: center; 
+            margin-top: 30px; 
+        }
+        
+        .activity-status {
+            display: inline-block;
+            padding: 5px 15px;
+            background: #ff9800;
+            color: white;
+            border-radius: 20px;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-family: inherit;
+            font-size: 14px;
+            min-height: 100px;
+        }
+        
+        @media print { 
+            body { background: white; } 
+            .container { box-shadow: none; } 
+            .btn-container { display: none; } 
+            .instructions { page-break-before: always; } 
+        }
+        
+        .chart-container { 
+            width: 100%; 
+            height: 300px; 
+            margin: 20px 0; 
+        }
+        
+        .correlation-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px solid;
+            margin: 15px 0;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .card-positive { border-color: #2e7d32; background: #e8f5e9; }
+        .card-negative { border-color: #c62828; background: #ffebee; }
+        .card-neutral { border-color: #ff9800; background: #fff3e0; }
+        
+        .correlation-value {
+            font-size: 2.5em;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        
+        .correlation-label {
+            font-size: 1.1em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .strength-indicator {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            color: white;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        
+        .strength-weak { background: #ff9800; }
+        .strength-moderate { background: #ffa726; }
+        .strength-strong { background: #2e7d32; }
+        .strength-very-strong { background: #1b5e20; }
+        
+        .data-summary {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .summary-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+        
+        .summary-value {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #006747;
+            margin: 5px 0;
+        }
+        
+        .summary-label {
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .analysis-box {
+            background: #e3f2fd;
+            border: 1px solid #2196f3;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        .analysis-title {
+            color: #1565c0;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .correlation-scale {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 20px 0;
+            padding: 10px;
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+        
+        .scale-item {
+            text-align: center;
+            flex: 1;
+        }
+        
+        .scale-bar {
+            height: 10px;
+            background: linear-gradient(90deg, #c62828, #ff9800, #ffeb3b, #4caf50, #2e7d32);
+            border-radius: 5px;
+            margin: 5px 0;
+        }
+        
+        .formula-box {
+            background: #f5f5f5;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+            font-family: monospace;
+            font-size: 14px;
+            direction: ltr;
+            text-align: center;
+        }
+        
+        .trend-line {
+            stroke: #ff4444;
+            stroke-width: 2;
+            stroke-dasharray: 5, 5;
+        }
+    </style>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>ورقة عمل: دراسة العلاقة بين الإعلان والمبيعات</h1>
-            <h2>(معامل الارتباط - بيرسون - سبيرمان - التحليل الخطي)</h2>
+            <a href="index.html" class="back-btn">← العودة للرئيسية</a>
+            <h1>النشاط 5: دراسة العلاقة بين الإعلان والمبيعات</h1>
+            <h2>(معاملات الارتباط - بيرسون - سبيرمان - التحليل الانحداري)</h2>
+            <div style="margin-top: 10px;">
+                <span>حالة النشاط: </span>
+                <span class="activity-status" id="activityStatus">⏳ غير مكتمل</span>
+            </div>
+        </div>
+        
+        <div class="info-section">
+            <div class="info-item"><label>اسم المتدربة:</label><input type="text" id="studentName" placeholder="أدخل اسمك الكامل"></div>
+            <div class="info-item"><label>الرقم التدريبي:</label><input type="text" id="studentId" placeholder="أدخل رقمك التدريبي"></div>
+            <div class="info-item"><label>اسم المقرر:</label><input type="text" value="إحص 101 - مقدمة في الإحصاء" readonly></div>
+            <div class="info-item"><label>تاريخ النشاط:</label><input type="text" id="activityDate" value="26/01/2026" readonly></div>
         </div>
         
         <div class="section">
-            <h3>الجزء الأول: بيانات الإنفاق الإعلاني والمبيعات (10 أشهر)</h3>
-            <table id="correlationTable"><!-- بيانات الإعلان والمبيعات --></table>
+            <h3>المشروع: تحليل العلاقة بين الإنفاق الإعلاني وحجم المبيعات</h3>
+            <p><strong>أهداف المشروع:</strong></p>
+            <ul>
+                <li>حساب معاملات الارتباط (بيرسون وسبيرمان)</li>
+                <li>تحليل قوة واتجاه العلاقة بين المتغيرات</li>
+                <li>تفسير النتائج في سياق القرارات التسويقية</li>
+                <li>تقديم توصيات لتحسين فعالية الإعلانات</li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <h3>الجزء الأول: بيانات الإنفاق الإعلاني والمبيعات (12 شهراً)</h3>
+            <p>بيانات شركة تجميل سعودية للعام 1446هـ:</p>
+            
+            <div class="data-summary">
+                <div class="summary-item">
+                    <div class="summary-label">عدد الأشهر</div>
+                    <div class="summary-value" id="monthsCount">12</div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-label">متوسط الإنفاق (ألف ريال)</div>
+                    <div class="summary-value" id="avgAdvertising">-</div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-label">متوسط المبيعات (ألف ريال)</div>
+                    <div class="summary-value" id="avgSales">-</div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-label">نسبة الإعلان/المبيعات</div>
+                    <div class="summary-value" id="advertisingRatio">-</div>
+                </div>
+            </div>
+            
+            <table id="correlationTable">
+                <thead>
+                    <tr>
+                        <th>رقم الشهر</th>
+                        <th>الشهر</th>
+                        <th>الإنفاق الإعلاني<br><small>(ألف ريال)</small></th>
+                        <th>حجم المبيعات<br><small>(ألف ريال)</small></th>
+                        <th>الربح التشغيلي<br><small>(ألف ريال)</small></th>
+                        <th>ملاحظات</th>
+                    </tr>
+                </thead>
+                <tbody id="correlationBody"></tbody>
+            </table>
+            
+            <div style="text-align: center; margin-top: 20px;">
+                <button class="btn" onclick="addMonthRow()">+ إضافة شهر جديد</button>
+                <button class="btn" onclick="generateSampleData()">توليد بيانات عينة</button>
+                <button class="btn" onclick="calculateCorrelation()">حساب الارتباط</button>
+            </div>
         </div>
         
         <div class="section calculation-section">
-            <h3>الجزء الثاني: معاملات الارتباط</h3>
+            <h3>الجزء الثاني: معاملات الارتباط والتحليل الخطي</h3>
+            
+            <div class="formula-box">
+                معامل بيرسون: r = Σ[(x - x̄)(y - ȳ)] / √[Σ(x - x̄)² * Σ(y - ȳ)²]
+            </div>
+            
+            <div class="data-summary">
+                <div class="correlation-card" id="pearsonCard">
+                    <div class="correlation-label">معامل بيرسون (r)</div>
+                    <div class="correlation-value" id="pearsonValue">-</div>
+                    <div id="pearsonStrength">-</div>
+                    <div style="font-size: 0.9em; color: #666; margin-top: 5px;">
+                        يقيس قوة واتجاه العلاقة الخطية
+                    </div>
+                </div>
+                
+                <div class="correlation-card" id="spearmanCard">
+                    <div class="correlation-label">معامل سبيرمان (ρ)</div>
+                    <div class="correlation-value" id="spearmanValue">-</div>
+                    <div id="spearmanStrength">-</div>
+                    <div style="font-size: 0.9em; color: #666; margin-top: 5px;">
+                        يقيس قوة واتجاه العلاقة الرتبية
+                    </div>
+                </div>
+            </div>
+            
             <table>
-                <tr><td>معامل بيرسون (r)</td><td><input id="pearson" readonly></td></tr>
-                <tr><td>معامل سبيرمان (ρ)</td><td><input id="spearman" readonly></td></tr>
-                <tr><td>نوع العلاقة</td><td><input id="relationType" readonly></td></tr>
-                <tr><td>قوة العلاقة</td><td><input id="relationStrength" readonly></td></tr>
+                <thead>
+                    <tr>
+                        <th>المقياس</th>
+                        <th>القيمة</th>
+                        <th>التفسير</th>
+                        <th>التطبيق التسويقي</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>معامل التحديد (R²)</strong></td>
+                        <td><input type="text" id="determination" readonly style="width: 100px;"></td>
+                        <td>نسبة التباين المفسرة بالعلاقة</td>
+                        <td><small>نسبة التغير في المبيعات المفسرة بالإعلان</small></td>
+                    </tr>
+                    <tr>
+                        <td><strong>نوع العلاقة</strong></td>
+                        <td><input type="text" id="relationType" readonly style="width: 100px;"></td>
+                        <td>اتجاه العلاقة (موجب/سالب)</td>
+                        <td><small>هل زيادة الإعلان تزيد المبيعات؟</small></td>
+                    </tr>
+                    <tr>
+                        <td><strong>قوة العلاقة</strong></td>
+                        <td><input type="text" id="relationStrength" readonly style="width: 100px;"></td>
+                        <td>مدى قوة الارتباط بين المتغيرين</td>
+                        <td><small>فعالية الحملات الإعلانية</small></td>
+                    </tr>
+                    <tr>
+                        <td><strong>الدلالة الإحصائية</strong></td>
+                        <td><input type="text" id="statisticalSignificance" readonly style="width: 100px;"></td>
+                        <td>احتمال أن العلاقة حقيقية وليست عشوائية</td>
+                        <td><small>موثوقية النتائج لاتخاذ القرار</small></td>
+                    </tr>
+                </tbody>
             </table>
+            
+            <div class="correlation-scale">
+                <div class="scale-item">
+                    <div>علاقة سلبية قوية</div>
+                    <div>-1.0</div>
+                </div>
+                <div class="scale-item">
+                    <div>علاقة سلبية متوسطة</div>
+                    <div>-0.5</div>
+                </div>
+                <div class="scale-item">
+                    <div>لا علاقة</div>
+                    <div>0.0</div>
+                </div>
+                <div class="scale-item">
+                    <div>علاقة إيجابية متوسطة</div>
+                    <div>+0.5</div>
+                </div>
+                <div class="scale-item">
+                    <div>علاقة إيجابية قوية</div>
+                    <div>+1.0</div>
+                </div>
+            </div>
+            <div class="scale-bar"></div>
             
             <div class="chart-container">
                 <canvas id="scatterChart"></canvas>
             </div>
+            
+            <div class="analysis-box">
+                <div class="analysis-title">التحليل الآلي للعلاقة:</div>
+                <div id="correlationAnalysis">قم بحساب الارتباط أولاً لعرض التحليل...</div>
+            </div>
         </div>
         
         <div class="section">
-            <h3>الجزء الثالث: التوصيات التسويقية</h3>
-            <textarea id="recommendations" placeholder="بناءً على نتائج الارتباط، ما هي توصياتك لتحسين الإنفاق الإعلاني؟"></textarea>
+            <h3>الجزء الثالث: التوصيات التسويقية والتوقعات</h3>
+            
+            <h4>مقارنة الأداء الشهري:</h4>
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-bottom: 20px;">
+                <div style="background: #e8f5e9; padding: 15px; border-radius: 8px;">
+                    <div style="font-weight: bold; color: #2e7d32; margin-bottom: 5px;">أفضل شهر من حيث العائد</div>
+                    <div style="font-size: 1.2em; font-weight: bold;" id="bestMonth">-</div>
+                    <div style="font-size: 0.9em; color: #666;" id="bestMonthDetails">-</div>
+                </div>
+                <div style="background: #ffebee; padding: 15px; border-radius: 8px;">
+                    <div style="font-weight: bold; color: #c62828; margin-bottom: 5px;">أسوأ شهر من حيث العائد</div>
+                    <div style="font-size: 1.2em; font-weight: bold;" id="worstMonth">-</div>
+                    <div style="font-size: 0.9em; color: #666;" id="worstMonthDetails">-</div>
+                </div>
+            </div>
+            
+            <h4>التوصيات التسويقية:</h4>
+            <textarea id="marketingRecommendations" rows="4" placeholder="بناءً على نتائج الارتباط، ما هي توصياتك لتحسين الإنفاق الإعلاني وتوزيعه على القنوات المختلفة؟"></textarea>
+            
+            <h4>التنبؤ بالمبيعات:</h4>
+            <div style="background: #f5f5f5; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                <label style="display: block; margin-bottom: 10px; font-weight: bold;">
+                    التنبؤ بالمبيعات عند زيادة الإنفاق الإعلاني إلى:
+                    <input type="number" id="predictionInput" style="width: 120px; display: inline-block; margin: 0 10px;" placeholder="ألف ريال">
+                    ألف ريال
+                </label>
+                <button class="btn" onclick="predictSales()" style="padding: 8px 20px; margin: 0;">توقع المبيعات</button>
+                <div style="margin-top: 10px; font-weight: bold;" id="predictionResult"></div>
+            </div>
+            
+            <h4>الاستراتيجية المقترحة:</h4>
+            <textarea id="strategy" rows="4" placeholder="اقترحي استراتيجية تسويقية للعام القادم بناءً على تحليل العلاقة بين الإعلان والمبيعات..."></textarea>
+            
+            <h4>مؤشرات الأداء المقترحة (KPIs):</h4>
+            <textarea id="kpis" rows="3" placeholder="ما هي مؤشرات الأداء التي تقترحينها لقياس فعالية الحملات الإعلانية؟"></textarea>
+        </div>
+        
+        <div class="instructions">
+            <h3>تعليمات التسليم:</h3>
+            <ol>
+                <li>أدخلي بيانات الإنفاق الإعلاني والمبيعات أو استخدمي بيانات العينة</li>
+                <li>احسبي معاملات الارتباط (بيرسون وسبيرمان)</li>
+                <li>حللي قوة واتجاه العلاقة بين المتغيرين</li>
+                <li>قدّمي توصيات تسويقية بناءً على النتائج</li>
+                <li>استخدمي أداة التنبؤ لتوقع المبيعات المستقبلية</li>
+                <li>احفظي النشاط قبل المغادرة</li>
+                <li>اسم الملف: "اسمك_النشاط5_إحص101"</li>
+            </ol>
+        </div>
+        
+        <div class="btn-container">
+            <button class="btn" onclick="calculateCorrelation()">حساب الارتباط</button>
+            <button class="btn" onclick="saveActivity(5)">حفظ النشاط</button>
+            <button class="btn btn-print" onclick="window.print()">طباعة الورقة</button>
+            <a href="index.html" class="btn">العودة للرئيسية</a>
+            <a href="activity6.html" class="btn btn-next">النشاط التالي →</a>
         </div>
     </div>
-    
+
     <script>
-        // كود كامل لحساب معاملات الارتباط
+        // ====================
+        // متغيرات عامة للنشاط
+        // ====================
+        const ACTIVITY_NUMBER = 5;
+        let monthRows = 12;
+        let scatterChart = null;
+        
+        // أسماء الأشهر الهجرية/الميلادية
+        const months = [
+            "محرم", "صفر", "ربيع الأول", "ربيع الثاني", 
+            "جمادى الأولى", "جمادى الآخرة", "رجب", "شعبان", 
+            "رمضان", "شوال", "ذو القعدة", "ذو الحجة"
+        ];
+        
+        // ====================
+        // تهيئة الصفحة عند التحميل
+        // ====================
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeActivity();
+            updateActivityStatus();
+        });
+        
+        // ====================
+        // تهيئة النشاط
+        // ====================
+        function initializeActivity() {
+            // تحميل البيانات المحفوظة
+            loadSavedData();
+            
+            // تهيئة جدول البيانات
+            initializeCorrelationTable();
+            
+            // حساب الارتباط إذا كان هناك بيانات
+            setTimeout(() => {
+                const data = getAdvertisingSalesData();
+                if (data.advertising.length > 0) {
+                    calculateCorrelation();
+                }
+            }, 100);
+        }
+        
+        // ====================
+        // تحميل البيانات المحفوظة
+        // ====================
+        function loadSavedData() {
+            const savedData = localStorage.getItem(`activity${ACTIVITY_NUMBER}_data`);
+            
+            if (savedData) {
+                try {
+                    const activityData = JSON.parse(savedData);
+                    
+                    // تعبئة الحقول الأساسية
+                    document.getElementById('studentName').value = activityData.studentName || '';
+                    document.getElementById('studentId').value = activityData.studentId || '';
+                    document.getElementById('marketingRecommendations').value = activityData.marketingRecommendations || '';
+                    document.getElementById('strategy').value = activityData.strategy || '';
+                    document.getElementById('kpis').value = activityData.kpis || '';
+                    
+                    // استعادة بيانات الأشهر
+                    if (activityData.monthlyData && activityData.monthlyData.length > 0) {
+                        const tbody = document.getElementById('correlationBody');
+                        tbody.innerHTML = '';
+                        
+                        activityData.monthlyData.forEach((monthData, index) => {
+                            const row = document.createElement('tr');
+                            row.innerHTML = `
+                                <td>${index + 1}</td>
+                                <td><input type="text" value="${monthData.month || months[index % months.length]}" placeholder="اسم الشهر"></td>
+                                <td><input type="number" value="${monthData.advertising || ''}" min="0" max="1000" step="10" placeholder="الإنفاق"></td>
+                                <td><input type="number" value="${monthData.sales || ''}" min="0" max="5000" step="50" placeholder="المبيعات"></td>
+                                <td><input type="number" value="${monthData.profit || ''}" readonly></td>
+                                <td><input type="text" value="${monthData.notes || ''}" placeholder="ملاحظات"></td>
+                            `;
+                            tbody.appendChild(row);
+                        });
+                        
+                        monthRows = activityData.monthlyData.length;
+                        
+                        // تحديث الأرباح
+                        updateProfits();
+                    }
+                    
+                    // استعادة النتائج المحسوبة
+                    if (activityData.results) {
+                        updateResultsDisplay(activityData.results);
+                        updateCorrelationChart(activityData.results);
+                        updateAnalysis(activityData.results);
+                    }
+                    
+                    console.log(`تم تحميل بيانات النشاط ${ACTIVITY_NUMBER}`);
+                    
+                } catch (e) {
+                    console.error('خطأ في تحميل البيانات المحفوظة:', e);
+                    // استخدام البيانات الافتراضية
+                    generateSampleData();
+                }
+            } else {
+                // استخدام البيانات الافتراضية
+                generateSampleData();
+            }
+        }
+        
+        // ====================
+        // تهيئة جدول البيانات
+        // ====================
+        function initializeCorrelationTable() {
+            const tbody = document.getElementById('correlationBody');
+            tbody.innerHTML = '';
+            
+            // بيانات أولية توضح علاقة إيجابية
+            const baseAdvertising = [20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75];
+            const baseSales = [100, 120, 130, 140, 160, 170, 180, 200, 220, 240, 260, 280];
+            
+            for (let i = 0; i < 12; i++) {
+                // إضافة بعض التباين العشوائي
+                const advertising = baseAdvertising[i] + Math.random() * 10 - 5;
+                const sales = baseSales[i] + Math.random() * 30 - 15;
+                const profit = sales - advertising;
+                
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${i + 1}</td>
+                    <td><input type="text" value="${months[i]}" placeholder="اسم الشهر"></td>
+                    <td><input type="number" value="${advertising.toFixed(1)}" min="0" max="1000" step="10" placeholder="الإنفاق"></td>
+                    <td><input type="number" value="${sales.toFixed(1)}" min="0" max="5000" step="50" placeholder="المبيعات"></td>
+                    <td><input type="number" value="${profit.toFixed(1)}" readonly></td>
+                    <td><input type="text" value="" placeholder="ملاحظات"></td>
+                `;
+                tbody.appendChild(row);
+            }
+            
+            monthRows = 12;
+            
+            // تحديث الإحصائيات
+            updateSummaryStatistics();
+        }
+        
+        // ====================
+        // إضافة شهر جديد
+        // ====================
+        function addMonthRow() {
+            monthRows++;
+            const tbody = document.getElementById('correlationBody');
+            const monthIndex = (monthRows - 1) % months.length;
+            
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${monthRows}</td>
+                <td><input type="text" value="${months[monthIndex]}" placeholder="اسم الشهر"></td>
+                <td><input type="number" placeholder="الإنفاق" min="0" max="1000" step="10"></td>
+                <td><input type="number" placeholder="المبيعات" min="0" max="5000" step="50"></td>
+                <td><input type="number" readonly></td>
+                <td><input type="text" placeholder="ملاحظات"></td>
+            `;
+            tbody.appendChild(row);
+            
+            // تحديث الإحصائيات
+            setTimeout(updateSummaryStatistics, 100);
+        }
+        
+        // ====================
+        // توليد بيانات عينة
+        // ====================
+        function generateSampleData() {
+            const tbody = document.getElementById('correlationBody');
+            tbody.innerHTML = '';
+            
+            // توليد بيانات ذات علاقة إيجابية قوية مع بعض التباين
+            const correlationStrength = 0.8 + Math.random() * 0.2; // علاقة قوية
+            const baseAdvertising = 30;
+            const baseSales = 150;
+            
+            for (let i = 0; i < 12; i++) {
+                const monthName = months[i];
+                
+                // توليد إنفاق إعلاني متزايد مع بعض التقلبات
+                const advertising = baseAdvertising + (i * 5) + (Math.random() * 15 - 7.5);
+                
+                // توليد مبيعات مرتبطة بالإعلان مع بعض التباين
+                const sales = baseSales + (advertising - baseAdvertising) * 2 * correlationStrength + (Math.random() * 40 - 20);
+                
+                // التأكد من أن المبيعات موجبة
+                const finalSales = Math.max(50, sales);
+                const profit = finalSales - advertising;
+                
+                // ملاحظات عشوائية
+                const notes = [
+                    "حملة تلفزيونية", "إعلانات سوشيال ميديا", "عروض ترويجية",
+                    "موسم الأعياد", "تخفيضات", "إطلاق منتج جديد",
+                    "منافسة شديدة", "تحسن الاقتصاد", "طقس معتدل",
+                    "عطلات رسمية", "نشاط تسويقي مكثف", "تركيز على قنوات محددة"
+                ][Math.floor(Math.random() * 12)];
+                
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${i + 1}</td>
+                    <td><input type="text" value="${monthName}"></td>
+                    <td><input type="number" value="${advertising.toFixed(1)}" min="0" max="1000" step="10"></td>
+                    <td><input type="number" value="${finalSales.toFixed(1)}" min="0" max="5000" step="50"></td>
+                    <td><input type="number" value="${profit.toFixed(1)}" readonly></td>
+                    <td><input type="text" value="${notes}"></td>
+                `;
+                tbody.appendChild(row);
+            }
+            
+            monthRows = 12;
+            
+            // تحديث الإحصائيات والأرباح
+            updateSummaryStatistics();
+            updateProfits();
+            
+            // حساب الارتباط الجديد
+            setTimeout(() => calculateCorrelation(), 500);
+        }
+        
+        // ====================
+        // جمع بيانات الإعلان والمبيعات
+        // ====================
+        function getAdvertisingSalesData() {
+            const advertising = [];
+            const sales = [];
+            const monthlyData = [];
+            
+            const rows = document.querySelectorAll('#correlationBody tr');
+            
+            rows.forEach(row => {
+                const cells = row.querySelectorAll('td');
+                if (cells.length >= 6) {
+                    const advertisingInput = cells[2].querySelector('input');
+                    const salesInput = cells[3].querySelector('input');
+                    const profitInput = cells[4].querySelector('input');
+                    const monthInput = cells[1].querySelector('input');
+                    const notesInput = cells[5].querySelector('input');
+                    
+                    if (advertisingInput && salesInput && profitInput) {
+                        const advValue = parseFloat(advertisingInput.value) || 0;
+                        const salesValue = parseFloat(salesInput.value) || 0;
+                        const profitValue = parseFloat(profitInput.value) || 0;
+                        
+                        if (advValue > 0 && salesValue > 0) {
+                            advertising.push(advValue);
+                            sales.push(salesValue);
+                            
+                            monthlyData.push({
+                                month: monthInput ? monthInput.value : '',
+                                advertising: advValue,
+                                sales: salesValue,
+                                profit: profitValue,
+                                notes: notesInput ? notesInput.value : ''
+                            });
+                        }
+                    }
+                }
+            });
+            
+            return { advertising, sales, monthlyData };
+        }
+        
+        // ====================
+        // تحديث الإحصائيات الموجزة
+        // ====================
+        function updateSummaryStatistics() {
+            const data = getAdvertisingSalesData();
+            
+            if (data.advertising.length === 0) return;
+            
+            const avgAdvertising = data.advertising.reduce((a, b) => a + b, 0) / data.advertising.length;
+            const avgSales = data.sales.reduce((a, b) => a + b, 0) / data.sales.length;
+            const advertisingRatio = (avgAdvertising / avgSales * 100).toFixed(1);
+            
+            document.getElementById('monthsCount').textContent = data.advertising.length;
+            document.getElementById('avgAdvertising').textContent = avgAdvertising.toFixed(1);
+            document.getElementById('avgSales').textContent = avgSales.toFixed(1);
+            document.getElementById('advertisingRatio').textContent = advertisingRatio + '%';
+        }
+        
+        // ====================
+        // تحديث الأرباح
+        // ====================
+        function updateProfits() {
+            const rows = document.querySelectorAll('#correlationBody tr');
+            
+            rows.forEach(row => {
+                const cells = row.querySelectorAll('td');
+                if (cells.length >= 6) {
+                    const advertisingInput = cells[2].querySelector('input');
+                    const salesInput = cells[3].querySelector('input');
+                    const profitInput = cells[4].querySelector('input');
+                    
+                    if (advertisingInput && salesInput && profitInput) {
+                        const advertising = parseFloat(advertisingInput.value) || 0;
+                        const sales = parseFloat(salesInput.value) || 0;
+                        const profit = sales - advertising;
+                        
+                        profitInput.value = profit.toFixed(1);
+                    }
+                }
+            });
+        }
+        
+        // ====================
+        // حساب معامل بيرسون
+        // ====================
         function calculatePearson(x, y) {
             const n = x.length;
+            if (n < 2) return 0;
+            
             const sumX = x.reduce((a, b) => a + b, 0);
             const sumY = y.reduce((a, b) => a + b, 0);
             const sumXY = x.reduce((sum, xi, i) => sum + xi * y[i], 0);
@@ -53,7 +914,565 @@
             
             return denominator === 0 ? 0 : numerator / denominator;
         }
-        // ... كود كامل آخر
+        
+        // ====================
+        // حساب معامل سبيرمان
+        // ====================
+        function calculateSpearman(x, y) {
+            const n = x.length;
+            if (n < 2) return 0;
+            
+            // إنشاء نسخ من البيانات مع الحفاظ على المؤشرات الأصلية
+            const xWithIndex = x.map((value, index) => ({ value, index }));
+            const yWithIndex = y.map((value, index) => ({ value, index }));
+            
+            // ترتيب القيم
+            xWithIndex.sort((a, b) => a.value - b.value);
+            yWithIndex.sort((a, b) => a.value - b.value);
+            
+            // تعيين الرتب
+            const xRanks = new Array(n);
+            const yRanks = new Array(n);
+            
+            xWithIndex.forEach((item, rank) => {
+                xRanks[item.index] = rank + 1;
+            });
+            
+            yWithIndex.forEach((item, rank) => {
+                yRanks[item.index] = rank + 1;
+            });
+            
+            // حساب الفروق بين الرتب
+            let sumDiffSquared = 0;
+            for (let i = 0; i < n; i++) {
+                const diff = xRanks[i] - yRanks[i];
+                sumDiffSquared += diff * diff;
+            }
+            
+            // حساب معامل سبيرمان
+            return 1 - (6 * sumDiffSquared) / (n * (n * n - 1));
+        }
+        
+        // ====================
+        // تحديد قوة العلاقة
+        // ====================
+        function getStrengthDescription(correlation) {
+            const absCorr = Math.abs(correlation);
+            
+            if (absCorr >= 0.8) return { text: "قوية جداً", class: "strength-very-strong" };
+            if (absCorr >= 0.6) return { text: "قوية", class: "strength-strong" };
+            if (absCorr >= 0.4) return { text: "متوسطة", class: "strength-moderate" };
+            if (absCorr >= 0.2) return { text: "ضعيفة", class: "strength-weak" };
+            return { text: "ضعيفة جداً أو معدومة", class: "strength-weak" };
+        }
+        
+        // ====================
+        // تحديد نوع العلاقة
+        // ====================
+        function getRelationType(correlation) {
+            if (correlation > 0.1) return { text: "علاقة طردية (إيجابية)", desc: "زيادة الإعلان تؤدي لزيادة المبيعات" };
+            if (correlation < -0.1) return { text: "علاقة عكسية (سلبية)", desc: "زيادة الإعلان تؤدي لانخفاض المبيعات" };
+            return { text: "لا توجد علاقة خطية واضحة", desc: "لا يوجد تأثير مباشر للإعلان على المبيعات" };
+        }
+        
+        // ====================
+        // حساب الارتباط
+        // ====================
+        function calculateCorrelation() {
+            const data = getAdvertisingSalesData();
+            
+            if (data.advertising.length < 3) {
+                alert('الرجاء إدخال بيانات لثلاثة أشهر على الأقل');
+                return;
+            }
+            
+            // تحديث الأرباح والإحصائيات
+            updateProfits();
+            updateSummaryStatistics();
+            
+            // حساب معاملات الارتباط
+            const pearson = calculatePearson(data.advertising, data.sales);
+            const spearman = calculateSpearman(data.advertising, data.sales);
+            const determination = pearson * pearson; // معامل التحديد R²
+            
+            // تحديد قوة ونوع العلاقة
+            const pearsonStrength = getStrengthDescription(pearson);
+            const spearmanStrength = getStrengthDescription(spearman);
+            const relationType = getRelationType(pearson);
+            
+            // حساب الدلالة الإحصائية (تبسيطية)
+            const n = data.advertising.length;
+            const tValue = pearson * Math.sqrt((n - 2) / (1 - pearson * pearson));
+            const significance = (Math.abs(tValue) > 2.0) ? "دالة إحصائياً (p < 0.05)" : "غير دالة إحصائياً";
+            
+            // العثور على أفضل وأسوأ شهر
+            let bestMonthIndex = 0;
+            let worstMonthIndex = 0;
+            let bestROI = -Infinity;
+            let worstROI = Infinity;
+            
+            data.monthlyData.forEach((month, index) => {
+                const roi = month.sales / month.advertising;
+                if (roi > bestROI) {
+                    bestROI = roi;
+                    bestMonthIndex = index;
+                }
+                if (roi < worstROI) {
+                    worstROI = roi;
+                    worstMonthIndex = index;
+                }
+            });
+            
+            // تجميع النتائج
+            const results = {
+                pearson: pearson.toFixed(3),
+                spearman: spearman.toFixed(3),
+                determination: determination.toFixed(3),
+                pearsonStrength: pearsonStrength,
+                spearmanStrength: spearmanStrength,
+                relationType: relationType,
+                significance: significance,
+                bestMonth: {
+                    name: data.monthlyData[bestMonthIndex].month,
+                    advertising: data.monthlyData[bestMonthIndex].advertising,
+                    sales: data.monthlyData[bestMonthIndex].sales,
+                    roi: bestROI.toFixed(2)
+                },
+                worstMonth: {
+                    name: data.monthlyData[worstMonthIndex].month,
+                    advertising: data.monthlyData[worstMonthIndex].advertising,
+                    sales: data.monthlyData[worstMonthIndex].sales,
+                    roi: worstROI.toFixed(2)
+                },
+                data: data
+            };
+            
+            // عرض النتائج
+            updateResultsDisplay(results);
+            updateCorrelationChart(results);
+            updateAnalysis(results);
+            
+            return results;
+        }
+        
+        // ====================
+        // تحديث عرض النتائج
+        // ====================
+        function updateResultsDisplay(results) {
+            // معامل بيرسون
+            document.getElementById('pearsonValue').textContent = results.pearson;
+            document.getElementById('pearsonStrength').innerHTML = 
+                `<span class="strength-indicator ${results.pearsonStrength.class}">${results.pearsonStrength.text}</span>`;
+            
+            // معامل سبيرمان
+            document.getElementById('spearmanValue').textContent = results.spearman;
+            document.getElementById('spearmanStrength').innerHTML = 
+                `<span class="strength-indicator ${results.spearmanStrength.class}">${results.spearmanStrength.text}</span>`;
+            
+            // تحديث ألوان البطاقات
+            const pearsonCard = document.getElementById('pearsonCard');
+            const spearmanCard = document.getElementById('spearmanCard');
+            
+            pearsonCard.className = spearmanCard.className = 'correlation-card ';
+            if (parseFloat(results.pearson) > 0.3) {
+                pearsonCard.className += 'card-positive';
+            } else if (parseFloat(results.pearson) < -0.3) {
+                pearsonCard.className += 'card-negative';
+            } else {
+                pearsonCard.className += 'card-neutral';
+            }
+            
+            if (parseFloat(results.spearman) > 0.3) {
+                spearmanCard.className += 'card-positive';
+            } else if (parseFloat(results.spearman) < -0.3) {
+                spearmanCard.className += 'card-negative';
+            } else {
+                spearmanCard.className += 'card-neutral';
+            }
+            
+            // الحقول الأخرى
+            document.getElementById('determination').value = results.determination;
+            document.getElementById('relationType').value = results.relationType.text;
+            document.getElementById('relationStrength').value = results.pearsonStrength.text;
+            document.getElementById('statisticalSignificance').value = results.significance;
+            
+            // أفضل وأسوأ شهر
+            document.getElementById('bestMonth').textContent = results.bestMonth.name;
+            document.getElementById('bestMonthDetails').textContent = 
+                `عائد: ${results.bestMonth.roi} لكل ريال إعلان`;
+            
+            document.getElementById('worstMonth').textContent = results.worstMonth.name;
+            document.getElementById('worstMonthDetails').textContent = 
+                `عائد: ${results.worstMonth.roi} لكل ريال إعلان`;
+        }
+        
+        // ====================
+        // تحديث مخطط الانتشار
+        // ====================
+        function updateCorrelationChart(results) {
+            const ctx = document.getElementById('scatterChart').getContext('2d');
+            
+            // تدمير المخطط القديم إذا كان موجوداً
+            if (scatterChart) {
+                scatterChart.destroy();
+            }
+            
+            // إعداد بيانات المخطط
+            const advertising = results.data.advertising;
+            const sales = results.data.sales;
+            const labels = results.data.monthlyData.map(m => m.month);
+            
+            // حساب خط الاتجاه (تبسيطي)
+            const pearson = parseFloat(results.pearson);
+            const meanX = advertising.reduce((a, b) => a + b, 0) / advertising.length;
+            const meanY = sales.reduce((a, b) => a + b, 0) / sales.length;
+            const stdX = Math.sqrt(advertising.reduce((sum, x) => sum + Math.pow(x - meanX, 2), 0) / advertising.length);
+            const stdY = Math.sqrt(sales.reduce((sum, y) => sum + Math.pow(y - meanY, 2), 0) / sales.length);
+            const slope = pearson * (stdY / stdX);
+            const intercept = meanY - slope * meanX;
+            
+            // نقاط خط الاتجاه
+            const minX = Math.min(...advertising);
+            const maxX = Math.max(...advertising);
+            const trendLine = [
+                { x: minX, y: slope * minX + intercept },
+                { x: maxX, y: slope * maxX + intercept }
+            ];
+            
+            scatterChart = new Chart(ctx, {
+                type: 'scatter',
+                data: {
+                    datasets: [
+                        {
+                            label: 'الإنفاق الإعلاني vs المبيعات',
+                            data: advertising.map((x, i) => ({ x, y: sales[i] })),
+                            backgroundColor: 'rgba(0, 103, 71, 0.7)',
+                            borderColor: 'rgba(0, 103, 71, 1)',
+                            borderWidth: 1,
+                            pointRadius: 6,
+                            pointHoverRadius: 8
+                        },
+                        {
+                            label: 'خط الاتجاه',
+                            data: trendLine,
+                            type: 'line',
+                            borderColor: '#ff4444',
+                            borderWidth: 2,
+                            borderDash: [5, 5],
+                            fill: false,
+                            pointRadius: 0,
+                            pointHoverRadius: 0
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: `مخطط الانتشار - معامل بيرسون: ${results.pearson}`,
+                            font: { size: 16 }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const dataIndex = context.dataIndex;
+                                    if (dataIndex !== undefined) {
+                                        return `${labels[dataIndex]}: إعلان=${advertising[dataIndex].toFixed(1)} ألف، مبيعات=${sales[dataIndex].toFixed(1)} ألف`;
+                                    }
+                                    return '';
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'الإنفاق الإعلاني (ألف ريال)',
+                                font: { size: 14 }
+                            },
+                            beginAtZero: true
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'حجم المبيعات (ألف ريال)',
+                                font: { size: 14 }
+                            },
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+        
+        // ====================
+        // تحديث التحليل
+        // ====================
+        function updateAnalysis(results) {
+            const analysisDiv = document.getElementById('correlationAnalysis');
+            let analysis = '';
+            
+            const pearson = parseFloat(results.pearson);
+            const spearman = parseFloat(results.spearman);
+            
+            analysis += `<p><strong>العلاقة بين الإنفاق الإعلاني والمبيعات:</strong> `;
+            
+            if (pearson > 0.7) {
+                analysis += `علاقة إيجابية قوية جداً (r = ${pearson.toFixed(3)})، مما يشير إلى أن الحملات الإعلانية فعالة جداً في زيادة المبيعات.`;
+            } else if (pearson > 0.5) {
+                analysis += `علاقة إيجابية قوية (r = ${pearson.toFixed(3)})، مما يدل على تأثير جيد للإعلان على المبيعات.`;
+            } else if (pearson > 0.3) {
+                analysis += `علاقة إيجابية متوسطة (r = ${pearson.toFixed(3)})، تشير إلى تأثير محدود للإعلان.`;
+            } else if (pearson > 0.1) {
+                analysis += `علاقة إيجابية ضعيفة (r = ${pearson.toFixed(3)})، مما يشير إلى أن عوامل أخرى قد تكون أكثر تأثيراً.`;
+            } else if (pearson > -0.1) {
+                analysis += `لا توجد علاقة خطية واضحة (r = ${pearson.toFixed(3)})، قد تحتاج الشركة لمراجعة استراتيجيتها الإعلانية.`;
+            } else {
+                analysis += `علاقة سلبية (r = ${pearson.toFixed(3)})، مما قد يشير إلى إهدار في الإنفاق الإعلاني أو سوء توقيت الحملات.`;
+            }
+            
+            analysis += `</p><p><strong>معامل التحديد (R² = ${results.determination}):</strong> `;
+            analysis += `هذا يعني أن ${(parseFloat(results.determination) * 100).toFixed(1)}% من التباين في المبيعات يمكن تفسيره بالعلاقة مع الإنفاق الإعلاني.`;
+            
+            analysis += `</p><p><strong>معامل سبيرمان (ρ = ${spearman.toFixed(3)}):</strong> `;
+            if (Math.abs(spearman - pearson) < 0.2) {
+                analysis += `يتوافق مع معامل بيرسون، مما يدعم وجود علاقة خطية حقيقية.`;
+            } else {
+                analysis += `يختلف عن بيرسون، مما قد يشير إلى وجود علاقة غير خطية أو تأثير قيم متطرفة.`;
+            }
+            
+            analysisDiv.innerHTML = analysis;
+        }
+        
+        // ====================
+        // التنبؤ بالمبيعات
+        // ====================
+        function predictSales() {
+            const predictionInput = document.getElementById('predictionInput');
+            const advertising = parseFloat(predictionInput.value);
+            
+            if (!advertising || advertising <= 0) {
+                alert('الرجاء إدخال قيمة صحيحة للإنفاق الإعلاني');
+                return;
+            }
+            
+            const results = calculateCorrelation();
+            if (!results) return;
+            
+            const pearson = parseFloat(results.pearson);
+            const advertisingData = results.data.advertising;
+            const salesData = results.data.sales;
+            
+            if (advertisingData.length === 0) {
+                alert('لا توجد بيانات كافية للتنبؤ');
+                return;
+            }
+            
+            // حساب الانحدار الخطي البسيط
+            const n = advertisingData.length;
+            const sumX = advertisingData.reduce((a, b) => a + b, 0);
+            const sumY = salesData.reduce((a, b) => a + b, 0);
+            const sumXY = advertisingData.reduce((sum, xi, i) => sum + xi * salesData[i], 0);
+            const sumX2 = advertisingData.reduce((sum, xi) => sum + xi * xi, 0);
+            
+            const slope = (n * sumXY - sumX * sumY) / (n * sumX2 - sumX * sumX);
+            const intercept = (sumY - slope * sumX) / n;
+            
+            // التنبؤ
+            const predictedSales = slope * advertising + intercept;
+            const confidence = Math.abs(pearson) * 100;
+            
+            // حساب فاصل الثقة (تبسيطي)
+            const stdError = Math.sqrt(salesData.reduce((sum, y, i) => {
+                const predicted = slope * advertisingData[i] + intercept;
+                return sum + Math.pow(y - predicted, 2);
+            }, 0) / (n - 2));
+            
+            const margin = 1.96 * stdError * Math.sqrt(1 + 1/n + Math.pow(advertising - (sumX/n), 2) / 
+                (advertisingData.reduce((sum, x) => sum + Math.pow(x - sumX/n, 2), 0)));
+            
+            const lowerBound = Math.max(0, predictedSales - margin);
+            const upperBound = predictedSales + margin;
+            
+            // عرض النتيجة
+            const resultDiv = document.getElementById('predictionResult');
+            resultDiv.innerHTML = `
+                <div style="color: #2e7d32;">
+                    <strong>التنبؤ بالمبيعات:</strong> ${predictedSales.toFixed(1)} ألف ريال
+                </div>
+                <div style="font-size: 0.9em; color: #666; margin-top: 5px;">
+                    فاصل الثقة (95%): ${lowerBound.toFixed(1)} إلى ${upperBound.toFixed(1)} ألف ريال
+                    <br>ثقة النموذج: ${confidence.toFixed(0)}%
+                </div>
+            `;
+        }
+        
+        // ====================
+        // حفظ النشاط
+        // ====================
+        function saveActivity(activityNumber) {
+            const studentName = document.getElementById('studentName').value.trim();
+            const studentId = document.getElementById('studentId').value.trim();
+            
+            if (!studentName || !studentId) {
+                alert('الرجاء إدخال اسم المتدربة والرقم التدريبي');
+                return;
+            }
+            
+            // حساب الارتباط أولاً
+            const results = calculateCorrelation();
+            
+            if (!results) {
+                alert('الرجاء إدخال بيانات كافية أولاً');
+                return;
+            }
+            
+            // تجميع بيانات النشاط
+            const activityData = {
+                studentName: studentName,
+                studentId: studentId,
+                monthlyData: results.data.monthlyData,
+                marketingRecommendations: document.getElementById('marketingRecommendations').value,
+                strategy: document.getElementById('strategy').value,
+                kpis: document.getElementById('kpis').value,
+                results: results,
+                completionDate: new Date().toLocaleDateString('ar-SA'),
+                activityNumber: activityNumber
+            };
+            
+            // حفظ في localStorage
+            localStorage.setItem(`activity${activityNumber}_data`, JSON.stringify(activityData, null, 2));
+            
+            // تحديث قائمة الأنشطة المكتملة
+            updateCompletedActivities(activityNumber);
+            
+            // تحديث حالة النشاط
+            updateActivityStatus();
+            
+            // إنشاء ملف للتحميل
+            createDownloadFile(activityData, activityNumber, studentName, studentId);
+            
+            // إشعار للمستخدم
+            showSuccessMessage(activityNumber, results);
+        }
+        
+        // ====================
+        // تحديث قائمة الأنشطة المكتملة
+        // ====================
+        function updateCompletedActivities(activityNumber) {
+            let completed = JSON.parse(localStorage.getItem('completedActivities')) || [];
+            if (!completed.includes(activityNumber)) {
+                completed.push(activityNumber);
+                localStorage.setItem('completedActivities', JSON.stringify(completed));
+            }
+        }
+        
+        // ====================
+        // تحديث حالة النشاط
+        // ====================
+        function updateActivityStatus() {
+            const savedData = localStorage.getItem(`activity${ACTIVITY_NUMBER}_data`);
+            const statusElement = document.getElementById('activityStatus');
+            
+            if (savedData) {
+                statusElement.textContent = '✅ مكتمل';
+                statusElement.style.background = '#4CAF50';
+            } else {
+                statusElement.textContent = '⏳ غير مكتمل';
+                statusElement.style.background = '#ff9800';
+            }
+        }
+        
+        // ====================
+        // إنشاء ملف للتحميل
+        // ====================
+        function createDownloadFile(data, activityNumber, studentName, studentId) {
+            const blob = new Blob([JSON.stringify(data, null, 2)], { 
+                type: 'application/json' 
+            });
+            
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `نشاط${activityNumber}_${studentName}_${studentId}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+        
+        // ====================
+        // عرض رسالة النجاح
+        // ====================
+        function showSuccessMessage(activityNumber, results) {
+            let completed = JSON.parse(localStorage.getItem('completedActivities')) || [];
+            const completedCount = completed.length;
+            
+            let message = `✅ تم حفظ النشاط ${activityNumber} بنجاح!\n\n`;
+            message += `📊 أنشطة مكتملة: ${completedCount}/7\n\n`;
+            
+            if (results) {
+                const relationType = parseFloat(results.pearson) > 0.3 ? 'إيجابية' : 
+                                    parseFloat(results.pearson) < -0.3 ? 'سلبية' : 'ضعيفة';
+                
+                message += `📈 نتائج تحليل الارتباط:\n`;
+                message += `   • معامل بيرسون: ${results.pearson} (علاقة ${relationType})\n`;
+                message += `   • معامل التحديد: ${results.determination}\n`;
+                message += `   • أفضل شهر: ${results.bestMonth.name} (عائد ${results.bestMonth.roi})\n`;
+                message += `   • أسوأ شهر: ${results.worstMonth.name} (عائد ${results.worstMonth.roi})\n\n`;
+            }
+            
+            message += `💾 تم حفظ البيانات في جهازك\n`;
+            message += `📄 تم تحميل نسخة احتياطية`;
+            
+            alert(message);
+        }
+        
+        // ====================
+        // مسح النشاط
+        // ====================
+        function clearActivity() {
+            if (confirm('هل أنت متأكدة من مسح جميع بيانات النشاط؟')) {
+                localStorage.removeItem(`activity${ACTIVITY_NUMBER}_data`);
+                
+                // تحديث قائمة الأنشطة المكتملة
+                let completed = JSON.parse(localStorage.getItem('completedActivities')) || [];
+                const index = completed.indexOf(ACTIVITY_NUMBER);
+                if (index > -1) {
+                    completed.splice(index, 1);
+                    localStorage.setItem('completedActivities', JSON.stringify(completed));
+                }
+                
+                // إعادة تعيين الحقول
+                document.getElementById('studentName').value = '';
+                document.getElementById('studentId').value = '';
+                document.getElementById('marketingRecommendations').value = '';
+                document.getElementById('strategy').value = '';
+                document.getElementById('kpis').value = '';
+                document.getElementById('predictionInput').value = '';
+                document.getElementById('predictionResult').innerHTML = '';
+                
+                initializeCorrelationTable();
+                updateActivityStatus();
+                
+                alert('تم مسح بيانات النشاط بنجاح');
+            }
+        }
+        
+        // ====================
+        // تحديث تلقائي عند تغيير البيانات
+        // ====================
+        document.addEventListener('input', function(e) {
+            if (e.target.closest('#correlationBody')) {
+                setTimeout(() => {
+                    updateProfits();
+                    updateSummaryStatistics();
+                }, 500);
+            }
+        });
     </script>
 </body>
 </html>
