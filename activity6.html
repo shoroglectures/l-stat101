@@ -4,10 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>النشاط 6: التنبؤ بمبيعات منتجات الصيف</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
     <style>
         * {
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Tajawal', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
         body {
@@ -16,6 +17,7 @@
             background-color: #f5f5f5;
             color: #333;
             line-height: 1.6;
+            font-family: 'Tajawal', sans-serif;
         }
         
         .container {
@@ -38,11 +40,15 @@
         .header h1 {
             color: #006747;
             margin-bottom: 10px;
+            font-family: 'Tajawal', sans-serif;
+            font-weight: 700;
         }
         
         .header h2 {
             color: #666;
             font-weight: normal;
+            font-family: 'Tajawal', sans-serif;
+            font-weight: 400;
         }
         
         .back-btn {
@@ -56,6 +62,7 @@
             text-decoration: none;
             font-weight: 600;
             transition: all 0.3s;
+            font-family: 'Tajawal', sans-serif;
         }
         
         .back-btn:hover {
@@ -70,6 +77,7 @@
             border-radius: 20px;
             font-weight: bold;
             margin-left: 10px;
+            font-family: 'Tajawal', sans-serif;
         }
         
         .activity-status.completed {
@@ -95,6 +103,7 @@
             font-weight: bold;
             margin-bottom: 5px;
             color: #006747;
+            font-family: 'Tajawal', sans-serif;
         }
         
         .info-item input {
@@ -103,6 +112,7 @@
             border: 1px solid #ddd;
             border-radius: 5px;
             font-size: 16px;
+            font-family: 'Tajawal', sans-serif;
         }
         
         .section {
@@ -118,6 +128,8 @@
             margin-bottom: 20px;
             padding-bottom: 10px;
             border-bottom: 2px solid #ddd;
+            font-family: 'Tajawal', sans-serif;
+            font-weight: 700;
         }
         
         table {
@@ -125,6 +137,7 @@
             border-collapse: collapse;
             margin: 20px 0;
             background: white;
+            font-family: 'Tajawal', sans-serif;
         }
         
         th {
@@ -132,12 +145,15 @@
             color: white;
             padding: 15px;
             text-align: center;
+            font-family: 'Tajawal', sans-serif;
+            font-weight: 600;
         }
         
         td {
             padding: 12px;
             border: 1px solid #ddd;
             text-align: center;
+            font-family: 'Tajawal', sans-serif;
         }
         
         tr:nth-child(even) {
@@ -150,6 +166,7 @@
             border: 1px solid #ddd;
             border-radius: 4px;
             text-align: center;
+            font-family: 'Tajawal', sans-serif;
         }
         
         .calculation-section {
@@ -192,6 +209,8 @@
             transition: all 0.3s;
             text-decoration: none;
             display: inline-block;
+            font-family: 'Tajawal', sans-serif;
+            font-weight: 600;
         }
         
         .btn:hover {
@@ -245,6 +264,7 @@
             margin-top: 15px;
             resize: vertical;
             min-height: 100px;
+            font-family: 'Tajawal', sans-serif;
         }
         
         .product-row {
@@ -284,6 +304,26 @@
                 margin-bottom: 15px;
                 display: inline-block;
             }
+        }
+        
+        /* إضافة خط Tajawal لعناوين وأزرار محددة */
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Tajawal', sans-serif;
+        }
+        
+        button, a.btn {
+            font-family: 'Tajawal', sans-serif;
+        }
+        
+        .instructions ol, .instructions ul {
+            font-family: 'Tajawal', sans-serif;
+        }
+        
+        /* تحسين قراءة النصوص العربية */
+        p, li, span, div {
+            font-family: 'Tajawal', sans-serif;
+            letter-spacing: 0;
+            word-spacing: normal;
         }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -925,11 +965,20 @@
                             rtl: true,
                             labels: {
                                 usePointStyle: true,
-                                padding: 20
+                                padding: 20,
+                                font: {
+                                    family: 'Tajawal'
+                                }
                             }
                         },
                         tooltip: {
                             rtl: true,
+                            titleFont: {
+                                family: 'Tajawal'
+                            },
+                            bodyFont: {
+                                family: 'Tajawal'
+                            },
                             callbacks: {
                                 label: function(context) {
                                     let label = context.dataset.label || '';
