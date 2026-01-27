@@ -4,10 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>النشاط 4: تحليل جودة المنتجات</title>
+    <!-- رابط خط Tajawal من Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
     <style>
+        /* ===== إعادة تعيين وإعدادات عامة ===== */
         * { 
             box-sizing: border-box; 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            font-family: 'Tajawal', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
         }
         
         body { 
@@ -18,6 +21,7 @@
             line-height: 1.6; 
         }
         
+        /* ===== الحاوية الرئيسية ===== */
         .container { 
             max-width: 1000px; 
             margin: 0 auto; 
@@ -27,6 +31,7 @@
             box-shadow: 0 0 20px rgba(0,0,0,0.1); 
         }
         
+        /* ===== رأس الصفحة ===== */
         .header { 
             text-align: center; 
             margin-bottom: 30px; 
@@ -38,11 +43,12 @@
         .header h1 { 
             color: #006747; 
             margin-bottom: 10px; 
+            font-weight: 700;
         }
         
         .header h2 { 
             color: #666; 
-            font-weight: normal; 
+            font-weight: 400; 
         }
         
         .back-btn {
@@ -56,12 +62,14 @@
             text-decoration: none;
             font-weight: 600;
             transition: all 0.3s;
+            font-family: 'Tajawal', sans-serif;
         }
         
         .back-btn:hover {
             background: #004d36;
         }
         
+        /* ===== قسم المعلومات ===== */
         .info-section { 
             display: grid; 
             grid-template-columns: repeat(2, 1fr); 
@@ -78,7 +86,7 @@
         
         .info-item label { 
             display: block; 
-            font-weight: bold; 
+            font-weight: 500; 
             margin-bottom: 5px; 
             color: #006747; 
         }
@@ -89,8 +97,10 @@
             border: 1px solid #ddd; 
             border-radius: 5px; 
             font-size: 16px; 
+            font-family: 'Tajawal', sans-serif;
         }
         
+        /* ===== الأقسام العامة ===== */
         .section { 
             margin-bottom: 40px; 
             padding: 25px; 
@@ -104,13 +114,16 @@
             margin-bottom: 20px; 
             padding-bottom: 10px; 
             border-bottom: 2px solid #ddd; 
+            font-weight: 600;
         }
         
+        /* ===== الجداول ===== */
         table { 
             width: 100%; 
             border-collapse: collapse; 
             margin: 20px 0; 
             background: white; 
+            font-family: 'Tajawal', sans-serif;
         }
         
         th { 
@@ -118,6 +131,7 @@
             color: white; 
             padding: 15px; 
             text-align: center; 
+            font-weight: 500;
         }
         
         td { 
@@ -137,6 +151,7 @@
             border-radius: 4px; 
             text-align: center; 
             font-size: 14px;
+            font-family: 'Tajawal', sans-serif;
         }
         
         input[readonly] {
@@ -145,6 +160,7 @@
             color: #006747;
         }
         
+        /* ===== قسم الحسابات ===== */
         .calculation-section { 
             background: #e8f5e9; 
             border-color: #2e7d32; 
@@ -154,6 +170,7 @@
             color: #2e7d32; 
         }
         
+        /* ===== قسم التعليمات ===== */
         .instructions { 
             background: #fff3e0; 
             padding: 20px; 
@@ -166,6 +183,7 @@
             color: #ff9800; 
         }
         
+        /* ===== الأزرار ===== */
         .btn { 
             background: #006747; 
             color: white; 
@@ -178,6 +196,8 @@
             transition: all 0.3s; 
             text-decoration: none;
             display: inline-block;
+            font-family: 'Tajawal', sans-serif;
+            font-weight: 500;
         }
         
         .btn:hover { 
@@ -206,6 +226,7 @@
             margin-top: 30px; 
         }
         
+        /* ===== حالة النشاط ===== */
         .activity-status {
             display: inline-block;
             padding: 5px 15px;
@@ -221,11 +242,12 @@
             padding: 10px;
             border: 1px solid #ddd;
             border-radius: 5px;
-            font-family: inherit;
+            font-family: 'Tajawal', sans-serif;
             font-size: 14px;
             min-height: 100px;
         }
         
+        /* ===== الطباعة ===== */
         @media print { 
             body { background: white; } 
             .container { box-shadow: none; } 
@@ -233,6 +255,7 @@
             .instructions { page-break-before: always; } 
         }
         
+        /* ===== مؤشر الجودة ===== */
         .quality-indicator {
             display: inline-block;
             width: 15px;
@@ -248,6 +271,7 @@
         .quality-4 { background-color: #66bb6a; } /* جيد جداً */
         .quality-5 { background-color: #2e7d32; } /* ممتاز */
         
+        /* ===== بطاقات الإحصائيات ===== */
         .stats-card {
             background: white;
             padding: 15px;
@@ -260,16 +284,17 @@
         }
         
         .stat-label {
-            font-weight: bold;
+            font-weight: 600;
             color: #006747;
         }
         
         .stat-value {
             font-size: 1.2em;
-            font-weight: bold;
+            font-weight: 700;
             color: #333;
         }
         
+        /* ===== شريط التقدم ===== */
         .progress-bar {
             height: 20px;
             background: #e0e0e0;
@@ -285,6 +310,7 @@
             transition: width 0.5s ease;
         }
         
+        /* ===== مربع التفسير ===== */
         .interpretation-box {
             background: #fff9e6;
             border: 1px solid #ffcc80;
@@ -295,10 +321,11 @@
         
         .interpretation-title {
             color: #ff9800;
-            font-weight: bold;
+            font-weight: 600;
             margin-bottom: 10px;
         }
         
+        /* ===== التصور البصري للبيانات ===== */
         .data-visualization {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -316,7 +343,7 @@
         
         .visual-title {
             color: #006747;
-            font-weight: bold;
+            font-weight: 600;
             margin-bottom: 10px;
         }
         
@@ -326,6 +353,27 @@
             margin: 0 2px;
             background: #006747;
             vertical-align: bottom;
+        }
+        
+        /* ===== تحسينات إضافية للخط ===== */
+        ul, ol {
+            padding-right: 20px;
+        }
+        
+        li {
+            margin-bottom: 8px;
+        }
+        
+        p, td, th, span, div {
+            font-family: 'Tajawal', sans-serif;
+        }
+        
+        strong {
+            font-weight: 700;
+        }
+        
+        small {
+            font-weight: 300;
         }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -475,12 +523,12 @@
             <h4>مؤشرات الأداء:</h4>
             <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-bottom: 20px;">
                 <div style="background: #e8f5e9; padding: 15px; border-radius: 8px;">
-                    <div style="font-weight: bold; color: #2e7d32; margin-bottom: 5px;">نسبة المنتجات عالية الجودة (4-5)</div>
-                    <div style="font-size: 1.5em; font-weight: bold;" id="highQualityPercent">0%</div>
+                    <div style="font-weight: 600; color: #2e7d32; margin-bottom: 5px;">نسبة المنتجات عالية الجودة (4-5)</div>
+                    <div style="font-size: 1.5em; font-weight: 700;" id="highQualityPercent">0%</div>
                 </div>
                 <div style="background: #fff3e0; padding: 15px; border-radius: 8px;">
-                    <div style="font-weight: bold; color: #ff9800; margin-bottom: 5px;">نسبة المنتجات منخفضة الجودة (1-2)</div>
-                    <div style="font-size: 1.5em; font-weight: bold;" id="lowQualityPercent">0%</div>
+                    <div style="font-weight: 600; color: #ff9800; margin-bottom: 5px;">نسبة المنتجات منخفضة الجودة (1-2)</div>
+                    <div style="font-size: 1.5em; font-weight: 700;" id="lowQualityPercent">0%</div>
                 </div>
             </div>
             
